@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draw Steel - Basic</title>
+    <link rel="stylesheet" href="../../assets/css/draw_steel.css">
+    <link rel="stylesheet" href="../../assets/css/pager.css">
+</head>
+<body>
+    <div class="book">
+        <main class="page">
+            <header>
+                <h1 id="basic">기초</h1>
+            </header>
+            <section>
+                <header>
+                    <h2 id="Characteristic">능력치 Characteristic</h2>
+                    <p>게임 내 개체가 지닌 신체/정신적 기량을 다섯가지 능력치로 표현합니다.</p>
+                </header>
+                <div class="cols">
+                    <article>
+                        <h3 id="might">근력 Might</h3>
+                        <p>근력(M)은 근육 힘입니다. 문을 부술 때, 도끼를 휘두를 때, 흔들리는 땅에서 선 체로 버틸 때, 반대편으로 아군 던질 때 근력으로 판정합니다.</p>
+                    </article>
+                    <article>
+                        <h3 id="agility">민첩 Agility</h3>
+                        <p>민첩(A)은 손과 눈의 협응력과 날렵함입니다. 위험에서 뒤로 재주넘을 때, 쇠뇌를 쏠 때, 폭발 피할 때, 경비병 허리띠에서 열쇠 훔칠 때 민첩으로 판정합니다.</p>
+                    </article>
+                    <article>
+                        <h3 id="reason">지능 Reason</h3>
+                        <p>지능(R)은 논리적인 사고력과 교육 수준입니다. 잠긴 문을 여는 퍼즐을 풀 때, 강령술 지식 떠올릴 때, 암호 을 해독할 때, 초능력으로 적을 공격할 때, 지성으로 판정합니다.</p>
+                    </article>
+                    <article>
+                        <h3 id="intuition">직관 Intuition</h3>
+                        <p>직관(I)은 직감과 경험입니다. 멀리서 달려오는 기수의 희미한 소리를 알아챌 때, 도박꾼이 꾸민 속임수를 빠르게 읽을 때, 날뛰는 말을 진정시킬 때, 툰드라를 통과한 괴물의 자취를 추적할 때 직관으로 판정합니다.</p>
+                    </article>
+                    <article>
+                        <h3 id="presence">매력 Presence</h3>
+                        <p>매력(P)은 마음의 힘입니다. 판사에게 거짓말할 때, 군중을 선동해 혁명군에 넣을 때, 왕실 만찬에서 여왕에게 깊은 인상 남길 때, 노래로 주문을 구현할 때, 매력으로 판정합니다.</p>
+                    </article>
+                </div>
+                <div>
+                    <article>
+                        <h3 id="characteristic-score">능력치 점수</h3>
+                        <p>각 <strong>능력치</strong> 점수는 -5부터 +5까지 입니다. 점수가 높을 수록, 그 <strong>능력치</strong> 분야에서 좀 더 큰 효과를 냅니다. 아기 토끼의 <strong>근력</strong>은 -5이지만, 고대 용의 <strong>근력</strong>은 +5까지 올라갑니다. 평균 <strong>인간</strong>은 모든 <strong>능력치</strong>가 0입니다. 결과가 확정되지 않은 일을 시도할 때 굴리는 <strong>위력 판정</strong>에 <strong>능력치</strong>를 더합니다(아래 <strong>위력 판정</strong> 참조).</p>
+                    </article>
+                    <blockquote class="sidebar">
+                        <h4>지성체</h4>
+                        <p>게임에 등장하는 모든 개체는 주변을 감지하고 반응할 정도의 지능이 있습니다. 하지만, 고도의 지능과 자각을 가진 개체만 지성체입니다. 지능 수치와는 무관하게, 사람 수준의 사고와 감정을 갖췄다면 지성체로 분류합니다. 지성체나 비지성체에만 영향을 끼치는 능력과 특성을 쓸 때, 대상이 지성체인지 아닌지는 진행자가 구분합니다.</p>
+                    </blockquote>
+                </div>
+            </section>
+            <section>
+                <header>
+                    <h2 id="dice">주사위</h2>
+                </header>
+                <div class="cols cols-short">
+                    <p>이 게임은 10면체(d10)를 씁니다. 진행자 포함하여 각자 두 개씩 준비하세요. 어떤 주사위에는 0~9가, 다른 건 1~10이 써있을 겁니다. 전자에서 0이 나오면 10으로 간주합니다.</p>
+                    <p>또한 6면체(d6)도 많이 쓰기 때문에, 참가자마다 한 두 개 씩 갖추는 편이 좋습니다.</p>
+                    <article>
+                        <h3 id="d3">D3</h3>
+                        <p>드물지만, 3면체(d3)를 쓰기도 합니다. d3이 따로 없다면, 6면체를 굴려서 1~2면 1, 3~4면 2, 5~6이면 3으로 쓰면 됩니다.</p>
+                    </article>
+                    <article>
+                        <h3 id="d100">D100</h3>
+                        <p>d100을 굴리기도 합니다. d100은 10면체 두 개를 굴립니다. 굴리기 전에 하나는 10의 자리로, 하나는 1의 자리로 씁니다. 가령, 10의 자리를 5, 1의 자리를 3으로 굴렸다면, 53이 나온 겁니다.</p>
+                        <p>어떤 주사위는 0~9가, 다른건 1~10이 써있을 겁니다. d100을 굴릴 때 후자는 10을 0으로 간주합니다. 가령, 10의 자리를 10, 1의 자리를 9로 굴렸다면, 9(09)가 됩니다.</p>
+                        <p>둘다 0이나 10이 나왔다면, 100을 굴린 겁니다!</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+        <main class="page">
+            <section>
+                <header>
+                    <h2 id="power-roll">위력 판정 Power Roll</h2>
+                    <p>적을 공격하기, 들키지 않고 순찰대 통과하기, 여왕에게 원군을 달라고 설득하기 등, 게임에서 영웅이나 개체가 결과가 정해지지 않은 일을 할 때, 위력 판정을 굴려 결과를 판별합니다.</p>
+                </header>
+                <div class="cols">
+                    <article>
+                        <h3 id="power-roll-type">위력 판정 유형</h3>
+                        <p>위력 판정은 둘로 나뉩니다. <strong>능력 판정 ability roll</strong>은 특정 능력으로 만든 효과의 위력을 알아볼 때 씁니다. 가령, <strong>광전사</strong>가 <strong>난폭한 타격</strong> 능력으로 적을 공격할 때, <strong>능력 판정</strong>으로 대상에게 가하는 <strong>피해</strong>와 <strong>밀쳐내는</strong> 거리를 정합니다. 자세한 건 능력에서 다룹니다.</p>
+                        <p><strong>시도 test</strong>는 능력을 쓰지 않고 세상에 영향을 끼치거나 상호작용할 때 굴리는 위력 판정입니다. <strong>전술가</strong>에게는 가파른 절벽을 오르는 능력이 없지만, 등반 활동을 <strong>시도</strong>할 수 있습니다. <strong>원소술사</strong>는 이교도를 위협하여 자동으로 물러나게 하는 능력은 없지만, 원한다면 그걸 <strong>시도</strong>할 수 있습니다. 자세한 건 <strong>시도</strong>에서 다룹니다.</p>
+                    </article>
+                    <article>
+                        <h3 id="making-power-roll">위력 판정하기</h3>
+                        <p>위력 판정을 할 때는 10면체를 두 개(2d10) 굴리고, <strong>능력치</strong> 하나를 더합니다. 능력과 <strong>시도</strong>에 나온 대로, 더하는 <strong>능력치</strong>는 굴리는 판정에 달립니다.</p>
+                        <h4 id="power-roll-outcome">위력 판정 결과 Outcome</h4>
+                        <p>굴린 위력 판정의 총합으로 성과를 내며, 성과는 성공 수준을 3단계로 나눈 단위입니다.</p>
+                        <ul>
+                            <li><strong>1단계:</strong> 위력 판정 총합이 <strong>11이하</strong>면, 1단계 성과를 냅니다. 가장 낮은 성과입니다. 능력이면, 하긴 했지만 가장 미약한 효과를 만든 겁니다. <strong>타격</strong> 능력이면, 소소한 피해만 겨우 줄 수 있을 겁니다. <strong>시도</strong>라면, 실패하여 원하는 걸 이루지 못한 데다가 부정적인 대가까지 치러야할 수 있습니다.</li>
+                            <li><strong>2단계</strong>: 위력 판정 총합이 <strong>12~16</strong>이면, 2단계 성과를 냅니다. 평균적인 성과이며, 1레벨 영웅이라면 특히 더 자주 보게 될 겁니다. 능력이면, 중간 정도 효과를 만듭니다. <strong>타격</strong> 능력이면 괜찮은 피해를 주고, 잠시동안 아군을 돕거나 적을 방해하는 효과를 만들기도 합니다. 시도라면, 원하는 바는 이뤘지만, 난이도에 따라 대가를 치러야할 수 있습니다.</li>
+                        </ul>
+                    </article>
+                    <article>
+                        <ul>
+                            <li><strong>3단계</strong>: 위력 판정 총합이 <strong>17 이상</strong>이면, 3단계 성과를 냅니다. 이게 거둘 수 있는 가장 높은 성과 입니다. 능력이면 가장 큰 효과를 냅니다. <strong>타격</strong> 능력이면 큰 피해를 주고, 아군이나 적에게 강력하거나 지속되는 효과를 끼칩니다. <strong>시도</strong>라면, 원하던 대로 성공합니다. 쉬운 <strong>일</strong>이었다면, 성공 외에도 소소한 덤을 얻습니다.</li>
+                        </ul>
+                        <p>구체적인 위력 판정 성과는 판정이 필요한 효과 및 능력(능력 참조)이나 <strong>시도</strong> 규칙(<strong>시도</strong> 참조)으로 결정됩니다.</p>
+                    </article>
+                    <article>
+                        <h4 id="downgrade-power-roll">위력 판정 완화 Downgrade</h4>
+                        <p>위력 판정을 할 때마다, 완화시켜 성과를 일부러 낮출 수 있습니다. 가령, 3단계 성과가 <strong>결박</strong>, 2단계는 <strong>감속</strong> 상태를 주는 능력을 썼을 때, 3단계 성과를 내더라도 <strong>결박</strong> 대신 <strong>감속</strong> 상태를 주고 싶다면, 2단계 성과를 사용할 수 있습니다.</p>
+                        <p><strong>치명타</strong>는 완화하더라도 추가 행동 혜택은 그대로 누립니다(<strong>직군</strong>의 <strong>치명타</strong> 참조).</p>
+                    </article>
+                    <article>
+                        <h4 id="natural">순수값 Natural</h4>
+                        <p>위력 판정 시 <strong>능력치</strong>나 다른 수정치를 더하기 전의 합계를 순수값이라고 부릅니다. 즉, &quot;순수 X가 나왔을 때&quot;란 문구는 굴린 주사위 눈의 총합만을 따집니다. 가령, 위력 판정에 <strong>능력치</strong>를 더하기 전에 이미 20이라면, 이를 <strong>순수 20</strong>이라고 부릅니다.</p>
+                        <p>위력 판정에 <strong>순수 19나 20</strong>이 나왔다면, 수정치와 관계없이 항상 3단계 성과를 거두며, 일부는 <strong>치명타</strong>를 냅니다(<strong>직군</strong>의 <strong>치명타</strong> 참조).</p>
+                    </article>
+                </div>
+                <hr class="divider">
+                <div class="cols">
+                    <article>
+                        <h3 id="edges-and-banes">유리함과 불리함</h3>
+                        <p>성벽 위에 선 궁수가 몰려드는 적에게 화살을 쏠 때는 <strong>고지</strong> 덕분에 좀 더 잘 맞출 수 있습니다. 술취한 강도는 취기에 감각이 무뎌져, 맨정신인 적에게 주먹 한 방 맞추기도 어렵습니다. <strong>능력치</strong> 만으로는 영웅, 적, 아군이 받는 유리함과 불리함을 표현하기 부족한 상황이 생깁니다.</p>
+                    </article>
+                    <article>
+                        <h4 id="edge">유리함 Edge</h4>
+                        <p>위력 판정 시 유리한 상황에 놓인 걸 유리함으로 표현합니다. 가령, <strong>넘어진</strong> 개체에게 <strong>근접 타격</strong>한다면, <strong>타격</strong>하는 위력 판정에 유리함을 받습니다. 손이 끈적한 마법 장갑을 착용했다면, 등반하는 위력 판정에 유리함을 받을 겁니다!</p>
+                        <p>위력 판정에 유리함을 받으면, +2 <strong>보너스</strong>를 가합니다. 유리함을 둘 이상 받으면, <strong>이중 유리함 Double Edge</strong>이 적용됩니다. 이중 유리함일 때는 위력 판정에 숫자를 더하진 않고, 성과를 자동으로 한 단계 높입니다(최고 3단계).</p>
+                    </article>
+                    <article>
+                        <h4 id="bane">불리함 Bane</h4>
+                        <p>위력 판정 시 불리한 상황에 놓인 걸 <strong>불리함</strong>으로 표현합니다. 가령, <strong>넘어진</strong> 상태에서 <strong>타격</strong>한다면, <strong>타격</strong>하는 위력 판정에 불리함을 받습니다. 폭풍우 치는 절벽은 표면이 더 미끄럽기 때문에, 등반하는 위력 판정에 불리함을 받을 겁니다.</p>
+                        <p>위력 판정에 불리함을 받으면, -2 <strong>페널티</strong>를 가합니다. 불리함을 둘 이상 받으면, <strong>이중 불리함 Double Bane</strong>이 적용됩니다. 이중 불리함일 때는 위력 판정에 숫자를 빼진 않고, 성과를 자동으로 한 단계 낮춥니다(최저 1단계).</p>
+                    </article>
+                    <article>
+                        <h4 id="both-edges-and-banes">유불리를 동시에 받을 때</h4>
+                        <p>상황에 따라 같은 판정에 <strong>유리함</strong>과 <strong>불리함</strong>을 동시에 받기도 합니다. 예를 들어, 중독으로 <strong>약화</strong>되어 <strong>불리함</strong>을 받은 상태에서 <strong>넘어진</strong> 개체에게 타격하여 <strong>유리함</strong>도 받을 수 있습니다. 보통은 <strong>유리함</strong>과 <strong>불리함</strong>이 서로를 상쇄시킵니다:</p>
+                        <ul>
+                            <li><strong>유리함</strong>과 <strong>불리함</strong>을 둘다 하나씩 받았거나, <strong>둘다</strong> <strong>이중</strong>으로 받는다면, 판정에 <strong>유리함</strong>과 <strong>불리함</strong>을 둘다 적용하지 않습니다.</li>
+                            <li><strong>이중 유리함</strong>인데 <strong>불리함</strong>은 하나만 받았다면, <strong>이중 유리함</strong>을 구성했던 <strong>유리함</strong>이 몇개든 <strong>유리함</strong> 하나만 적용합니다.</li>
+                            <li><strong>이중 불리함</strong>인데 <strong>유리함</strong>은 하나만 받았다면, <strong>이중 불리함</strong>을 구성했던 <strong>불리함</strong>이 몇개든 <strong>불리함</strong> 하나만 적용합니다.</li>
+                        </ul>
+                    </article>
+                    <article>
+                        <h4 id="when-to-use-edges-and-banes">유불리를 써야할 때</h4>
+                        <p><strong>유리함</strong>이나 <strong>불리함</strong>을 받는 시점은 규칙으로 결정됩니다. 하지만 진행자 재량에 따라 이야기나 환경에 따라 판정에 <strong>유리함</strong>과 <strong>불리함</strong>을 적용할 수 있습니다. 가령, 돌 벽을 오를 때, 비가 내리는 상황은 <strong>불리함</strong>을 준다는 규칙은 따로 없습니다. 그러나, 진행자가 비오는 날씨가 벽 오르는 걸 어렵데 만든다고 판단한다면, 불리함을 부여할 수 있는 겁니다!</p>
+                    </article>
+                    <blockquote class="sidebar" id="why_cap">
+                        <h4>상한을 두는 이유?</h4>
+                        <p><strong>유리함</strong>과 <strong>불리함</strong>을 각각 두단계로 제한하는 데는 <strong>서사적 측면</strong>을 포함해 여러가지 이유가 있습니다. 영웅 이야기에서 소소한 유리함이나 불리함은 쌓일 수록 체감되는 효과가 옅어집니다. 가령, 중독으로 <strong>약화</strong>된 캐릭터가 <strong>넘어진</strong> 것만으로도 이미 공격하기가 힘듭니다. 거기에 그물에 <strong>결박</strong>까지 당한다고 해서 차이가 크진 않을겁니다.</p>
+                        <p>또한 <strong>유리함</strong>과 <strong>불리함</strong>을 두 개로 제한하여 빠른 진행도 가능합니다. 전투에서 온갖 효과가 쌓이는데, 좋거나 나쁜 상황을 여러 가지 따질 필요가 없다는 점은 유용하게 작용합니다.</p>
+                    </blockquote>
+                    <article>
+                        <h3 id="bonuses-and-penalties">보너스와 페널티</h3>
+                        <p><strong>유리함</strong>과 <strong>불리함</strong>이 위력 판정에 영향을 끼칠만한 상황 효과를 거의 다 처리할 수 있지만, 직접적인 숫자로 보너스나 페널티를 주기도 합니다. 보너스와 페널티 값은 부여하는 규칙에 적혀 있고, <strong>유리함</strong>과 <strong>불리함</strong>과 별도로 먼저 계산합니다. 위력 판정에 적용하는 보너스와 페널티 수에는 제한이 없고, 항상 모두 더합니다.</p>
+                        <p>보너스와 페널티 계산이 복잡해 보일 수 있지만 걱정마세요! 기술을 쓸 때 빼고는 거의 쓰이지 않습니다(<strong>기술</strong> 참조).</p>
+                    </article>
+                    <article>
+                        <h3 id="automatic-tier-outcomes">자동 성과</h3>
+                        <p>위력 판정에서 자동으로 특정 성과에 달성하는 효과도 있습니다. 이런 효과는 <strong>유리</strong>, <strong>불리</strong>, <strong>보너스</strong>, <strong>페널티</strong> 등 판정에 영향을 주는 모든 효과를 무시하고 최우선 적용됩니다. 자동 <strong>성과</strong>를 달성하더라도 전투에서 <strong>치명타</strong>를 낼 때처럼 판정 결과에 따라 추가 효과를 거둘 수 있다면, 자동 성공은 그대로 누리면서 추가 효과까지 챙길 수 있는지 굴려볼 수 있습니다.</p>
+                        <p>자동 성과를 주는 여러 효과가 겹친다면, 서로를 상쇄시켜 모두 무효가 됩니다. 단, 여러 효과라도 모두 동일한 성과를 주는 거라면, 그대로 적용합니다.</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+        <main class="page">
+            <section>
+                <header>
+                    <h2 id="hero-token">영웅패 Hero Token</h2>
+                    <p>영웅담에서 행운은 항상 주인공 편에 서서, 승리가 필요할 때 운을 보태줍니다. 운명은 정의의 편에 서지요. 이런 작은 인과를 표현할 수 있도록, 절체절명의 순간에 의지할 수 있는 특별 자원 "영웅패"를 가집니다.</p>
+                    <p>영웅패는 모든 캐릭터가 나눠쓰는 공유 자원입니다. 포커 칩 같은 토큰도 괜찮고, 메모나 VTT 한쪽에 적어둬도 좋습니다.</p>
+                </header>
+                <div class="cols">
+                    <article>
+                        <h3>영웅패 얻기.</h3>
+                        <p>게임 세션을 시작할 때마다, 영웅 수만큼 <strong>영웅패</strong>를 쌓습니다.</p>
+                        <p>다른 이를 돕고자 큰 위험을 무릅쓴다면 더 얻습니다. 동료를 구하러 절벽 아래로 뛰어내리거나, 불타는 다리를 건너 길고양이를 구하러 가거나, 협상에서 보물을 걸고 피난민 거처를 구하는 등으로 영웅패를 얻을 수 있습니다. 영웅패를 줄만한 행동인지는 진행자가 최종 판단합니다.</p>
+                        <p><strong>시도</strong> test에서 덤으로 성공했을 때 success with reward 도 영웅패를 받습니다(시도 참조).
+                    </article>
+                    <article>
+                        <h3>영웅패 쓰기</h3>
+                        <p>영웅패가 남았다면, 아래 방법으로 쓸 수 있습니다:</p>
+                        <ul>
+                            <li>영웅패 하나로, 격동 surge 2개를 얻습니다. 격동은 능력이 주는 피해나 세기 potency를 높일 수 있습니다(직군의 격동 참조.)</li>
+                            <li>극복 판정 saving throw에 실패했을 때 영웅패 하나를 쓰면, 성공으로 바꿀 수 있습니다.</li>
+                            <li>시도 test할 때, 영웅패 하나로 재굴림할 수 있습니다. 이때는 반드시 새 굴림 결과를 따릅니다.</li>
+                            <li>내 차례나 피해를 받았을 때 영웅패 2개를 써서(행동 소모 없음), 피해를 받기 전에 회복량 recovery value 만큼 체력 stamina을 회복할 수 있습니다.</li>
+                        </ul>
+                        <p>영웅패 혜택은 차례나 시도마다 하나만 쓸 수 있습니다. 진행자가 따로 정하지 않는다면, 남은 영웅패는 세션이 끝날 때 모두 사라집니다.</p>
+                    </article>
+                    <blockquote class="sidebar">
+                        <h4>선택 규칙: 영웅패 유지</h4>
+                        <p>진행자는 세션 시작 때 영웅패를 자동으로 채우지 않는 대신, 세션이 끝났을 때 사라지지 않게 할 수 있습니다. 이 방식은 영웅패의 희소성을 높이고 남발을 막기 때문에, 2~3시간 남짓 짧게 세션을 진행하는 팀에 잘 어울립니다. 영웅패가 계속 연속되기 때문에, 세션이 끝났을 때 남은 개수를 기록해둬야 합니다. 자동으로 지급되지 않기 때문에, 영웅다운 행동에 잊지말고 영웅패를 꼭 지급해야 합니다.</p>
+                    </blockquote>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- 1. 페이지 목록 매니페스트를 먼저 로드 -->
+    <script src="../../assets/js/manifest.js"></script>
+    <!-- 2. 페이저/드로어 동작 스크립트 로드 -->
+    <script src="../../assets/js/pager.js"></script>
+</body>
+</html>
