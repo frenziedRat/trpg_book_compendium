@@ -1,0 +1,503 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap");
+
+:root {
+    --scale: 1.1;   /* ★ 전체 글자·종이 배율 (1 = 기존 크기) */
+    --paper: #ebe7dd;
+    --paper-2: #dfdacd;
+    --ink: #16181c;
+
+    --steel-900: #14161a;
+    --steel-800: #1f232a;
+    --steel-600: #4a535e;
+    --steel-300: #a7aeb6;
+
+    --blood: #b3121f;
+    --blood-dark: #7d0b14;
+    --ember: #d9822b;
+
+    --tier-1: #6b7480;      /* ≤11 */
+    --tier-2: #c58a2b;      /* 12–16 */
+    --tier-3: #b3121f;      /* 17+ */
+
+    --font-head: "Barlow Condensed", "Noto Sans KR", sans-serif;
+    --font-body: "Source Serif 4", "Noto Serif KR", Georgia, serif;
+    --font-ui: "Barlow Condensed", "Noto Sans KR", sans-serif;
+
+    --pg-theme-accent: #d9822b;   /* pager.css 버튼·강조색 */
+    --cut: 10px;            /* 모서리 절단 크기 */
+}
+
+body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--steel-900)
+    repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 2px, transparent 2px 9px);
+    font-family: var(--font-body), serif;
+    color: var(--ink);
+    counter-reset: page;
+}
+
+/* 페이지 */
+.page {
+    position: relative;
+    max-width: calc(51rem * var(--scale)); /* 8.5in 816px 기준 */
+    min-height: calc(66rem * var(--scale)); /* 11in (1056px) 기준 */
+    margin: 0 auto 2rem;
+    padding: .7in .6in .9in;
+    background:
+            linear-gradient(180deg, rgba(0,0,0,.05), transparent 12%),
+            var(--paper);
+    border-top: 10px solid var(--blood);
+    box-shadow: 0 12px 34px rgba(0,0,0,.6);
+    font-size: calc(10.8pt * var(--scale));
+    line-height: 1.5;
+}
+
+/* 다단 설정 */
+.cols {
+    margin-top: 1rem;
+    column-count: 2;
+    column-gap: .4in;
+    column-rule: 1px solid var(--steel-300);
+}
+.cols > :first-child {
+    margin-top: 0;
+}
+
+/* ---------- 제목 ---------- */
+h1, h2, h3, h4 {
+    font-family: var(--font-head), sans-serif;
+    line-height: 1.05;
+    margin: 0;
+    break-after: avoid;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+}
+
+h1 {
+    column-span: all;
+    display: block;
+    margin: 0 -.6in .5em;
+    padding: .28em .6in .22em;
+    background: var(--steel-800);
+    color: var(--paper);
+    font-size: calc(38pt * var(--scale));
+    font-weight: 800;
+    border-left: 14px solid var(--blood);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+}
+
+h2 {
+    margin: 1.1em 0 .4em;
+    padding-bottom: .1em;
+    font-size: calc(23pt * var(--scale));
+    font-weight: 800;
+    color: var(--steel-800);
+    border-bottom: 3px solid var(--steel-800);
+    position: relative;
+}
+h2::after {                      /* 밑줄 끝의 붉은 쐐기 */
+    content: "";
+    position: absolute;
+    left: 0; bottom: -3px;
+    width: 4.5rem; height: 3px;
+    background: var(--blood);
+}
+
+h3 {
+    margin: 0 0 .3em;
+    font-size: calc(16pt * var(--scale));
+    font-weight: 700;
+    color: var(--blood);
+}
+
+h4 {
+    margin: .8em 0 .2em;
+    font-size: calc(12.5pt * var(--scale));
+    font-weight: 700;
+    color: var(--steel-600);
+}
+
+/* ---------- 본문 ---------- */
+section {
+    margin: 1.5em 0;
+}
+
+article {
+    break-inside: avoid;
+    margin: 1.5em 0;
+}
+
+p {
+    margin: 0 0 .6em;
+    word-break: keep-all;
+    hyphens: auto; }
+
+strong {
+    font-weight: 700;
+    color: var(--steel-800);
+}
+
+em { font-style: italic; }
+
+/* ---------- Draw Steel 구분선 (Divider) ---------- */
+.divider {
+    position: relative;
+    height: 1px;
+    background: var(--steel-300);
+    margin: 2.2rem 0;
+    border: none;
+    clear: both;
+}
+
+/* 다단 내부에서 사용할 경우 두 단 전체를 가로지르도록 설정 */
+.cols > .divider {
+    column-span: all;
+    margin: 1.5rem 0;
+}
+
+/* 중앙의 다이아몬드 + 붉은 쐐기 엠블럼 */
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: var(--paper);        /* 배경색으로 선 덮기 */
+    border: 2px solid var(--blood);   /* 테두리는 블러드 레드 */
+    box-shadow: 0 0 0 3px var(--paper); /* 선과의 간격 여백 */
+}
+
+/* 엠블럼 양옆의 강철 포인트 점 */
+.divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 2px;
+    background: repeating-linear-gradient(
+            to right,
+            var(--steel-800) 0 4px,
+            transparent 4px 12px
+    );
+    z-index: -1;
+}
+
+.divider.wedge {
+    height: 2px;
+    background: var(--steel-300);
+}
+.divider.wedge::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3rem;
+    height: 2px;
+    background: var(--blood);
+    transform: none;
+    border: none;
+    box-shadow: none;
+}
+.divider.wedge::after { display: none; }
+
+/* ---------- 박스 ---------- */
+.sidebar {
+    break-inside: avoid;
+    margin: 1.1em 0;
+    padding: .7em 1em .8em;
+    background: var(--paper-2);
+    border-left: 8px solid var(--blood);
+    border-top: 1px solid var(--steel-300);
+    border-bottom: 1px solid var(--steel-300);
+    font-size: calc(10pt * var(--scale));
+    line-height: 1.45;
+}
+.sidebar h4 { margin-top: 0; font-size: calc(14pt * var(--scale)); color: var(--blood); }
+
+/* 키워드 칩 */
+.kw {
+    display: inline-block;
+    padding: 0 .55em;
+    margin-right: .25em;
+    background: var(--steel-800);
+    color: var(--paper);
+    font-family: var(--font-ui), sans-serif;
+    font-weight: 600;
+    font-size: .85em;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+/* ---------- 어빌리티 카드 ---------- */
+.ability {
+    break-inside: avoid;
+    margin: 1em 6px 1em 0; /* 다음 단과의 충돌을 방지하는 여백 */
+    background: #f6f3ea;
+    border: 2px solid var(--steel-800);
+
+    /* box-shadow 대신 다단 버그가 없는 drop-shadow 필터 사용 */
+    filter: drop-shadow(4px 4px 0 var(--steel-300));
+
+    font-size: calc(10pt * var(--scale));
+    line-height: 1.4;
+}
+
+
+.ability-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* baseline 대신 center로 맞춰 줄바꿈 시에도 정렬 유지 */
+    gap: 0.6rem;
+    padding: .35em .7em;
+    background: var(--steel-800);
+    color: var(--paper);
+    font-family: var(--font-head), sans-serif;
+    text-transform: uppercase;
+}
+.ability-head .name {
+    font-size: calc(1.15rem * var(--scale)); /* pt 대신 rem 적용 */
+    font-weight: 800;
+    letter-spacing: .03em;
+    line-height: 1.15;
+    min-width: 0;        /* flex 자식 요소의 넘침 방지 */
+    word-break: keep-all;/* 단어 단위 자연스러운 줄바꿈 */
+}
+.ability-head .cost {
+    flex-shrink: 0;      /* 화면 확대 시 배지가 찌그러지지 않도록 보호 */
+    white-space: nowrap; /* "1점", "고유" 등의 텍스트 줄바꿈 방지 */
+    padding: 0.1em .6em;
+    background: var(--blood);
+    font-size: calc(0.95rem * var(--scale));  /* pt 대신 rem 적용 */
+    font-weight: 700;
+    line-height: 1.3;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.ability-head .price {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.15em 0.55em;
+    background: #0e7490;       /* 딥 에메랄드 틸 */
+    color: #fff;
+    font-size: calc(0.95rem * var(--scale));
+    font-weight: 700;
+    line-height: 1.25;
+    border-radius: 4px;        /* 부드러운 둥근 모서리 */
+    letter-spacing: 0.02em;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* 은은한 입체감 테두리 */
+}
+
+.flavor-text {
+    margin: 0;
+    padding: .25em .6em;
+    background-color: lightgrey;
+    font-style: italic;
+    font-size: 0.95em;
+}
+
+.ability-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0;
+    border-bottom: 1px solid var(--steel-300);
+    font-family: var(--font-ui), sans-serif;
+    font-size: calc(11pt * var(--scale));
+}
+.ability-meta > * {
+    padding: .2em .7em;
+}
+.ability-meta > *:nth-child(even) { text-align: right; }
+.ability-meta .label { color: var(--steel-600); font-weight: 600; margin-right: .3em; }
+.ability-meta .svg-icon {
+    width: 1.2em;          /* 옆 글자 크기(1em)와 정확히 일치 */
+    height: 1.2em;         /* 정사각형 비율 유지 */
+    object-fit: contain; /* 이미지 비율 깨짐 방지 */
+    flex-shrink: 0;      /* 화면이 줄어도 찌그러짐 방지 */
+    margin-right: 0.35em; /* 글자와의 자연스러운 간격 */
+
+    transform: translateY(0.08em);
+}
+
+.ability-body { padding: .3em .7em .4em; }
+.ability-body p { margin: 0 0 .25em; }
+.ability-body p:last-child {
+    margin-bottom: 0; /* 마지막 문단 아래 불필요한 여백 제거 */
+}
+
+/* 위력 굴림 3단계 */
+.power-roll { margin: .3em 0 .5em; }
+.power-roll .roll {
+    margin: 0 0 .25em;
+    font-family: var(--font-head), sans-serif;
+    font-weight: 700;
+    font-size: calc(12pt * var(--scale));
+    text-transform: uppercase;
+    color: var(--steel-800);
+}
+.tiers { margin: 0; padding: 0; list-style: none; }
+.tiers li {
+    display: grid;
+    grid-template-columns: 4.2rem 1fr;
+    align-items: stretch;
+    margin: 0 0 3px;
+    padding: 0;
+    background: var(--paper-2);
+}
+.tiers li::before { content: none; }
+.tiers b {
+    display: grid;
+    place-items: center;
+    padding: .1em 0;
+    color: #fff;
+    font-family: var(--font-head), sans-serif;
+    font-size: calc(12pt * var(--scale));
+    font-weight: 800;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.tiers span { padding: .15em .6em; }
+.tiers li:nth-child(1) b { background: var(--tier-1); }
+.tiers li:nth-child(2) b { background: var(--tier-2); }
+.tiers li:nth-child(3) b { background: var(--tier-3); }
+
+.effect {
+    margin: .2em 0;
+}
+.effect .label {
+    font-weight: 700;
+    color: var(--blood);
+}
+
+/* ---------- 피해 타입 (기본 굵은 글씨 형태) ---------- */
+.dmg {
+    font-weight: 700;
+}
+
+.dmg-acid        { color: #4d7c0f; } /* 산성 */
+.dmg-cold        { color: #0284c7; } /* 냉기 */
+.dmg-corruption  { color: #701a75; } /* 부패 */
+.dmg-fire        { color: #c2410c; } /* 화염 */
+.dmg-holy        { color: #b45309; } /* 신성 */
+.dmg-lightning   { color: #0f766e; } /* 번개 */
+.dmg-poison      { color: #15803d; } /* 독성 */
+.dmg-psychic     { color: #9333ea; } /* 정신 */
+.dmg-sonic       { color: #4b5563; } /* 음파 */
+
+/* ---------- 선택 옵션: Draw Steel 스타일 키워드 배지 형태 (.badge) ---------- */
+.dmg.badge {
+    display: inline-block;
+    padding: 0.05em 0.45em;
+    font-family: var(--font-ui), sans-serif;
+    font-size: 0.88em;
+    line-height: 1.25;
+    color: #fff;
+    clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+    vertical-align: baseline;
+    margin: 0 0.15em;
+}
+
+.dmg-acid.badge        { background-color: #4d7c0f; }
+.dmg-cold.badge        { background-color: #0284c7; }
+.dmg-corruption.badge  { background-color: #701a75; }
+.dmg-fire.badge        { background-color: #c2410c; }
+.dmg-holy.badge        { background-color: #b45309; }
+.dmg-lightning.badge   { background-color: #0f766e; }
+.dmg-poison.badge      { background-color: #15803d; }
+.dmg-psychic.badge     { background-color: #9333ea; }
+.dmg-sonic.badge       { background-color: #4b5563; }
+
+/* ---------- 접근성·반응형·인쇄 ---------- */
+:focus-visible { outline: 3px solid var(--ember); outline-offset: 2px; }
+
+/* 좁은 화면 대응: 일반 페이지는 뷰포트 기준 */
+@media (max-width: 45rem /*7.5in*/) {
+    :root { --scale: 1.05; }
+    .page {
+        padding: 1.5rem 1rem 2rem; /*.5in .3in .8in*/
+        min-height: auto;
+    }
+
+    h1 {
+        margin: 0 -1rem .5em; /*0 -.3in .5em*/
+        padding-left: 1rem;
+        font-size: calc(1.75rem * var(--scale));
+    }
+    .cols,
+    .cols.cols-short {
+        column-count: 1;
+        column-rule: none;
+    }
+    .stat-row, .characteristics {
+        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    }
+}
+
+/* 상하폭만 좁은 모니터/창 환경:
+   기본 .cols는 1단으로 풀리지만, .cols-short는 2단 유지 */
+@media (min-width: 45.01rem) and (max-height: 45rem) {
+    .page {
+        min-height: auto;
+    }
+    .cols:not(.cols-short) {
+        column-count: 1;
+        column-rule: none;
+    }
+}
+
+/* pager.js 한 쪽씩 보기: 쪽 컨테이너(.book) 폭 기준으로 다시 배치 */
+@container book (max-width: 7.5in) {
+    .page { padding: .5in .3in .8in; min-height: auto; }
+    h1 { margin: 0 -.3in .5em; padding-left: .3in; font-size: calc(28pt * var(--scale)); }
+    .cols { column-count: 1; }
+    .stat-row, .characteristics { grid-template-columns: repeat(3, 1fr); }
+}
+/* ---------- 종족/목록 버튼 그리드 (표지 페이지용) ---------- */
+html { scroll-behavior: smooth; }
+
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);   /* 2열 */
+    gap: 1rem 1.2rem;
+    margin: 1.5rem 0 0;
+}
+.choice-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .15em;
+    min-height: 4.5rem;
+    padding: .7rem 1.1rem;
+    background: var(--steel-800);
+    color: var(--paper);
+    text-decoration: none;
+    border-left: 8px solid var(--blood);
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+    font-family: var(--font-head), sans-serif;
+    text-transform: uppercase;
+    transition: background .2s, transform .15s;
+}
+.choice-btn .ko {
+    font-size: calc(1.5rem * var(--scale));
+    font-weight: 800;
+    letter-spacing: .03em;
+    line-height: 1.1;
+}
+.choice-btn .en {
+    font-size: calc(.95rem * var(--scale));
+    font-weight: 600;
+    color: var(--steel-300);
+    letter-spacing: .06em;
+}
+.choice-btn:hover,
+.choice-btn:focus-visible {
+    background: var(--blood);
+    transform: translateY(-2px);
+}
+.choice-btn:hover .en,
+.choice-btn:focus-visible .en { color: var(--paper); }
+
+@media (max-width: 30rem) {
+    .choice-grid { grid-template-columns: 1fr; }
+}
