@@ -1,0 +1,224 @@
+/* ========================================================
+   Draw Steel - Pager & Drawer Navigation Style (Full)
+======================================================== */
+
+/* 1. 드로어 열기 플로팅 버튼 */
+.drawer-toggle-btn {
+    position: fixed;
+    top: 1.2rem;
+    left: 1.2rem;
+    z-index: 9100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    background: var(--steel-800, #1f232a);
+    color: var(--paper, #ebe7dd);
+    border: none;
+    border-left: 4px solid var(--blood, #b3121f);
+    font-family: var(--font-head, sans-serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    transition: background 0.2s, transform 0.15s;
+    user-select: none;
+}
+.drawer-toggle-btn:hover {
+    background: var(--blood, #b3121f);
+    transform: translateY(-1px);
+}
+
+/* 2. 배경 오버레이 (열렸을 때만 클릭 감지) */
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(2px);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease;
+}
+.drawer-overlay.active {
+    opacity: 1;
+    pointer-events: auto !important;
+}
+
+/* 3. 좌측 드로어 (Drawer) */
+.drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
+    background: var(--steel-900, #14161a);
+    border-right: 3px solid var(--blood, #b3121f);
+    z-index: 9999;
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.8);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.drawer.open {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.4rem;
+    background: var(--steel-800, #1f232a);
+    border-bottom: 2px solid var(--blood, #b3121f);
+}
+.drawer-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--paper, #ebe7dd);
+    letter-spacing: .05em;
+    font-family: var(--font-head, sans-serif);
+}
+.drawer-close-btn {
+    background: none;
+    border: none;
+    color: var(--steel-300, #a7aeb6);
+    font-size: 1.7rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 0.3rem;
+    transition: color 0.15s;
+}
+.drawer-close-btn:hover {
+    color: var(--blood, #b3121f);
+}
+
+.drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem 0;
+}
+.drawer-doc-group {
+    margin-bottom: 0.4rem;
+}
+.drawer-doc-title {
+    display: block;
+    padding: 0.65rem 1.4rem;
+    font-family: var(--font-head, sans-serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--paper-2, #dfdacd);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+}
+.drawer-doc-title:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-left-color: var(--steel-300, #a7aeb6);
+    padding-left: 1.7rem;
+}
+
+.drawer-doc-group.current .drawer-doc-title {
+    color: #fff;
+    background: rgba(179, 18, 31, 0.2);
+    border-left: 4px solid var(--blood, #b3121f);
+}
+
+.drawer-h2-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.2rem 0 0.5rem;
+}
+.drawer-h2-list li a {
+    display: block;
+    padding: 0.45rem 1.4rem 0.45rem 2.2rem;
+    font-family: var(--font-head, sans-serif);
+    font-size: 0.98rem;
+    color: var(--steel-300, #a7aeb6);
+    text-decoration: none;
+    border-left: 2px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.15s;
+}
+.drawer-h2-list li a:hover {
+    color: var(--ember, #d9822b);
+    padding-left: 2.5rem;
+    border-left-color: var(--ember, #d9822b);
+}
+
+/* 4. 하단 이전/다음 페이지 내비게이션 바 */
+.bottom-pager {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-top: 2rem;
+    background: var(--steel-800, #1f232a);
+    border-top: 3px solid var(--blood, #b3121f);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    z-index: 9000;
+}
+
+.pager-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 42%;
+    background: var(--steel-900, #14161a);
+    color: var(--paper, #ebe7dd);
+    border: 1px solid var(--steel-600, #4a535e);
+    padding: 0.55rem 1.1rem;
+    font-family: var(--font-head, sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+    transition: all 0.2s ease;
+    user-select: none;
+    box-sizing: border-box;
+}
+.pager-btn:hover:not(.disabled) {
+    background: var(--blood, #b3121f);
+    border-color: var(--blood, #b3121f);
+    color: #fff;
+}
+.pager-btn.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.pager-btn .pager-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.pager-btn .pager-arrow {
+    flex-shrink: 0;
+    color: var(--blood, #b3121f);
+}
+.pager-btn:hover:not(.disabled) .pager-arrow {
+    color: #fff;
+}
+
+.pager-info {
+    font-family: var(--font-head, sans-serif);
+    color: var(--paper-2, #dfdacd);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    padding: 0 0.5rem;
+}
