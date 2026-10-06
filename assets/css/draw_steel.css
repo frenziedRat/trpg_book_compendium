@@ -49,7 +49,7 @@ body {
             var(--paper);
     border-top: 10px solid var(--blood);
     box-shadow: 0 12px 34px rgba(0,0,0,.6);
-    font-size: calc(10.8pt * var(--scale));
+    font-size: calc(0.9rem * var(--scale));
     line-height: 1.5;
 }
 
@@ -97,7 +97,7 @@ h1 {
     margin: 0 -.6in .5em;
     padding: .28em .6in .22em;
     color: var(--paper);
-    font-size: calc(38pt * var(--scale));
+    font-size: calc(3.1667rem * var(--scale));
     font-weight: 800;
     border-left: 14px solid transparent;   /* 자리만 확보, 실제 띠는 ::after가 그림 */
 }
@@ -116,7 +116,7 @@ h1::after {
 h2 {
     margin: 1.1em 0 .4em;
     padding-bottom: .1em;
-    font-size: calc(23pt * var(--scale));
+    font-size: calc(1.9167rem * var(--scale));
     font-weight: 800;
     color: var(--steel-800);
     border-bottom: 3px solid var(--steel-800);
@@ -132,14 +132,14 @@ h2::after {                      /* 밑줄 끝의 붉은 쐐기 */
 
 h3 {
     margin: 0 0 .3em;
-    font-size: calc(16pt * var(--scale));
+    font-size: calc(1.3333rem * var(--scale));
     font-weight: 700;
     color: var(--blood);
 }
 
 h4 {
-    margin: .8em 0 .2em;
-    font-size: calc(12.5pt * var(--scale));
+    margin: .8em 0 .4em;
+    font-size: calc(1.0417rem * var(--scale));
     font-weight: 700;
     color: var(--steel-600);
 }
@@ -240,10 +240,10 @@ em { font-style: italic; }
     border-left: 8px solid var(--blood);
     border-top: 1px solid var(--steel-300);
     border-bottom: 1px solid var(--steel-300);
-    font-size: calc(10pt * var(--scale));
+    font-size: calc(0.8333rem * var(--scale));
     line-height: 1.45;
 }
-.sidebar h4 { margin-top: 0; font-size: calc(14pt * var(--scale)); color: var(--blood); }
+.sidebar h4 { margin-top: 0; font-size: calc(1.1667rem * var(--scale)); color: var(--blood); }
 
 /* 키워드 칩 */
 .kw {
@@ -276,7 +276,7 @@ em { font-style: italic; }
     /* box-shadow 대신 다단 버그가 없는 drop-shadow 필터 사용 */
     filter: drop-shadow(4px 4px 0 var(--steel-300));
 
-    font-size: calc(10pt * var(--scale));
+    font-size: calc(0.8333rem * var(--scale));
     line-height: 1.4;
 }
 
@@ -388,7 +388,7 @@ em { font-style: italic; }
     margin: 0;
     border-bottom: 1px solid var(--steel-300);
     font-family: var(--font-ui), sans-serif;
-    font-size: calc(11pt * var(--scale));
+    font-size: calc(0.9167rem * var(--scale));
 }
 .ability-meta > * {
     padding: .2em .7em;
@@ -425,7 +425,7 @@ em { font-style: italic; }
     margin: 0 0 .25em;
     font-family: var(--font-head), sans-serif;
     font-weight: 700;
-    font-size: calc(12pt * var(--scale));
+    font-size: calc(1rem * var(--scale));
     text-transform: uppercase;
     color: var(--steel-800);
 }
@@ -445,7 +445,7 @@ em { font-style: italic; }
     padding: .1em 0;
     color: #fff;
     font-family: var(--font-head), sans-serif;
-    font-size: calc(12pt * var(--scale));
+    font-size: calc(1rem * var(--scale));
     font-weight: 800;
     clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 }
@@ -513,7 +513,7 @@ em { font-style: italic; }
 table.advancement-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 9.8pt;
+    font-size: 0.8167rem;
     line-height: 1.4;
     background: #fdfcf9;
     border: 2px solid var(--steel-800);
@@ -525,6 +525,7 @@ table.advancement-table caption {
     padding: 0 0 .35rem;
     font-family: var(--font-ui), sans-serif;
     font-weight: 700;
+    font-size: 1.2rem;
     color: var(--steel-800);
     text-align: center;
 }
@@ -539,7 +540,7 @@ table.advancement-table thead {
 
 table.advancement-table th {
     padding: 0.55rem 0.75rem;
-    font-size: 11pt;
+    font-size: 0.9167rem;
     font-weight: 700;
     text-align: left;
     border-bottom: 3px solid var(--blood);
@@ -815,7 +816,7 @@ h4[tool-tip]::before, h5[tool-tip]::before {
 /* 어빌리티 이름: 카드 왼쪽 끝에 붙어 있으므로 왼쪽 기준, 글자 크기는 이름(1.15rem·대문자)과 무관하게 고정 */
 .ability-head .name:is([id], [tool-tip])::after {
     left: 0;
-    font-size: calc(10pt * var(--scale));
+    font-size: calc(0.8333rem * var(--scale));
     transform: translateY(4px);
 }
 /* 성장표: 셀 밖으로 삐져나가 잘리지 않도록 왼쪽 기준 */
@@ -826,7 +827,7 @@ table.advancement-table .feat-tag:is([id], [tool-tip])::after {
 /* 제목: 제목은 가로로 길어서 글자 시작점 기준, 글자 크기는 제목과 무관하게 고정 */
 h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [tool-tip])::before, h4:is([id], [tool-tip])::before, h5:is([id], [tool-tip])::before {
     left: var(--tip-left, 0);
-    font-size: calc(10pt * var(--scale));
+    font-size: calc(0.8333rem * var(--scale));
     transform: translateY(4px);
 }
 
@@ -940,7 +941,7 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
     .page { padding: .5in .3in .8in; min-height: auto; }
     h1 {
         --tip-left: .3in;
-        margin: 0 -.3in .5em; padding-left: .3in; font-size: calc(28pt * var(--scale)); }
+        margin: 0 -.3in .5em; padding-left: .3in; font-size: calc(2.3333rem * var(--scale)); }
     .cols { column-count: 1; }
     .stat-row, .characteristics { grid-template-columns: repeat(3, 1fr); }
 }
