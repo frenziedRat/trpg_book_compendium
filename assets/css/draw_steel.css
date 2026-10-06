@@ -497,7 +497,16 @@ table.advancement-table {
     line-height: 1.4;
     background: #fdfcf9;
     border: 2px solid var(--steel-800);
-    filter: drop-shadow(4px 4px 0 var(--steel-300));
+    box-shadow: 4px 4px 0 var(--steel-300);
+}
+
+/* 표 제목 */
+table.advancement-table caption {
+    padding: 0 0 .35rem;
+    font-family: var(--font-ui), sans-serif;
+    font-weight: 700;
+    color: var(--steel-800);
+    text-align: center;
 }
 
 /* 테이블 헤더 */
@@ -514,8 +523,16 @@ table.advancement-table th {
     font-weight: 700;
     text-align: left;
     border-bottom: 3px solid var(--blood);
-    white-space: nowrap;
+    white-space: normal;          /* 긴 제목은 줄바꿈 허용 */
+    word-break: keep-all;         /* 한글은 단어(띄어쓰기) 단위로 끊기 */
+    overflow-wrap: anywhere;      /* 띄어쓰기 없는 긴 제목은 열 너비 강제 끊기. */
 }
+
+/* 열 너비 (HTML의 style="width:..." 대신 class로 지정)
+   <th class="center col-level">레벨</th>  — 폭은 th의 content 기준 */
+table.advancement-table th.col-level    { width: 2rem; }
+table.advancement-table th.col-ability  { width: 2rem; }
+table.advancement-table th.col-subclass { width: 3.5em; }   /* 약 3자 폭: "양성소 / 능력" 으로 끊김 */
 
 table.advancement-table th.center,
 table.advancement-table td.center {
