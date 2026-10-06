@@ -233,14 +233,22 @@ em { font-style: italic; }
 
 /* 키워드 칩 */
 .kw {
+    position: relative;
+    isolation: isolate;               /* ::before(z-index:-1)가 칩 안에 머물도록 */
     display: inline-block;
     padding: 0 .55em;
     margin-right: .25em;
-    background: var(--steel-800);
     color: var(--paper);
     font-family: var(--font-ui), sans-serif;
     font-weight: 600;
     font-size: .85em;
+}
+.kw::before {                         /* 칩 모양: clip-path를 요소 자체에 걸면 툴팁이 잘림 */
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--steel-800);
     clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 
@@ -718,6 +726,8 @@ table.advancement-table .feat-tag:is([id], [tool-tip]):focus-visible {
    ※ 표시하려면 호스트에 position:relative 필요 (위에서 각각 지정) */
 .trait.badge:is([id], [tool-tip])::after,
 .tip:is([id], [tool-tip])::after,
+.kw:is([id], [tool-tip])::after,
+.ability-head .name:is([id], [tool-tip])::after,
 table.advancement-table .feat-tag:is([id], [tool-tip])::after,
 h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [tool-tip])::before, h4:is([id], [tool-tip])::before, h5:is([id], [tool-tip])::before {
     content: attr(id);
@@ -750,17 +760,26 @@ h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [t
    (같은 우선순위에서 뒤에 오는 이 규칙이 위의 content: attr(id)를 덮어씀) */
 .trait.badge[tool-tip]::after,
 .tip[tool-tip]::after,
+.kw[tool-tip]::after,
+.ability-head .name[tool-tip]::after,
 table.advancement-table .feat-tag[tool-tip]::after,
 h1[tool-tip]::before, h2[tool-tip]::before, h3[tool-tip]::before,
 h4[tool-tip]::before, h5[tool-tip]::before {
     content: attr(tool-tip);
 }
 
-/* 인라인(배지·tip): 가운데 정렬 */
+/* 인라인(배지·tip·kw): 가운데 정렬 */
 .trait.badge:is([id], [tool-tip])::after,
-.tip:is([id], [tool-tip])::after {
+.tip:is([id], [tool-tip])::after,
+.kw:is([id], [tool-tip])::after {
     left: 50%;
     transform: translate(-50%, 4px);
+}
+/* 어빌리티 이름: 카드 왼쪽 끝에 붙어 있으므로 왼쪽 기준, 글자 크기는 이름(1.15rem·대문자)과 무관하게 고정 */
+.ability-head .name:is([id], [tool-tip])::after {
+    left: 0;
+    font-size: calc(10pt * var(--scale));
+    transform: translateY(4px);
 }
 /* 성장표: 셀 밖으로 삐져나가 잘리지 않도록 왼쪽 기준 */
 table.advancement-table .feat-tag:is([id], [tool-tip])::after {
@@ -776,13 +795,16 @@ h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [t
 
 /* 표시 상태 */
 .trait.badge:is([id], [tool-tip]):hover::after,  .trait.badge:is([id], [tool-tip]):focus-visible::after,
-.tip:is([id], [tool-tip]):hover::after,          .tip:is([id], [tool-tip]):focus-visible::after {
+.tip:is([id], [tool-tip]):hover::after,          .tip:is([id], [tool-tip]):focus-visible::after,
+.kw:is([id], [tool-tip]):hover::after,           .kw:is([id], [tool-tip]):focus-visible::after {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
 }
 table.advancement-table .feat-tag:is([id], [tool-tip]):hover::after,
 table.advancement-table .feat-tag:is([id], [tool-tip]):focus-visible::after,
+.ability-head .name:is([id], [tool-tip]):hover::after,
+.ability-head .name:is([id], [tool-tip]):focus-visible::after,
 h1:is([id], [tool-tip]):hover::before, h1:is([id], [tool-tip]):focus-visible::before,
 h2:is([id], [tool-tip]):hover::before, h2:is([id], [tool-tip]):focus-visible::before,
 h3:is([id], [tool-tip]):hover::before, h3:is([id], [tool-tip]):focus-visible::before,
@@ -797,6 +819,9 @@ h5:is([id], [tool-tip]):hover::before, h5:is([id], [tool-tip]):focus-visible::be
 h1:is([id], [tool-tip]), h2:is([id], [tool-tip]), h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { cursor: help; }
 h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { position: relative; }
 
+/* 어빌리티 이름·키워드 칩: 도움말 커서 (.kw는 위에서 이미 position:relative) */
+.kw:is([id], [tool-tip]) { cursor: help; }
+.ability-head .name:is([id], [tool-tip]) { position: relative; cursor: help; }
 
 /* ---------- 상태 이상 배지 (.cond.badge) ----------
    피해 배지와 같은 평행사변형 + 앞쪽 작은 다이아몬드 표식 */
