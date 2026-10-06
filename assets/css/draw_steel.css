@@ -75,15 +75,27 @@ h1, h2, h3, h4 {
 }
 
 h1 {
+    --tip-left: .6in;                 /* 툴팁 시작 위치(글자 시작점에 맞춤) */
+    position: relative;
+    isolation: isolate;
     column-span: all;
     display: block;
     margin: 0 -.6in .5em;
     padding: .28em .6in .22em;
-    background: var(--steel-800);
     color: var(--paper);
     font-size: calc(38pt * var(--scale));
     font-weight: 800;
-    border-left: 14px solid var(--blood);
+    border-left: 14px solid transparent;   /* 자리만 확보, 실제 띠는 ::after가 그림 */
+}
+/* h1 모양 레이어: clip-path를 h1 자체에 걸면 툴팁이 잘리므로 분리 */
+h1::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: -14px;
+    z-index: -1;
+    background:
+            linear-gradient(90deg, var(--blood) 0 14px, transparent 14px),
+            var(--steel-800);
     clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
 }
 
@@ -265,6 +277,7 @@ em { font-style: italic; }
     line-height: 1.15;
     min-width: 0;        /* flex 자식 요소의 넘침 방지 */
     word-break: keep-all;/* 단어 단위 자연스러운 줄바꿈 */
+    margin-right: auto; /* 이름은 왼쪽, 배지들은 오른쪽으로 모음 */
 }
 .ability-head .cost {
     flex-shrink: 0;      /* 화면 확대 시 배지가 찌그러지지 않도록 보호 */
@@ -276,6 +289,27 @@ em { font-style: italic; }
     line-height: 1.3;
     clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 }
+.ability-head .cost[data-res]::before {
+    content: attr(data-res);
+    margin-right: .3em;
+    font-size: .75em;
+    font-weight: 700;
+    opacity: .7;
+}
+
+/* 자원마다 색깔 바꾸고 싶을 때
+.ability-head .cost[class*="res-"]::before,
+.ability-head .cost::before {
+    content: var(--res, none);
+    margin-right: .3em;
+    font-size: .75em;
+    font-weight: 700;
+    opacity: .7;
+}
+.cost.fury  { --res: "격노"; background: var(--blood); }
+.cost.focus { --res: "집중"; background: #1d6fa5; }
+*/
+
 .ability-head .price {
     flex-shrink: 0;
     white-space: nowrap;
@@ -288,6 +322,36 @@ em { font-style: italic; }
     border-radius: 4px;        /* 부드러운 둥근 모서리 */
     letter-spacing: 0.02em;
     border: 1px solid rgba(255, 255, 255, 0.2); /* 은은한 입체감 테두리 */
+}
+.ability-head .price:not(.signature)::after {      /* "LV" 라벨 자동 삽입 (필요 없으면 삭제) */
+    content: " 점";
+    margin-right: .3em;
+    font-size: .75em;
+    font-weight: 700;
+    opacity: .7;
+}
+
+
+/* 레벨 배지: 위가 넓은 사다리꼴 (cost/price 옆에 배치) */
+.ability-head .level {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.1em 1em;
+    background: linear-gradient(180deg, #e8a04a, var(--ember)); /* 엠버 골드 */
+    color: var(--steel-900);
+    font-size: calc(0.95rem * var(--scale));
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: .02em;
+    /* 윗변이 길고 아랫변이 짧은 사다리꼴 */
+    clip-path: polygon(0 0, 100% 0, calc(100% - 9px) 100%, 9px 100%);
+}
+.ability-head .level::after {      /* "LV" 라벨 자동 삽입 (필요 없으면 삭제) */
+    content: " 레벨";
+    margin-right: .3em;
+    font-size: .75em;
+    font-weight: 700;
+    opacity: .7;
 }
 
 .flavor-text {
@@ -408,51 +472,115 @@ em { font-style: italic; }
 .dmg-psychic.badge     { background-color: #9333ea; }
 .dmg-sonic.badge       { background-color: #4b5563; }
 
-/* ---------- 접근성·반응형·인쇄 ---------- */
-:focus-visible { outline: 3px solid var(--ember); outline-offset: 2px; }
 
-/* 좁은 화면 대응: 일반 페이지는 뷰포트 기준 */
-@media (max-width: 45rem /*7.5in*/) {
-    :root { --scale: 1.05; }
-    .page {
-        padding: 1.5rem 1rem 2rem; /*.5in .3in .8in*/
-        min-height: auto;
-    }
 
-    h1 {
-        margin: 0 -1rem .5em; /*0 -.3in .5em*/
-        padding-left: 1rem;
-        font-size: calc(1.75rem * var(--scale));
-    }
-    .cols,
-    .cols.cols-short {
-        column-count: 1;
-        column-rule: none;
-    }
-    .stat-row, .characteristics {
-        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-    }
+/* ---------- Draw Steel 성장표 (Advancement Table) ---------- */
+.table-wrap {
+    width: 100%;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    break-inside: avoid;
 }
 
-/* 상하폭만 좁은 모니터/창 환경:
-   기본 .cols는 1단으로 풀리지만, .cols-short는 2단 유지 */
-@media (min-width: 45.01rem) and (max-height: 45rem) {
-    .page {
-        min-height: auto;
-    }
-    .cols:not(.cols-short) {
-        column-count: 1;
-        column-rule: none;
-    }
+table.advancement-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.8pt;
+    line-height: 1.4;
+    background: #fdfcf9;
+    border: 2px solid var(--steel-800);
+    filter: drop-shadow(4px 4px 0 var(--steel-300));
 }
 
-/* pager.js 한 쪽씩 보기: 쪽 컨테이너(.book) 폭 기준으로 다시 배치 */
-@container book (max-width: 7.5in) {
-    .page { padding: .5in .3in .8in; min-height: auto; }
-    h1 { margin: 0 -.3in .5em; padding-left: .3in; font-size: calc(28pt * var(--scale)); }
-    .cols { column-count: 1; }
-    .stat-row, .characteristics { grid-template-columns: repeat(3, 1fr); }
+/* 테이블 헤더 */
+table.advancement-table thead {
+    background: var(--steel-800);
+    color: var(--paper);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
+
+table.advancement-table th {
+    padding: 0.55rem 0.75rem;
+    font-size: 11pt;
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 3px solid var(--blood);
+    white-space: nowrap;
+}
+
+table.advancement-table th.center,
+table.advancement-table td.center {
+    text-align: center;
+}
+
+/* 행 구분 및 교차 색상 (Zebra) */
+table.advancement-table tbody tr {
+    border-bottom: 1px solid var(--steel-300);
+    transition: background 0.15s ease;
+}
+
+table.advancement-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+table.advancement-table tbody tr:nth-child(even) {
+    background: var(--paper-2);
+}
+
+table.advancement-table tbody tr:hover {
+    background: rgba(217, 130, 43, 0.12); /* ember 틴트 강조 */
+}
+
+table.advancement-table td {
+    padding: 0.45rem 0.75rem;
+    vertical-align: middle;
+    text-align: center;
+}
+
+table.advancement-table td.desc {
+    text-align: start;
+}
+
+/* 레벨 배지 셀 */
+table.advancement-table .lvl-badge {
+    display: inline-block;
+    min-width: 1.5rem;
+    padding: 0.1rem 0.4rem;
+    background: var(--steel-800);
+    color: var(--paper);
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-align: center;
+    clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+    transition: background 0.15s;
+}
+
+table.advancement-table tr:hover .lvl-badge {
+    background: var(--blood);
+}
+
+/* 주요 티어 분기점 강조 행 (예: 4레벨, 7레벨, 10레벨 등) */
+table.advancement-table tr.tier-milestone {
+    border-top: 2px solid var(--steel-800);
+}
+
+table.advancement-table tr.tier-milestone td {
+    font-weight: 600;
+}
+
+table.advancement-table tr.tier-milestone .lvl-badge {
+    background: var(--blood);
+}
+
+/* 특징 목록 내 인라인 하이라이트 */
+table.advancement-table .feat-tag {
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--blood-dark);
+}
+
 /* ---------- 종족/목록 버튼 그리드 (표지 페이지용) ---------- */
 html { scroll-behavior: smooth; }
 
@@ -500,4 +628,257 @@ html { scroll-behavior: smooth; }
 
 @media (max-width: 30rem) {
     .choice-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- 특성 이름 배지 (.trait.badge) ----------
+   피해 배지(평행사변형)와 구분되도록 모서리를 깎은 직사각형 + 왼쪽 엠버 띠
+   ※ clip-path를 요소 자체에 걸면 툴팁까지 잘려서,
+      모양(배경 + clip-path)은 ::before 레이어로 옮기고 ::after는 툴팁 전용으로 비워둠 */
+
+.trait.badge {
+    position: relative;
+    isolation: isolate;               /* ::before(z-index:-1)가 배지 안에 머물도록 */
+    display: inline-block;
+    padding: 0.05em 0.6em 0.05em 0.7em;
+    margin: 0 0.15em;
+    color: var(--paper);
+    font-family: var(--font-ui), sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: .03em;
+    vertical-align: baseline;
+}
+.trait.badge::before {                /* 배지 모양 */
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+            linear-gradient(90deg, var(--ember) 0 3px, transparent 3px),
+            var(--steel-800);
+    clip-path: polygon(
+            5px 0, 100% 0,
+            100% calc(100% - 5px), calc(100% - 5px) 100%,
+            0 100%, 0 5px
+    );
+}
+
+/* ---------- 가벼운 툴팁 표시 (.tip) ----------
+   배지처럼 무겁지 않게, 글자 아래쪽 절반에 엠버 형광펜만 칠해 "설명이 있음"을 표시.
+   id 또는 tool-tip이 있을 때만 적용
+   <span class="tip" id="xxx">용어</span>  /  <span class="tip" tool-tip="보기 좋은 설명">용어</span>
+   ※ 반투명 색이라 .sidebar·성장표 등 어떤 배경 위에서도 자연스럽게 섞임 */
+.tip:is([id], [tool-tip]) {
+    position: relative;
+    cursor: help;
+    background: linear-gradient(transparent 70%, rgba(var(--tip-rgb, 217, 130, 43), .32) 70%);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;      /* 줄바꿈되어도 형광펜이 줄마다 끊기지 않게 */
+    transition: background .15s;
+}
+.tip:is([id], [tool-tip]):hover,
+.tip:is([id], [tool-tip]):focus-visible {
+    background: linear-gradient(transparent 50%, rgba(var(--tip-rgb, 217, 130, 43), .6) 50%);
+}
+
+/* .tip 마커 색상 — 기본(엠버)은 그대로, 필요할 때 색 클래스를 덧붙임
+   <span class="tip tip-skill" id="xxx">기술</span>
+   --tip-rgb 만 바꾸면 평소(.32)·hover(.6) 농도가 함께 따라감 */
+.tip-skill     { --tip-rgb: 21, 128, 61; }    /* 초록  : 기술 */
+.tip-action    { --tip-rgb: 2, 132, 199; }    /* 파랑  : 행동 */
+.tip-condition { --tip-rgb: 147, 51, 234; }   /* 보라  : 상태 이상 */
+.tip-damage    { --tip-rgb: 179, 18, 31; }    /* 빨강  : 피해 */
+.tip-resource  { --tip-rgb: 234, 179, 8; }    /* 노랑  : 자원 */
+.tip-lore      { --tip-rgb: 15, 118, 110; }   /* 청록  : 세계관·설정 */
+.tip-rule      { --tip-rgb: 74, 83, 94; }     /* 강철  : 규칙·용어 */
+
+/* ---------- 성장표 feat-tag: 옅은 배경 칩 + 툴팁 ----------
+   성장표는 짝수 행 배경(--paper-2)과 행 hover 틴트가 있으므로
+   불투명 색 대신 "반투명 먹색"으로 칩을 만들어 어떤 행 위에서도 비치도록 함 */
+table.advancement-table .feat-tag:is([id], [tool-tip]) {
+    position: relative;
+    cursor: help;
+    padding: 0 .25em;
+    background: rgba(22, 24, 28, .07);
+    border-bottom: 1px solid rgba(22, 24, 28, .28);
+    transition: background .15s, border-color .15s;
+}
+/* 행 hover(ember .12)와 겹쳐도 구분되도록 칩 hover는 한 단계 더 진하게 */
+table.advancement-table .feat-tag:is([id], [tool-tip]):hover,
+table.advancement-table .feat-tag:is([id], [tool-tip]):focus-visible {
+    background: rgba(217, 130, 43, .3);
+    border-color: var(--ember);
+}
+
+/* ---------- 공용 툴팁 (id 값을 표시) ----------
+   대상: .trait.badge / .tip / .feat-tag / h1~h5  — 모두 id 또는 tool-tip이 있을 때만
+   표시 문구: tool-tip 우선, 없으면 id
+   ※ h1~h5는 h2::after(붉은 쐐기)·h1::after(모양)와 겹치지 않도록 ::before 사용
+   ※ 표시하려면 호스트에 position:relative 필요 (위에서 각각 지정) */
+.trait.badge:is([id], [tool-tip])::after,
+.tip:is([id], [tool-tip])::after,
+table.advancement-table .feat-tag:is([id], [tool-tip])::after,
+h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [tool-tip])::before, h4:is([id], [tool-tip])::before, h5:is([id], [tool-tip])::before {
+    content: attr(id);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    z-index: 20;
+    padding: .2em .65em;
+    background: var(--steel-900);
+    color: var(--paper);
+    border: 1px solid var(--ember);
+    border-left-width: 3px;
+    font-family: var(--font-ui), sans-serif;
+    font-size: .8em;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: .04em;
+    text-transform: none;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0,0,0,.45);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease, visibility .15s;
+}
+
+/* 표시 문구: tool-tip이 있으면 id보다 우선, 없으면 id 값을 표시
+   (같은 우선순위에서 뒤에 오는 이 규칙이 위의 content: attr(id)를 덮어씀) */
+.trait.badge[tool-tip]::after,
+.tip[tool-tip]::after,
+table.advancement-table .feat-tag[tool-tip]::after,
+h1[tool-tip]::before, h2[tool-tip]::before, h3[tool-tip]::before,
+h4[tool-tip]::before, h5[tool-tip]::before {
+    content: attr(tool-tip);
+}
+
+/* 인라인(배지·tip): 가운데 정렬 */
+.trait.badge:is([id], [tool-tip])::after,
+.tip:is([id], [tool-tip])::after {
+    left: 50%;
+    transform: translate(-50%, 4px);
+}
+/* 성장표: 셀 밖으로 삐져나가 잘리지 않도록 왼쪽 기준 */
+table.advancement-table .feat-tag:is([id], [tool-tip])::after {
+    left: 0;
+    transform: translateY(4px);
+}
+/* 제목: 제목은 가로로 길어서 글자 시작점 기준, 글자 크기는 제목과 무관하게 고정 */
+h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [tool-tip])::before, h4:is([id], [tool-tip])::before, h5:is([id], [tool-tip])::before {
+    left: var(--tip-left, 0);
+    font-size: calc(10pt * var(--scale));
+    transform: translateY(4px);
+}
+
+/* 표시 상태 */
+.trait.badge:is([id], [tool-tip]):hover::after,  .trait.badge:is([id], [tool-tip]):focus-visible::after,
+.tip:is([id], [tool-tip]):hover::after,          .tip:is([id], [tool-tip]):focus-visible::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+table.advancement-table .feat-tag:is([id], [tool-tip]):hover::after,
+table.advancement-table .feat-tag:is([id], [tool-tip]):focus-visible::after,
+h1:is([id], [tool-tip]):hover::before, h1:is([id], [tool-tip]):focus-visible::before,
+h2:is([id], [tool-tip]):hover::before, h2:is([id], [tool-tip]):focus-visible::before,
+h3:is([id], [tool-tip]):hover::before, h3:is([id], [tool-tip]):focus-visible::before,
+h4:is([id], [tool-tip]):hover::before, h4:is([id], [tool-tip]):focus-visible::before,
+h5:is([id], [tool-tip]):hover::before, h5:is([id], [tool-tip]):focus-visible::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* 제목 툴팁이 달린 제목은 도움말 커서 */
+h1:is([id], [tool-tip]), h2:is([id], [tool-tip]), h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { cursor: help; }
+h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { position: relative; }
+
+
+/* ---------- 상태 이상 배지 (.cond.badge) ----------
+   피해 배지와 같은 평행사변형 + 앞쪽 작은 다이아몬드 표식 */
+.cond.badge {
+    display: inline-block;
+    padding: 0.05em 0.5em 0.05em 0.4em;
+    margin: 0 0.15em;
+    background-color: var(--steel-600);   /* 기본값 */
+    color: #fff;
+    font-family: var(--font-ui), sans-serif;
+    font-size: 1.2em;
+    font-weight: 600;
+    line-height: 1.25;
+    vertical-align: baseline;
+    clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+}
+.cond.badge::before {
+    content: "";
+    display: inline-block;
+    width: .4em;
+    height: .4em;
+    margin: 0 .4em .12em .25em;
+    background: currentColor;
+    opacity: .75;
+    transform: rotate(45deg);
+}
+
+.cond-bleeding.badge   { background-color: #b3121f; } /* 출혈 */
+.cond-dazed.badge      { background-color: #a16207; } /* 혼미 */
+.cond-frightened.badge { background-color: #5b21b6; } /* 공포 */
+.cond-grabbed.badge    { background-color: #854d0e; } /* 붙잡힘 */
+.cond-prone.badge      { background-color: #57534e; } /* 넘어짐 */
+.cond-restrained.badge { background-color: #1f2937; } /* 속박 */
+.cond-slowed.badge     { background-color: #1e40af; } /* 둔화 */
+.cond-taunted.badge    { background-color: #be185d; } /* 도발 */
+.cond-weakened.badge   { background-color: #0e7490; } /* 약화 */
+
+/* ---------- 접근성·반응형·인쇄 ---------- */
+:focus-visible { outline: 3px solid var(--ember); outline-offset: 2px; }
+
+/* 좁은 화면 대응: 일반 페이지는 뷰포트 기준 */
+@media (max-width: 45rem /*7.5in*/) {
+    :root { --scale: 1.05; }
+    .page {
+        padding: 1.5rem 1rem 2rem; /*.5in .3in .8in*/
+        min-height: auto;
+    }
+
+    h1 {
+        --tip-left: 1rem;
+        margin: 0 -1rem .5em; /*0 -.3in .5em*/
+        padding-left: 1rem;
+        font-size: calc(1.75rem * var(--scale));
+    }
+    .cols,
+    .cols.cols-short {
+        column-count: 1;
+        column-rule: none;
+    }
+    .stat-row, .characteristics {
+        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    }
+}
+
+/* 상하폭만 좁은 모니터/창 환경:
+   기본 .cols는 1단으로 풀리지만, .cols-short는 2단 유지 */
+@media (min-width: 45.01rem) and (max-height: 45rem) {
+    .page {
+        min-height: auto;
+    }
+    .cols:not(.cols-short) {
+        column-count: 1;
+        column-rule: none;
+    }
+}
+
+/* pager.js 한 쪽씩 보기: 쪽 컨테이너(.book) 폭 기준으로 다시 배치 */
+@container book (max-width: 7.5in) {
+    .page { padding: .5in .3in .8in; min-height: auto; }
+    h1 {
+        --tip-left: .3in;
+        margin: 0 -.3in .5em; padding-left: .3in; font-size: calc(28pt * var(--scale)); }
+    .cols { column-count: 1; }
+    .stat-row, .characteristics { grid-template-columns: repeat(3, 1fr); }
 }
