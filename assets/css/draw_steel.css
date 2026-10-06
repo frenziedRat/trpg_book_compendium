@@ -53,7 +53,7 @@ body {
     line-height: 1.5;
 }
 
-/* 다단 설정 */
+/* ---다단 설정--- */
 .cols {
     margin-top: 1rem;
     column-count: 2;
@@ -61,6 +61,20 @@ body {
     column-rule: 1px solid var(--steel-300);
 }
 .cols > :first-child {
+    margin-top: 0;
+}
+
+/* 다단 상단 정렬: 어느 단이든 첫 줄이 같은 높이(top)에서 시작하도록
+   단의 맨 위에 올 수 있는 요소(직계 자식과 그 첫 요소)의 위쪽 여백을 제거.
+   브라우저마다 단 맨 위의 위쪽 여백을 처리하는 방식이 달라 단별로 시작 높이가 어긋날 수 있음 */
+.cols > .table-wrap,
+.cols > .desc-box,
+.cols > article {
+    margin-top: 0;
+}
+.cols > * > :first-child,
+.desc-box > :first-child,
+.table-wrap > table > caption {
     margin-top: 0;
 }
 
@@ -266,7 +280,6 @@ em { font-style: italic; }
     line-height: 1.4;
 }
 
-
 .ability-head {
     display: flex;
     justify-content: space-between;
@@ -339,7 +352,6 @@ em { font-style: italic; }
     opacity: .7;
 }
 
-
 /* 레벨 배지: 위가 넓은 사다리꼴 (cost/price 옆에 배치) */
 .ability-head .level {
     flex-shrink: 0;
@@ -397,6 +409,14 @@ em { font-style: italic; }
 .ability-body p { margin: 0 0 .25em; }
 .ability-body p:last-child {
     margin-bottom: 0; /* 마지막 문단 아래 불필요한 여백 제거 */
+}
+
+/* 설명 상자: 다단(.cols) 안에서 문장이 길어도 중간에 끊겨 다음 단으로 넘어가지 않고 한 단에 통째로 유지 */
+.cols > .desc-box,
+.desc-box {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;   /* 구형 WebKit 호환 */
+    page-break-inside: avoid;             /* 인쇄 시에도 쪽이 갈리지 않도록 */
 }
 
 /* 위력 굴림 3단계 */
