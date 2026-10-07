@@ -846,11 +846,14 @@ h4[tool-tip]::before, h5[tool-tip]::before {
     left: 50%;
     transform: translate(-50%, 4px);
 }
-/* 어빌리티 이름: 카드 왼쪽 끝에 붙어 있으므로 왼쪽 기준, 글자 크기는 이름(1.15rem·대문자)과 무관하게 고정 */
+/* 어빌리티 이름: 카드 왼쪽 끝에 붙어 있으므로 왼쪽 기준, 글자 크기는 이름(1.15rem·대문자)과 무관하게 고정
+   ※ 카드 맨 위 요소라서 위로 띄우면 다단(.cols)에서 단 위쪽 밖으로 나가 잘림 → 아래로 띄움 */
 .ability-head .name:is([id], [tool-tip])::after {
     left: 0;
+    bottom: auto;
+    top: calc(100% + 6px);
     font-size: calc(0.8333rem * var(--scale));
-    transform: translateY(4px);
+    transform: translateY(-4px);
 }
 /* 성장표: 셀 밖으로 삐져나가 잘리지 않도록 왼쪽 기준 */
 table.advancement-table .feat-tag:is([id], [tool-tip])::after {
@@ -883,6 +886,23 @@ h4:is([id], [tool-tip]):hover::before, h4:is([id], [tool-tip]):focus-visible::be
 h5:is([id], [tool-tip]):hover::before, h5:is([id], [tool-tip]):focus-visible::before {
     opacity: 1;
     visibility: visible;
+    transform: translateY(0);
+}
+
+/* 다단(.cols) 안의 제목: 단 맨 위에 올 수 있어서 위로 띄우면 단 경계에서 잘림 → 아래로 띄움
+   (hover 규칙의 우선순위보다 높게 hover 상태도 함께 지정) */
+.cols h1:is([id], [tool-tip])::before, .cols h2:is([id], [tool-tip])::before,
+.cols h3:is([id], [tool-tip])::before, .cols h4:is([id], [tool-tip])::before,
+.cols h5:is([id], [tool-tip])::before {
+    bottom: auto;
+    top: calc(100% + 6px);
+    transform: translateY(-4px);
+}
+.cols h1:is([id], [tool-tip]):hover::before, .cols h1:is([id], [tool-tip]):focus-visible::before,
+.cols h2:is([id], [tool-tip]):hover::before, .cols h2:is([id], [tool-tip]):focus-visible::before,
+.cols h3:is([id], [tool-tip]):hover::before, .cols h3:is([id], [tool-tip]):focus-visible::before,
+.cols h4:is([id], [tool-tip]):hover::before, .cols h4:is([id], [tool-tip]):focus-visible::before,
+.cols h5:is([id], [tool-tip]):hover::before, .cols h5:is([id], [tool-tip]):focus-visible::before {
     transform: translateY(0);
 }
 
