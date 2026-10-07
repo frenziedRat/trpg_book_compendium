@@ -247,24 +247,20 @@ em { font-style: italic; }
 
 /* 키워드 칩 */
 .kw {
-    position: relative;
-    isolation: isolate;               /* ::before(z-index:-1)가 칩 안에 머물도록 */
+    position: relative;               /* 툴팁(::after) 기준점 */
     display: inline-block;
-    padding: 0 .55em;
+    padding: 0 .5em;
     margin-right: .25em;
-    color: var(--paper);
+    border: 1px solid var(--steel-300);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--steel-600);
     font-family: var(--font-ui), sans-serif;
     font-weight: 600;
     font-size: .85em;
+    line-height: 1.35;
 }
-.kw::before {                         /* 칩 모양: clip-path를 요소 자체에 걸면 툴팁이 잘림 */
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--steel-800);
-    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
-}
+
 
 /* ---------- 어빌리티 카드 ---------- */
 .ability {
@@ -436,6 +432,23 @@ em { font-style: italic; }
     margin-right: 0.35em; /* 글자와의 자연스러운 간격 */
 
     transform: translateY(0.08em);
+}
+
+/* ---------- 항목 이름 (.entry-name) ----------
+   본문 문단 앞에 붙는 "효과" 같은 라벨. trait badge보다 조용한 옅은 회색 칩
+   <p class="effect"><span class="entry-name">효과</span> 본문…</p> */
+.entry-name {
+    display: inline-block;
+    margin-right: .25em;
+    padding: .05em .55em;
+    border-radius: 2px;
+    background: rgba(22, 24, 28, .6);
+    color: #fff; /* var(--steel-600) */
+    font-family: var(--font-ui), sans-serif;
+    font-size: .85em;
+    font-weight: 700;
+    letter-spacing: .03em;
+    line-height: 1.35;
 }
 
 .ability-body { padding: .3em .7em .4em; }
