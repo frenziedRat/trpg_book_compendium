@@ -309,10 +309,10 @@ em { font-style: italic; }
     line-height: 1.3;
     clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 }
-.ability-head .cost[data-res]::before {
-    content: attr(data-res);
+.ability-head .cost[resource-name]::before {
+    content: attr(resource-name);
     margin-right: .3em;
-    font-size: .75em;
+    font-size: .85em;
     font-weight: 700;
     opacity: .7;
 }
@@ -412,7 +412,7 @@ em { font-style: italic; }
     line-height: 1.3;
     letter-spacing: .02em;
     white-space: nowrap;
-    clip-path: polygon(0 0, 100% 0, calc(100% - 9px) 100%, 9px 100%);   /* 헤더와 같은 사다리꼴 */
+    clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 100%, 0 100%);   /* 헤더와 위아래 반대: 아래가 넓은 사다리꼴 */
 }
 
 .flavor-text {
@@ -464,7 +464,13 @@ em { font-style: italic; }
     padding: 0;
     list-style: none;
 }
-.kw-list > .kw { margin-right: 0; }
+.kw-list > .kw {
+    margin-right: 0;
+}
+.kw-list::before {
+    margin: 0 0.1em;
+    content: "*";
+}
 
 /* 래퍼가 첫 칸을 차지하면 이후 칸의 홀짝이 뒤바뀌므로 좌우 정렬을 다시 맞춤 */
 .ability-meta:has(> .action-line) > *:nth-child(even) { text-align: left; }
@@ -518,6 +524,39 @@ em { font-style: italic; }
 .ability-body p { margin: 0 0 .25em; }
 .ability-body p:last-child {
     margin-bottom: 0; /* 마지막 문단 아래 불필요한 여백 제거 */
+}
+
+/* ---------- 선행 문단 (.pre-effect) ----------
+   .post-effect과 반대로 아래에 가로줄을 둠. 효과 앞에 오는 조건·발동 조건 등을 본문과 구분
+   <p class="pre-effect"><span class="entry-name">조건</span> 적이 당신을 공격할 때…</p>
+   <p class="effect">…</p> */
+.ability-body .pre-effect {
+    margin-bottom: .4em;
+    padding-bottom: .4em;
+    border-bottom: 1px solid var(--steel-300);
+    break-inside: avoid;
+}
+/* .pre-effect가 연달아 나오면 가로줄은 마지막 문단 아래에만 */
+.ability-body .pre-effect:has(+ .pre-effect) {
+    margin-bottom: .25em;             /* 일반 문단 간격으로 복원 */
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+/* ---------- 후웅 효과 영역 (.post-effect) ----------
+   위에 가로줄을 두고 일반 효과와 구분. 예) 간파 1+ 처럼 자원을 써서 얻는 추가 효과
+   <p class="post-effect"><span class="trait badge">간파 1+</span> 소모한 간파 만큼 …</p> */
+.ability-body .post-effect {
+    margin-top: .4em;
+    padding-top: .4em;
+    border-top: 1px solid var(--steel-300);
+    break-inside: avoid;
+}
+/* 영웅 효과가 연달아 나오면 가로줄은 첫 문단 위에만 */
+.ability-body .post-effect + .post-effect {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
 }
 
 /* 설명 상자: 다단(.cols) 안에서 문장이 길어도 중간에 끊겨 다음 단으로 넘어가지 않고 한 단에 통째로 유지 */
@@ -588,13 +627,20 @@ em { font-style: italic; }
 
 /* ---------- 선택 옵션: Draw Steel 스타일 키워드 배지 형태 (.badge) ---------- */
 .dmg.badge {
+    --hex-tip: 5px;                   /* 좌우 꼭짓점이 튀어나온 폭 (작을수록 좁은 육각형) */
     display: inline-block;
-    padding: 0.05em 0.45em;
+    padding: 0.05em calc(var(--hex-tip) + .4em);
     font-family: var(--font-ui), sans-serif;
     font-size: 0.88em;
     line-height: 1.25;
     color: #fff;
-    clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+    /* 육각형: 위·아래는 평평하고, 좌우 중앙이 뾰족 */
+    clip-path: polygon(
+            var(--hex-tip) 0, calc(100% - var(--hex-tip)) 0,
+            100% 50%,
+            calc(100% - var(--hex-tip)) 100%, var(--hex-tip) 100%,
+            0 50%
+    );
     vertical-align: baseline;
     margin: 0 0.15em;
 }
@@ -804,6 +850,7 @@ html { scroll-behavior: smooth; }
     letter-spacing: .03em;
     vertical-align: baseline;
 }
+
 .trait.badge::before {                /* 배지 모양 */
     content: "";
     position: absolute;
