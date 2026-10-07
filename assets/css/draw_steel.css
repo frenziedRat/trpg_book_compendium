@@ -14,6 +14,7 @@
     --blood: #b3121f;
     --blood-dark: #7d0b14;
     --ember: #d9822b;
+    --ember-ink: #b86a0a;
 
     --tier-1: #6b7480;      /* ≤11 */
     --tier-2: #c58a2b;      /* 12–16 */
@@ -567,16 +568,35 @@ em { font-style: italic; }
     page-break-inside: avoid;             /* 인쇄 시에도 쪽이 갈리지 않도록 */
 }
 
-/* 위력 굴림 3단계 */
-.power-roll { margin: .3em 0 .5em; }
-.power-roll .roll {
+/* 굴림 3단계 */
+.roll { margin: .3em 0 .5em; }
+.roll .power-roll {
     margin: 0 0 .25em;
     font-family: var(--font-head), sans-serif;
     font-weight: 700;
-    font-size: calc(1rem * var(--scale));
+    font-size: calc(0.85rem * var(--scale));
     text-transform: uppercase;
     color: var(--steel-800);
 }
+.roll .power-roll::before {
+    content: "위력 판정 + ";
+    color: var(--steel-800);
+    font-size: calc(0.85rem * var(--scale));
+    font-weight: 700;
+    letter-spacing: normal;
+}
+
+.roll .power-roll.stat,
+.roll .power-roll .stat {
+    margin-left: .2em;
+    color: var(--ember-ink);
+    font-size: calc(1.1rem * var(--scale));
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.roll .power-roll.stat { margin-left: 0; }   /* 같은 요소일 땐 ::before 안의 공백이 간격 역할 */
+
 .tiers { margin: 0; padding: 0; list-style: none; }
 .tiers li {
     display: grid;
