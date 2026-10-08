@@ -3,13 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Draw Steel - 목차</title>
+    <title>RPG 시스템</title>
+    <style>
+        :root {
+            --bg: #14161a;
+            --text: #ebe7dd;
+            --accent: #d9822b;      /* 마우스를 올렸을 때 테두리·빛 */
+        }
 
-    <link rel="stylesheet" href="assets/css/common_book.css">
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 2.5rem 1rem 3rem;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Barlow Condensed", "Noto Sans KR", sans-serif;
+        }
+
+        main {
+            max-width: 46rem;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0 0 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            color: #9aa3ad;
+        }
+
+        .banners {
+            display: grid;
+            gap: .8rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        /* 세로로 쌓인 가로 배너 */
+        .banner {
+            position: relative;
+            display: flex;
+            align-items: center;
+            aspect-ratio: 5 / 1;
+            min-height: 5.5rem;
+            padding: 0 1.6rem;
+            overflow: hidden;
+            background: #000;                         /* 이미지가 없으면 검은 화면 */
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: .6rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .banner img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s ease, filter .2s;
+        }
+        .banner::before {                             /* 글자가 잘 보이도록 왼쪽을 어둡게 */
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(90deg, rgba(0, 0, 0, .72), rgba(0, 0, 0, .12) 75%);
+        }
+        .banner-name {
+            position: relative;
+            z-index: 2;
+            font-size: clamp(1.4rem, 4.5vw, 2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: .03em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .8);
+        }
+
+        a.banner:hover,
+        a.banner:focus-visible {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent), 0 0 1.4rem rgba(217, 130, 43, .35);
+        }
+        a.banner:hover img,
+        a.banner:focus-visible img { transform: scale(1.04); }
+        a.banner:focus-visible { outline: none; }
+
+        .message { color: #9aa3ad; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .banner, .banner img { transition: none; }
+            a.banner:hover img, a.banner:focus-visible img { transform: none; }
+        }
+    </style>
 </head>
 <body>
-    <div class="book page">
+<main>
+    <h1>RPG 목록</h1>
+    <ul class="banners" id="banners"></ul>
+</main>
 
-    </div>
+<script src="assets/js/rpg_system.js"></script>
+<script>
+    (function () {
+        const list = document.getElementById("banners");
+        const items = window.RPG_SYSTEMS;
+
+        if (!Array.isArray(items) || items.length === 0) {
+            const p = document.createElement("p");
+            p.className = "message";
+            p.textContent = "rpg_system.js 에 표시할 항목이 없습니다.";
+            list.replaceWith(p);
+            return;
+        }
+
+        items.forEach((item) => {
+            // 링크가 없으면 클릭되지 않는 배너로 표시
+            const banner = document.createElement(item.link ? "a" : "div");
+            banner.className = "banner";
+            if (item.link) banner.href = item.link;
+
+            // 이미지가 없거나 불러오지 못하면 <img> 를 지워서 검은 배경만 남김
+            if (item.image) {
+                const img = document.createElement("img");
+                img.alt = "";
+                img.loading = "lazy";
+                img.src = item.image;
+                img.addEventListener("error", () => img.remove());
+                banner.appendChild(img);
+            }
+
+            const name = document.createElement("span");
+            name.className = "banner-name";
+            name.textContent = item.name || "";
+            banner.appendChild(name);
+
+            const li = document.createElement("li");
+            li.appendChild(banner);
+            list.appendChild(li);
+        });
+    })();
+</script>
 </body>
 </html>

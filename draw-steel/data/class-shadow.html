@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Draw Steel - Shadow</title>
+    <link rel="stylesheet" href="../../assets/css/common_book.css">
+    <link rel="stylesheet" href="../../assets/css/draw_steel.css">
+    <link rel="stylesheet" href="../../assets/css/pager.css">
+</head>
+<body>
+<div class="book">
+    <section class="page">
+        <header>
+            <h1 id="basic">암행자 Shadow</h1>
+            <p>Whenever there is doubt, there is no doubt. Motto of the College of Black Ash.</p>
+            <p class="flavor-text">Subtlety is your art, the tip of the blade your brush. You studied at a secret college, specializing in alchemy, illusion, or shadow-magics. Your training and knowledge place you among the elite ranks of assassins, spies, and commandos. But more potent than any weapon or sorcery is your insight into your enemies' weaknesses.</p>
+        </header>
+        <h2>기본</h2>
+        <div class="cols">
+            <article>
+                <p><strong>시작 능력치</strong>: 민첩 2로 시작하고, 다음 배열 하나를 골라 나머지 능력치에 분배합니다.</p>
+                <ul>
+                    <li>2, 2, -1, -1</li>
+                    <li>2, 1, 1, -1</li>
+                    <li>2, 1, 0, 0</li>
+                    <li>1, 1, 1, 0</li>
+                </ul>
+                <p><strong>세기</strong>: 민첩 (+0/-1/-2)</p>
+                <p><strong>1레벨 체력</strong>: 18</p>
+                <p><strong>2레벨 이후 레벨마다 체력</strong>: 6</p>
+                <p><strong>회복력</strong>: 8</p>
+                <p><strong>기술</strong>: <span class="tip tip-skill" tool-tip="Hide">숨기</span>, <span class="tip tip-skill" tool-tip="Sneak">잠행</span> 기술을 배웁니다. 이후 암흑가 Criminal Underworld 또는 탐험 exploration, 사교 interperosnal, 공작 intrigue 기술군에서 5개를 배웁니다.</p>
+            </article>
+            <article class="table-wrap">
+                <table class="advancement-table">
+                    <caption>암행자 성장표</caption>
+                    <thead>
+                        <tr>
+                            <th class="center col-level">레벨</th>
+                            <th>특성</th>
+                            <th class="center col-ability">능력</th>
+                            <th class="center col-subclass">양성소 능력</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="lvl-badge">1</span></td>
+                            <td class="desc"><a href="#shadow-college" class="feat-tag" tool-tip="Shadow College">그림자 양성소</a>, <a href="#insight" class="feat-tag" tool-tip="Insight">간파</a>, <span class="feat-tag">양성소 특성</span>, <span class="feat-tag">양성소 발동 능력</span>, <span class="feat-tag">망설임은 독</span>, <span class="feat-tag">무장</span>, <span class="feat-tag">암행자 능력</span></td>
+                            <td>주력, 3, 5</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><span class="lvl-badge">2</span></td>
+                            <td class="desc">양성소 특성, 특기, 양성소 능력</td>
+                            <td>주력, 3, 5</td>
+                            <td>5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <h2>1레벨 특성</h2>
+        <div>
+            <article class="ability" id="shadow-college">
+                <header class="ability-head">
+                    <span class="name" tool-tip="Shadow College">그림자 양성소</span>
+                    <span class="level">1</span>
+                </header>
+                <p class="flavor-text">그림자 양성소는 평범한 사람도 특별한 사람으로 키우는 비밀 기관입니다. 양성소를 찾는 것부터 지원자 자질을 검증하는 혹득한 입문 과정의 시작입니다. 은신, 마법, 암살을 가르치는 암행자 스승도 너그럽지 않기 떄문에, 어렵게 선발되더라도 중도 하차하거나 쫓겨나기 일쑤입니다.</p>
+                <div class="ability-body">
+                    <p class="effect">영웅이 졸업한 양성소 하나를 선택하고, 걸맞은 기술을 하나씩 배웁니다.</p>
+                    <ul>
+                        <li><span class="trait badge" tool-tip="Black Ash College">검은 재 양성소</span> 암행자 비술을 처음으로 만든 기관입니다. 주술로 전장을 순간이동하는 만큼 기동력 면에서 독보적이며, 그림자를 조종하며, 어둠을 소환합니다. <span class="tip tip-skill" tool-tip="Magic">마법</span> 기술을 배웁니다.</li>
+                        <li><span class="trait badge" tool-tip="Caustic Alchemy">부식성 연금술 양성소</span> 어두운 일에 쓰일 강산, 폭탄, 독 제조법을 가르칩니다. 제자들은 탁월한 암살자로 거듭납니다. <span class="tip tip-skill" tool-tip="Alchemy">연금술</span> 기술을 배웁니다.</li>
+                        <li><span class="trait badge" tool-tip="Harlequin Mask">할리퀸 가면 양성소</span> 적진에 침투하고 전장에 계획된 혼돈을 만들 수 있는 환각 마법을 가르칩니다.<span class="tip tip-skill" tool-tip="Lie">거짓말</span> 기술을 배웁니다.</li>
+                    </ul>
+                    <p class="effect">그림자 양성소 자체가 전문화 subclass이고, 레벨이 오르면서 받는 특성 대다수가 양성소에 따라 결정됩니다.</p>
+                </div>
+
+            </article>
+            <article class="ability" id="insight">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Insight">간파 Insight</span>
+                    <span class="level">1</span>
+                </div>
+                <p class="flavor-text">적을 관찰하여 약점을 이용하는 방법으로 간파라는 영웅 자원을 쌓습니다.</p>
+                <div class="ability-body">
+                    <div class="cols">
+                        <article class="desc-box">
+                            <h4>전투 시</h4>
+                            <p class="effect">전투 조우처럼 전투 라운드로 시간을 새는 급박한 상황(진행자가 결정)에 들어갈 때, 업적만큼 간파를 쌓습니다. 전투에서 내 차례를 시작할 때마다 간파 1d3개를 쌓습니다.</p>
+                            <p class="effect">더불어 매 전투 라운드마다 한 번씩 <span class="tip tip-rule" tool-tip="surge">격동</span>을 하나 이상 써서 피해를 늘렸을 때, 간파 1개를 쌓습니다.</p>
+                            <p class="effect">위력 판정을 하는 영웅 능력을 사용할 유리함이나 이중 유리함을 받는다면, 간파를 1점 덜 소모합니다. 대상이 여럿이라도, 대상 하나라도 유리함을 받는다면 동일하게 소모량이 줄어듭니다.</p>
+                            <p class="effect">조우가 끝나면 남은 간파는 모두 사라집니다.</p>
+                        </article>
+                        <article class="desc-box">
+                            <h4>비전투 시</h4>
+                            <p class="effect">비전투에서는 간파를 쌓을 수 없지만, 소모 없이 영웅 능력과 효과를 쓸 수 있습니다. 비전투 상황에서 간파가 드는 능력이나 효과를 썼다면, 헤당 능력은 업적을 1점 이상 쌓거나 휴식을 마칠 때까지 비전투 상황에서 쓸 수 없습니다.</p>
+                            <p class="effect">Black Ash Teleport처럼 간파 소모량이 제한되지 않는 능력을 비전투 상황에서 쓴다면, 쌓아둔 업적 만큼 소모한 걸로 간주합니다.</p>
+                        </article>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <h2>1레벨 양성소 특성</h2>
+        <p>선택한 양성소에 따라 특성 한두개를 익힙니다.</p>
+        <ul>
+            <li><span class="trait badge" tool-tip="Black Ash College">검은 재 양성소</span> <a href="#black-ash-teleport" class="tip" tool-tip="Black Ash Teleport">검은 재 순간이동</a></li>
+            <li><span class="trait badge" tool-tip="Caustic Alchemy">부식성 연금술 양성소</span> <a href="#coat-the-blade" class="tip" tool-tip="Coat the Blade">독 바르기</a>, <a href="#smoke-bomb" class="tip" tool-tip="Smoke Bomb">연막탄</a></li>
+            <li><span class="trait badge" tool-tip="Harlequin Mask">할리퀸 가면 양성소</span> <a href="#im-no-threat" class="tip" tool-tip="I'm no Threat">무해한 환영</a></li>
+        </ul>
+        <div class="cols">
+            <article class="ability" id="black-ash-teleport">
+                <header class="ability-head">
+                    <span class="name" tool-tip="Black Ash Teleport">검은 재 순간이동</span>
+                </header>
+                <p class="flavor-text">검은 재가 흩날리며, 다른 곳에서 나타납니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">동작</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Magic">마법</li>
+                        </ul>
+                    </div>
+                    <span class="distance">자신</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="effect"><span class="entry-name">효과</span> 5칸까지 순간이동 합니다. 도착지에 은폐나 엄폐가 확보된다면, 상대가 인식하더라도 <span class="tip tip-action" tool-tip="Hide">숨기</span> 동작을 쓸 수 있습니다. 숨는데도 성공했다면, <span class="tip tip-resource" tool-tip="Surge">격동</span>도 하나 받습니다.</p>
+                    <p class="post-effect"><span class="trait badge">간파 1+</span> 소모한 간파 만큼 순간이동 거리가 1칸씩 늘어납니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 - 검은 재</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="im-no-threat">
+                <div class="ability-head">
+                    <span class="name" tool-tip="I'm no Threat">무해한 환영</span>
+                </div>
+                <p class="flavor-text">속임수가 잘 먹히도록, 환영으로 위장합니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">동작</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Magic">마법</li>
+                        </ul>
+                    </div>
+                    <span class="distance">자신</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="effect">약하고 무해하게 보일 환영으로 몸을 덮습니다. 양이나 카피바라처럼 동일한 체격의 순한 동물이나, 비무장에 평범한 인상을 주는 사람처럼 위장할 수 있습니다. 환영이 유지되는 동안에는 내 타격에 유리함을 받고, <span class="tip tip-action" tool-tip="Disengage">비켜나기</span> 이동 행동 시, <span class="tip tip-rule" tool-tip="shift">잔걸음</span> 거리에 +1 보너스를 받습니다.</p>
+                    <p class="effect">다른 개체에게 해를 끼치거나 신체 접촉을 할 떄, 이 능력을 다시 사용할 때, 자발적으로 끝낼 때(행동 소모 없음) 환영이 깨집니다. 다른 개체에게 해를 끼쳐 깨진 거라면, <span class="tip tip-resource" tool-tip="Surge">격동</span>을 하나 받습니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 - 할리퀸 가면</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="coat-the-blade">
+                <header class="ability-head">
+                    <span class="name" tool-tip="Coat the Blade">독 바르기</span>
+                </header>
+                <p class="flavor-text">작지만 큰 위력.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">동작</span>
+                    </div>
+                    <span class="distance">자신</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="effect"><span class="entry-name">효과</span> <span class="tip tip-resource" tool-tip="Surge">격동</span>을 둘 받습니다.</p>
+                    <p class="effect">덧붙여, 이번 조우가 끝날 때까지 <span class="tip tip-resource" tool-tip="Surge">격동</span>을 쓸 때마다 <span class="dmg dmg-poison badge">독성 피해</span>로 줄 수 있습니다.</p>
+                    <p class="post-effect"><span class="trait badge">간파 1+</span> 소모한 간파 만큼 <span class="tip tip-resource" tool-tip="Surge">격동</span>을 하나 더 받습니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 - 부식성 연금술</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="smoke-bomb">
+                <header class="ability-head">
+                    <span class="name" tool-tip="Smoke Bomb">연막탄</span>
+                </header>
+                <p class="flavor-text">시선을 교란하고 쉽게 빠져나갈 수 있게, 늘 연막탄을 휴대합니다.</p>
+                <div class="ability-body">
+                    <p class="effect">상대가 인식하고 엄폐나 은폐를 확보하지 않았더라도 <span class="tip tip-action" tool-tip="Hide">숨기</span> 동작을 쓸 수 있습니다. 숨고 난 후에 민첩 점수 칸만큼 잔걸음 합니다. 은폐나 엄폐가 확보된 곳에서 이동을 마쳤다면 자동으로 숨습니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 - 부식성 연금술</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+        </div>
+    </section>
+    <section class="page cols">
+        <article>
+            <h2>양성소 발동 행동</h2>
+            <article>
+                <p>선택한 양성소에 따라 양성소 발동 행동을 하나씩 배웁니다.</p>
+                <ul>
+                    <li><span class="trait badge" tool-tip="Black Ash College">검은 재 양성소</span> <a href="#in-all-this-confusion" class="tip" tool-tip="In all this Confusion">혼란을 틈타</a></li>
+                    <li><span class="trait badge" tool-tip="Caustic Alchemy">부식성 연금술 양성소</span> <a href="#defensive-roll" class="tip" tool-tip="Defensive Roll">방어 구르기</a></li>
+                    <li><span class="trait badge" tool-tip="Harlequin Mask">할리퀸 가면 양성소</span> <a href="#clever-trick" class="tip" tool-tip="Clever Trick">비열한 술수</a></li>
+                </ul>
+            </article>
+            <article class="ability" id="in-all-this-confusion">
+                <header class="ability-head">
+                    <span class="name" tool-tip="In all this Confusion">혼란을 틈타</span>
+                </header>
+                <p class="flavor-text">검은 연기 속으로 사라져 위험을 피합니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">발동 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Magic">마법</li>
+                        </ul>
+                    </div>
+                    <span class="distance">자신</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="pre-effect"><span class="entry-name">발동</span> 내가 피해를 받을 때</p>
+                    <p class="effect"><span class="entry-name">효과</span> 피해를 절반만 받고, 발동시킨 효과를 해결한 후 4칸까지 순간이동할 수 있습니다.</p>
+                    <p class="post-effect"><span class="trait badge">간파 1+</span> 소모한 간파 마다 순간이동 거리 +1.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 - 검은 재</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="defensive-roll">
+                <header class="ability-head">
+                    <span class="name" tool-tip="Defensive Roll">방어 구르기</span>
+                </header>
+                <p class="flavor-text">적이 공격하면 몸을 날려 피해를 줄입니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">발동 행동</span>
+                    </div>
+                    <span class="distance">자신</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="pre-effect"><span class="entry-name">발동</span> 다른 개체가 내게 피해를 줄 때</p>
+                    <p class="effect"><span class="entry-name">효과</span> 발동된 피해를 절반만 받고, 발동시킨 효과를 해결한 후 2칸까지 잰걸음할 수 있습니다. 엄폐나 은폐를 받으며 잰걸음했다면, 인식되더라도 <span class="tip tip-action">숨기</span> 동작을 할 수 있습니다.</p>
+                    <p class="post-effect"><span class="trait badge">간파 1</span> 피해와 관련된 효과의 세기가 내게만 1 감소.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 - 부식성 연금술</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="clever-trick">
+                <header class="ability-head">
+                    <span class="name" tool-tip="Clever Trick">비열한 술수</span>
+                </header>
+                <p class="flavor-text">순간 혼란을 만들어 적을 동요시킵니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">발동 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Magic">마법</li>
+                        </ul>
+                    </div>
+                    <span class="distance">자신</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="pre-effect"><span class="entry-name">발동</span> 적이 가한 타격의 대상이 되었을 때</p>
+                    <p class="effect"><span class="entry-name">효과</span> 발동시킨 타격의 거리 내 적 하나를 선택합니다(공격자도 가능). 발동시킨 타격은 대신 그 적에게 향합니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 - 할리퀸 가면</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+        </article>
+        <article>
+            <h2>망설임은 독</h2>
+            <article class="ability" id="hesitation-is-weakness">
+                <header class="ability-head">
+                    <span class="name" tool-tip="Hesitation is Weakness">망설임은 독</span>
+                    <span class="badge cost" resource-name="간파">1</span>
+                </header>
+                <p class="flavor-text">멈추지 말고 공격해! 틈을 주면 안되!</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">자유 발동 행동</span>
+                    </div>
+                    <span class="distance">자신</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="pre-effect"><span class="entry-name">발동</span> 다른 영웅 차례를 마쳤을 때. 단, 이 능력으로 차례를 시작한 영웅이 아닐 때만.</p>
+                    <p class="effect"><span class="entry-name">효과</span> 해당 영웅 후에 차례를 진행합니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <h2 id="kit">무장</h2>
+            <article>
+                <p>무장을 사용하고 혜택을 누릴 수 있습니다(빠른 빌드: Cloak and Dagger).</p>
+            </article>
+        </article>
+    </section>
+    <section class="page">
+        <h2>암행자 주력 능력</h2>
+        <p>피해를 입히고 반격하기 전에 빠져나가는 데 능숙합니다. 전장에서 존재감을 드러내는 독창적인 무술을 구사합니다.</p>
+        <p>아래 선택지에서 주력 능력 하나를 선택합니다. 주력 능력은 몇 번이든 쓸 수 있습니다.</p>
+        <div class="cols">
+            <article class="ability" id="grasping-in-pain">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Grasping in Pain">숨막힌 고통</span>
+                    <span class="badge cost signature">주력</span>
+                </div>
+                <p class="flavor-text">정밀 타격으로 아군이 이용할 수 있는 고통을 줍니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 3 + 민첩</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 5 + 민첩</span></li>
+                            <li><b>17+</b><span class="outcome">피해 8 + 민첩; <span class="trait badge">직관 < 강</span> 넘어뜨림</span></li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span> 대상에서 5칸 이내의 아군 하나를 지정해 <span class="tip tip-resource" tool-tip="Surge">격동</span>을 하나 줍니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 주력</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="i-work-better-alone">
+                <div class="ability-head">
+                    <span class="name" tool-tip="I Work Better Alone">혼자가 편해</span>
+                    <span class="badge cost signature">주력</span>
+                </div>
+                <p class="flavor-text">"너랑 나, 둘뿐인게 깔끔하잖아, 안그래?"</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Ranged">원거리</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1 또는 원거리 5</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 3 + 민첩</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 6 + 민첩</span></li>
+                            <li><b>17+</b><span class="outcome">피해 9 + 민첩</span></li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span> 내 아군 중 아무도 대상과 인접하지 않다면, 위력 판정 전에 <span class="tip tip-resource" tool-tip="Surge">격동</span>을 하나 받습니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 주력</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="teamwork-has-its-place">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Teamwork has its place">쟤도 쓸모가 있지</span>
+                    <span class="badge cost signature">주력</span>
+                </div>
+                <p class="flavor-text">아군이 노출시킨 적의 약점을 노립니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Ranged">원거리</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1 또는 원거리 5</span>
+                    <span class="target">개체 또는 물체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 3 + 민첩</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 6 + 민첩</span></li>
+                            <li><b>17+</b><span class="outcome">피해 9 + 민첩</span></li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span> 대상과 인접한 내 아군이 있다면, 위력 판정 전에 <span class="tip tip-resource" tool-tip="Surge">격동</span>을 하나 받습니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 주력</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="you-were-watching-the-wrong-one">
+                <div class="ability-head">
+                    <span class="name" tool-tip="You were watching the wrong one">어딜 보나?</span>
+                    <span class="badge cost signature">주력</span>
+                </div>
+                <p class="flavor-text">누구든 둘을 동시에 지켜볼 수 없는 법입니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 3 + 민첩</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 5 + 민첩</span></li>
+                            <li><b>17+</b><span class="outcome">피해 8 + 민첩</span></li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span> 대상에서 5칸 이내에 내 아군이 하나라도 있다면, <span class="tip tip-resource" tool-tip="Surge">격동</span>을 하나 받습니다. 대상을 협공할 때 이 능력을 쓴다면, 함께 협공하는 아군 하나를 선택합니다. 그 아군에게도 <span class="tip tip-resource" tool-tip="Surge">격동</span>을 하나 줍니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 주력</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <h2>3 간파 능력</h2>
+        <p>전투 능력을 펼칠 수 있는 다양한 영웅 능력이 있고, 모두 간파 자원을 소모합니다.</p>
+        <p>아래 선택지는 간파 3을 소모하는 능력입니다. 하나를 고르세요.</p>
+        <div class="cols">
+            <article class="ability" id="disorienting-strike">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Disorienting Strike">혼란 일격</span>
+                    <span class="badge cost" resource-name="간파">3</span>
+                </div>
+                <p class="flavor-text">후속 공격을 이어갈 수 있도록, 상대를 비틀거리게 합니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 4 + 민첩; 옮기기 2</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 6 + 민첩; 옮기기 3</span></li>
+                            <li><b>17+</b><span class="outcome">피해 10 + 민첩; 옮기기 5</span></li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span>옮긴 대상이 지나간 아무 칸으로 잰걸음할 수 있습니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 3-자원</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="eviscerate">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Eviscerate">절개</span>
+                    <span class="badge cost" resource-name="간파">3</span>
+                </div>
+                <p class="flavor-text">강력한 공격으로 피를 흘리게 합니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Ranged">원거리</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1 또는 원거리 5</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 4 + 민첩</span>
+                                <span class="potency"><span class="trait badge">민첩 < 약</span> 출혈 (극복 해소)</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 6 + 민첩</span>
+                                <span class="potency"><span class="trait badge">민첩 < 중</span> 출혈 (극복 해소)</span></li>
+                            <li><b>17+</b><span class="outcome">피해 10 + 민첩</span>
+                                <span class="potency"><span class="trait badge">민첩 < 강</span> 출혈 (극복 해소)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 3-자원</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="get-in-get-out">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Get in Get out">치고 빠지기</span>
+                    <span class="badge cost" resource-name="간파">3</span>
+                </div>
+                <p class="flavor-text">알아채기도 전에 공격하고, 빠집니다!</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 5 + 민첩</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 8 + 민첩</span></li>
+                            <li><b>17+</b><span class="outcome">피해 11 + 민첩</span></li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span>속력 만큼 잰걸음 할 수 있는데, 타격 전과 후로 나눠서 이동할 수 있습니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 3-자원</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="two-throats-at-once">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Two Throats at Once">일석이조</span>
+                    <span class="badge cost" resource-name="간파">3</span>
+                </div>
+                <p class="flavor-text">남는 장사.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Ranged">원거리</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1 또는 원거리 5</span>
+                    <span class="target">개체 또는 물체 2</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 4</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 6</span></li>
+                            <li><b>17+</b><span class="outcome">피해 10</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 3-자원</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <h2>5 간파 능력</h2>
+        <p>아래 선택지에서 간파 5를 소모하는 능력입니다. 하나를 고르세요.</p>
+        <div class="cols">
+            <article class="ability" id="coup-de-grace">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Coup De Grace">숨통 끊기</span>
+                    <span class="badge cost" resource-name="간파">5</span>
+                </div>
+                <p class="flavor-text">상대의 마지막에 칼을 새겨넣습니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Ranged">원거리</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1 또는 원거리 5</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 2d6 + 7 + 민첩</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 2d6 + 11 + 민첩</span></li>
+                            <li><b>17+</b><span class="outcome">피해 2d6 + 16 + 민첩</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 5-자원</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="one-hundred-throats">
+                <div class="ability-head">
+                    <span class="name" tool-tip="One Hundred Throats">수 많은 목</span>
+                    <span class="badge cost" resource-name="간파">5</span>
+                </div>
+                <p class="flavor-text">전장을 휘저으며, 적들에게 매서운 분노를 쏟습니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">자신; 아래 참조</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="effect"><span class="entry-name">효과</span>속력 만큼 잰걸음하고, 이동 중에 인접한 적을 셋까지 대상으로 삼아 위력 판정을 한 번 합니다.</p>
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 3</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 6</span></li>
+                            <li><b>17+</b><span class="outcome">피해 9</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 5-자원</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="setup">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Setup">밑작업</span>
+                    <span class="badge cost" resource-name="간파">5</span>
+                </div>
+                <p class="flavor-text">동료가 고마워 할겁니다.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Ranged">원거리</li>
+                            <li class="kw" tool-tip="Strike">타격</li>
+                            <li class="kw" tool-tip="Weapon">무기</li>
+                        </ul>
+                    </div>
+                    <span class="distance">원거리 5</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">민첩</p>
+                        <ul class="tiers">
+                            <li><b>≤11</b><span class="outcome">피해 6 + 민첩</span>
+                                <span class="potency"><span class="trait badge">지능 < 약</span> 피해 취약 5 (극복 해소)</span></li>
+                            <li><b>12–16</b><span class="outcome">피해 9 + 민첩</span>
+                                <span class="potency"><span class="trait badge">지능 < 중</span> 피해 취약 5 (극복 해소)</span></li>
+                            <li><b>17+</b><span class="outcome">피해 13 + 민첩</span>
+                                <span class="potency"><span class="trait badge">지능 < 강</span> 피해 취약 5 (극복 해소)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 5-자원</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+            <article class="ability" id="shadowstrike">
+                <div class="ability-head">
+                    <span class="name" tool-tip="Shadowstrike">그림자 일격</span>
+                    <span class="badge cost" resource-name="간파">5</span>
+                </div>
+                <p class="flavor-text">They have no idea what the college taught you.</p>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost">주요 행동</span>
+                        <ul class="kw-list">
+                            <li class="kw" tool-tip="Magic">마법</li>
+                            <li class="kw" tool-tip="Melee">근접</li>
+                            <li class="kw" tool-tip="Ranged">원거리</li>
+                        </ul>
+                    </div>
+                    <span class="distance">자신; 아래 참조</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="effect"><span class="entry-name">효과</span> 타격 고유 능력 하나를 두 번 씁니다.</p>
+                </div>
+                <footer class="ability-foot">
+                    <span class="class-name">암행자 5-자원</span>
+                    <span class="level">1</span>
+                </footer>
+            </article>
+        </div>
+    </section>
+    <!-- 1. 페이지 목록 매니페스트를 먼저 로드 -->
+    <script src="../../assets/js/manifest.js"></script>
+    <!-- 2. 페이저/드로어 동작 스크립트 로드 -->
+    <script src="../../assets/js/pager.js"></script>
+</div>
+</body>
+</html>
