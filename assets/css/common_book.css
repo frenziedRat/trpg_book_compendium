@@ -1046,11 +1046,21 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
 :focus-visible { outline: 3px solid var(--highlight); outline-offset: 2px; }
 
 /* 좁은 화면 대응: 일반 페이지는 뷰포트 기준 */
-@media (max-width: 45rem /*7.5in*/) {
-    :root { --scale: 1.05; }
+@media (max-width: 48rem) {
+    :root {
+        --scale: 1.0;
+    }
+
+    .body {
+        padding: 0.75rem 0.5rem; /* 모바일 좌우 여백 축소 */
+    }
+
     .page {
-        padding: 1.5rem 1rem 2rem; /*.5in .3in .8in*/
+        width: 100%;
+        max-width: 100%;
         min-height: auto;
+        padding: 1.5rem 1rem;
+        box-sizing: border-box;
     }
 
     h1 {
@@ -1061,8 +1071,8 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
     }
     .cols,
     .cols.cols-short {
-        column-count: 1;
-        column-rule: none;
+        column-count: 1 !important;
+        column-rule: none !important;
     }
     .stat-row, .characteristics {
         grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
