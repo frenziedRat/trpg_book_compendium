@@ -4,5 +4,5 @@
 // assets/manifest.js
 window.SITE_MANIFEST = [
     { title: "기초", path: "draw-steel/starter-rule/01-basic.html" },
-    { title: "종족", path: "draw-steel/data/ancestry.html" }
+    // { title: "종족", path: "draw-steel/data/ancestry.html" }
 ];
