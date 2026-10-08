@@ -1,0 +1,1092 @@
+/* 기본 테마 */
+:root {
+    --scale: 1.1; /* ★ 전체 글자·종이 배율 (1 = 기존 크기) */
+
+    /* ----- 기본 색상 ------ */
+    /* 종이 글지 */
+    --paper: #ebe7dd;
+    --paper-2: #dfdacd;
+    --ink: #16181c;
+    --ink-rgb: 22, 24, 28; /* --ink 의 RGB: 반투명 먹색 → rgba(var(--ink-rgb), .1) */
+
+    /* 중립색 (어두움 → 밝음) */
+    --neutral-900: #14161a; /* 가장 어두움: 바탕·툴팁 */
+    --neutral-800: #1f232a; /* 제목 띠·카드 머리 */
+    --neutral-600: #4a535e; /* 보조 글자 */
+    --neutral-300: #a7aeb6; /* 구분선·테두리 */
+
+    /* 강조색 */
+    --accent: #b3121f; /* 주 강조: 페이지 상단 띠·제목 포인트·쐐기 */
+    --accent-dark: #7d0b14;
+    --highlight: #d9822b; /* 보조 강조: 마커·툴팁 테두리·포커스 */
+    --highlight-light: #e8a04a;
+    --highlight-rgb: 217, 130, 43; /* --highlight 의 RGB: 반투명 색 → rgba(var(--highlight-rgb), .3) */
+    --highlight-ink: #b86a0a; /* 밝은 배경 위 글자용 진한 하이라이트 */
+
+    /* 기타 배경색 */
+    --ability-back: #f6f3ea; /* 딥 에메랄드 틸 */
+
+    /* 티어색 */
+    --tier-1: #6b7480; /* ≤11 */
+    --tier-2: #c58a2b; /* 12–16 */
+    --tier-3: #b3121f; /* 17+ */
+
+    /* 글꼴 */
+    --font-head: "Barlow Condensed", "Noto Sans KR", sans-serif;
+    --font-body: "Source Serif 4", "Noto Serif KR", Georgia, serif;
+    --font-ui: "Barlow Condensed", "Noto Sans KR", sans-serif;
+
+    --pg-theme-accent: #d9822b; /* pager.css 버튼·강조색 */
+    --cut: 10px; /* 모서리 절단 크기 */
+}
+
+/* ---------- 기본 ---------- */
+body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--neutral-900)
+    repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 2px, transparent 2px 9px);
+    font-family: var(--font-body), serif;
+    color: var(--ink);
+    counter-reset: page;
+}
+
+/* ---------- 페이지 ---------- */
+.page {
+    position: relative;
+    max-width: calc(51rem * var(--scale));
+    min-height: calc(66rem * var(--scale));
+    margin: 0 auto 2rem;
+    padding: .7in .6in .9in;
+    background:
+            linear-gradient(180deg, rgba(0,0,0,.05), transparent 12%),
+            var(--paper);
+    border-top: 10px solid var(--accent);
+    box-shadow: 0 12px 34px rgba(0,0,0,.6);
+    font-size: calc(0.9rem * var(--scale));
+    line-height: 1.5;
+}
+
+/* ---다단 설정--- */
+.cols {
+    margin-top: 1rem;
+    column-count: 2;
+    column-gap: .4in;
+    column-rule: 1px solid var(--neutral-300);
+}
+.cols > :first-child {
+    margin-top: 0;
+}
+
+/* 다단 상단 정렬: 어느 단이든 첫 줄이 같은 높이(top)에서 시작하도록
+   단의 맨 위에 올 수 있는 요소(직계 자식과 그 첫 요소)의 위쪽 여백을 제거.
+   브라우저마다 단 맨 위의 위쪽 여백을 처리하는 방식이 달라 단별로 시작 높이가 어긋날 수 있음 */
+.cols > .table-wrap,
+.cols > .desc-box,
+.cols > article {
+    margin-top: 0;
+}
+.cols > * > :first-child,
+.desc-box > :first-child,
+.table-wrap > table > caption {
+    margin-top: 0;
+}
+
+/* ---------- 제목 ---------- */
+h1, h2, h3, h4 {
+    font-family: var(--font-head), sans-serif;
+    line-height: 1.05;
+    margin: 0;
+    break-after: avoid;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+}
+
+h1 {
+    --tip-left: .6in;                 /* 툴팁 시작 위치(글자 시작점에 맞춤) */
+    position: relative;
+    isolation: isolate;
+    column-span: all;
+    display: block;
+    margin: 0 -.6in .5em;
+    padding: .28em .6in .22em;
+    color: var(--paper);
+    font-size: calc(3.1667rem * var(--scale));
+    font-weight: 800;
+    border-left: 14px solid transparent;   /* 자리만 확보, 실제 띠는 ::after가 그림 */
+}
+/* h1 모양 레이어: clip-path를 h1 자체에 걸면 툴팁이 잘리므로 분리 */
+h1::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: -14px;
+    z-index: -1;
+    background:
+            linear-gradient(90deg, var(--accent) 0 14px, transparent 14px),
+            var(--neutral-800);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+}
+
+h2 {
+    margin: 1.1em 0 .4em;
+    padding-bottom: .1em;
+    font-size: calc(1.9167rem * var(--scale));
+    font-weight: 800;
+    color: var(--neutral-800);
+    border-bottom: 3px solid var(--neutral-800);
+    position: relative;
+}
+h2::after {                      /* 밑줄 끝의 붉은 쐐기 */
+    content: "";
+    position: absolute;
+    left: 0; bottom: -3px;
+    width: 4.5rem; height: 3px;
+    background: var(--accent);
+}
+
+h3 {
+    margin: 0 0 .3em;
+    font-size: calc(1.3333rem * var(--scale));
+    font-weight: 700;
+    color: var(--accent);
+}
+
+h4 {
+    margin: .8em 0 .4em;
+    font-size: calc(1.0417rem * var(--scale));
+    font-weight: 700;
+    color: var(--neutral-600);
+}
+
+/* ---------- 본문 ---------- */
+section {
+    margin: 1.5em 0;
+}
+
+article {
+    break-inside: avoid;
+    margin: 1.5em 0;
+}
+
+p {
+    margin: 0 0 .6em;
+    word-break: keep-all;
+    hyphens: auto; }
+
+strong {
+    font-weight: 700;
+    color: var(--neutral-800);
+}
+
+em { font-style: italic; }
+
+/* ---------- 구분선 ---------- */
+.divider {
+    position: relative;
+    height: 1px;
+    background: var(--neutral-300);
+    margin: 2.2rem 0;
+    border: none;
+    clear: both;
+}
+
+/* 다단 내부에서 사용할 경우 두 단 전체를 가로지르도록 설정 */
+.cols > .divider {
+    column-span: all;
+    margin: 1.5rem 0;
+}
+
+/* 중앙의 다이아몬드 + 붉은 쐐기 엠블럼 */
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: var(--paper);        /* 배경색으로 선 덮기 */
+    border: 2px solid var(--accent);   /* 테두리는 블러드 레드 */
+    box-shadow: 0 0 0 3px var(--paper); /* 선과의 간격 여백 */
+}
+
+/* 엠블럼 양옆의 강철 포인트 점 */
+.divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 2px;
+    background: repeating-linear-gradient(
+            to right,
+            var(--neutral-800) 0 4px,
+            transparent 4px 12px
+    );
+    z-index: -1;
+}
+
+.divider.wedge {
+    height: 2px;
+    background: var(--neutral-300);
+}
+.divider.wedge::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3rem;
+    height: 2px;
+    background: var(--accent);
+    transform: none;
+    border: none;
+    box-shadow: none;
+}
+.divider.wedge::after { display: none; }
+
+/* ---------- 박스 ---------- */
+.sidebar {
+    break-inside: avoid;
+    margin: 1.1em 0;
+    padding: .7em 1em .8em;
+    background: var(--paper-2);
+    border-left: 8px solid var(--accent);
+    border-top: 1px solid var(--neutral-300);
+    border-bottom: 1px solid var(--neutral-300);
+    font-size: calc(0.8333rem * var(--scale));
+    line-height: 1.45;
+}
+.sidebar h4 {
+    margin-top: 0;
+    font-size: calc(1.1667rem * var(--scale)); color: var(--accent);
+}
+
+/* ---------- 어빌리티 카드 ---------- */
+.ability {
+    break-inside: avoid;
+    margin: 1em 6px 1em 0; /* 다음 단과의 충돌을 방지하는 여백 */
+    background: var(--ability-back);
+    border: 2px solid var(--neutral-800);
+
+    /* box-shadow 대신 다단 버그가 없는 drop-shadow 필터 사용 */
+    filter: drop-shadow(4px 4px 0 var(--neutral-300));
+
+    font-size: calc(0.8333rem * var(--scale));
+    line-height: 1.4;
+}
+
+.ability-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* baseline 대신 center로 맞춰 줄바꿈 시에도 정렬 유지 */
+    gap: 0.6rem;
+    padding: .35em .7em;
+    background: var(--neutral-800);
+    color: var(--paper);
+    font-family: var(--font-head), sans-serif;
+    text-transform: uppercase;
+}
+.ability-head .name {
+    font-size: calc(1.15rem * var(--scale)); /* pt 대신 rem 적용 */
+    font-weight: 800;
+    letter-spacing: .03em;
+    line-height: 1.15;
+    min-width: 0;        /* flex 자식 요소의 넘침 방지 */
+    word-break: keep-all;/* 단어 단위 자연스러운 줄바꿈 */
+    margin-right: auto; /* 이름은 왼쪽, 배지들은 오른쪽으로 모음 */
+}
+
+/* ---------- 헤더 배지 (.badge) ----------
+   class="badge" 하나로 공통 모양(여백·글자·줄바꿈 방지 등)을 받고,
+   종류 class(cost / price / level / 앞으로 추가할 태그)는 달라지는 부분만 변수로 지정
+     1) 색   : --badge-bg (배경), --badge-fg (글자)
+     2) 모양 : --badge-clip (clip-path), --badge-radius (둥근 모서리), --badge-px (좌우 여백)
+     3) 단위 : --badge-unit (숫자 뒤에 붙는 작은 글자. 없으면 생략)
+   <span class="badge cost" resource-name="격노">3</span>   <span class="badge price">2</span>
+   <span class="badge price signature">고유</span>           <span class="badge level">1</span>
+   ※ 예전 마크업(<span class="cost">처럼 badge 없이)도 그대로 동작
+   ※ 피해/상태/특성 배지(.dmg.badge, .cond.badge, .trait.badge)는 헤더 밖에서 쓰는 별개의 배지 */
+.ability-head {
+    /* 자주 쓰는 모양 (clip-path 프리셋) — 배지의 --badge-clip 에 가져다 씀 */
+    --shape-parallelogram: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    --shape-trapezoid:     polygon(0 0, 100% 0, calc(100% - 9px) 100%, 9px 100%);   /* 윗변이 넓은 사다리꼴 */
+}
+
+.ability-head .badge {
+    flex-shrink: 0;                    /* 화면 확대 시 배지가 찌그러지지 않도록 보호 */
+    white-space: nowrap;               /* "1점", "고유" 등의 텍스트 줄바꿈 방지 */
+    padding: .1em var(--badge-px, .8em);
+    background: var(--badge-bg, var(--neutral-600));
+    color: var(--badge-fg, inherit);
+    clip-path: var(--badge-clip, none);
+    border-radius: var(--badge-radius, 0);
+    font-size: calc(0.95rem * var(--scale));
+    font-weight: 700;
+    line-height: 1.3;
+}
+/* 숫자 뒤 단위 ("점", "레벨" 등) — --badge-unit 이 없으면 표시 안 함 */
+.ability-head .badge::after {
+    content: var(--badge-unit, none);
+    margin-right: .3em;
+    font-size: .75em;
+    font-weight: 700;
+    opacity: .7;
+}
+/* 숫자 앞 이름: resource-name="격노" → "격노 3" */
+.ability-head .badge[resource-name]::before {
+    content: attr(resource-name);
+    margin-right: .3em;
+    font-size: .85em;
+    font-weight: 700;
+    opacity: .7;
+}
+
+/* 뱃지 특화 */
+/* 비용: 붉은색 평행사변형 */
+.ability-head .badge.cost {
+    --badge-bg: var(--accent);
+    --badge-clip: var(--shape-parallelogram);
+    --badge-px: .6em;
+}
+.ability-head .badge.price {
+    --badge-bg: #0e7490;               /* 딥 에메랄드 틸 */
+    --badge-fg: #fff;
+    --badge-radius: 4px;
+    --badge-px: .55em;
+    --badge-unit: " 점";
+    padding-block: .15em;
+    border: 1px solid rgba(255, 255, 255, 0.2);   /* 은은한 입체감 테두리 */
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+}
+.ability-head .badge.price.signature { --badge-unit: none; }
+
+/* 레벨: 엠버 골드 + 윗변이 넓은 사다리꼴, 단위 "레벨" */
+.ability-head .badge.level {
+    --badge-bg: linear-gradient(180deg, var(--highlight-light), var(--highlight));   /* 엠버 골드 */
+    --badge-fg: var(--neutral-900);
+    --badge-clip: var(--shape-trapezoid);
+    --badge-px: 1em;
+    --badge-unit: " 레벨";
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+/* 새 태그 예시 (필요할 때 주석을 풀고 이름·값만 바꿈)
+.ability-head .badge.range {
+    --badge-bg: #4d7c0f;
+    --badge-fg: #fff;
+    --badge-clip: var(--shape-parallelogram);
+    --badge-unit: " 칸";
+}
+*/
+
+/* ---------- 카드 하단 (우측 하단: 클래스 이름 + 레벨) ----------
+   카드게임처럼 카드 맨 아래 오른쪽에 붙는 검은 띠. 제목(.ability-head)과 같은 배경색이고
+   왼쪽 끝이 "/" 모양으로 깎임. 레벨 배지는 헤더와 같은 색·모양을 사용.
+   <footer class="ability-foot"><span class="class-name">암행자</span><span class="level">1</span></footer>
+   ※ .ability의 마지막 자식으로 둘 것 */
+.ability-foot {
+    --foot-cut: 12px;                          /* 왼쪽 사선 깎임 폭 */
+    display: flex;
+    align-items: center;
+    gap: .6em;
+    width: fit-content;
+    margin-left: auto;                         /* 오른쪽 끝에 붙임 */
+    padding: .25em .7em .25em calc(var(--foot-cut) + .6em);
+    background: var(--neutral-800);
+    color: var(--paper);
+    font-family: var(--font-ui), sans-serif;
+    /* 왼쪽 위 모서리를 안쪽으로 → 왼쪽 변이 "/" 모양 */
+    clip-path: polygon(var(--foot-cut) 0, 100% 0, 100% 100%, 0 100%);
+}
+.ability-foot .class-name {
+    min-width: 0;
+    color: var(--neutral-300);
+    font-size: .95em;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.ability-foot .level {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: .1em .9em;                        /* 크기는 기존 푸터 배지 그대로 */
+    background: linear-gradient(180deg, var(--highlight-light), var(--highlight));   /* 엠버 골드 */
+    color: var(--neutral-900);
+    font-size: calc(0.8333rem * var(--scale));
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: .02em;
+    white-space: nowrap;
+    clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 100%, 0 100%);   /* 헤더와 위아래 반대: 아래가 넓은 사다리꼴 */
+}
+
+/* 어빌리티의 스탯블록 */
+.ability-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0;
+    border-bottom: 1px solid var(--neutral-300);
+    font-family: var(--font-ui), sans-serif;
+    font-size: calc(0.9167rem * var(--scale));
+}
+.ability-meta > * {
+    padding: .2em .7em;
+}
+.ability-meta > *:nth-child(even) { text-align: right; }
+.ability-meta .action-cost,
+.ability-meta .label { color: var(--neutral-600); font-weight: 600; margin-right: .3em; }
+.ability-meta .svg-icon {
+    width: 1.2em;          /* 옆 글자 크기(1em)와 정확히 일치 */
+    height: 1.2em;         /* 정사각형 비율 유지 */
+    object-fit: contain; /* 이미지 비율 깨짐 방지 */
+    flex-shrink: 0;      /* 화면이 줄어도 찌그러짐 방지 */
+    margin-right: 0.35em; /* 글자와의 자연스러운 간격 */
+
+    transform: translateY(0.08em);
+}
+
+.ability-meta > .action-line {
+    grid-column: 1 / -1;              /* 두 칸을 모두 차지 */
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;                  /* 키워드가 많으면 다음 줄로 */
+    gap: .2em .6em;
+    text-align: left;
+}
+.ability-meta > .action-line .action-cost { margin-right: 0; }   /* 간격은 gap이 담당 */
+
+.kw-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.kw-list > .kw {
+    margin-right: 0;
+}
+.kw-list::before {
+    margin: 0 0.1em;
+    content: "*";
+}
+
+/* 키워드 칩 */
+.kw {
+    position: relative;               /* 툴팁(::after) 기준점 */
+    display: inline-block;
+    padding: 0 .5em;
+    margin-right: .25em;
+    border: 1px solid var(--neutral-300);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--neutral-600);
+    font-family: var(--font-ui), sans-serif;
+    font-weight: 600;
+    font-size: .85em;
+    line-height: 1.35;
+}
+
+/* 래퍼가 첫 칸을 차지하면 이후 칸의 홀짝이 뒤바뀌므로 좌우 정렬을 다시 맞춤 */
+.ability-meta:has(> .action-line) > *:nth-child(even) { text-align: left; }
+.ability-meta:has(> .action-line) > *:nth-child(odd):not(.action-line) { text-align: right; }
+
+.ability-meta .distance { --icon: var(--icon-distance); }
+.ability-meta .target   { --icon: var(--icon-target); }
+.ability-meta :is(.distance, .target) {
+    display: inline-flex;
+    align-items: center;
+    gap: .35em;                       /* 아이콘과 글자 사이 */
+}
+.ability-meta :is(.distance, .target)::before {
+    content: "";
+    flex: none;                       /* 화면이 줄어도 찌그러지지 않게 */
+    width: 1.2em;                     /* 옆 글자 크기(1em)에 비례 */
+    height: 1.2em;
+    background: var(--icon) center / contain no-repeat;
+}
+
+.flavor-text {
+    margin: 0;
+    padding: .25em .6em;
+    background-color: lightgrey;
+    font-style: italic;
+    font-size: 0.95em;
+}
+
+.ability-body { padding: .3em .7em .4em; }
+.ability-body p { margin: 0 0 .25em; }
+.ability-body p:last-child {
+    margin-bottom: 0; /* 마지막 문단 아래 불필요한 여백 제거 */
+}
+
+/* ---------- 선행 문단 (.pre-effect) ----------
+   .post-effect과 반대로 아래에 가로줄을 둠. 효과 앞에 오는 조건·발동 조건 등을 본문과 구분
+   <p class="pre-effect"><span class="entry-name">조건</span> 적이 당신을 공격할 때…</p>
+   <p class="effect">…</p> */
+.ability-body .pre-effect {
+    margin-bottom: .4em;
+    padding-bottom: .4em;
+    border-bottom: 1px solid var(--neutral-300);
+    break-inside: avoid;
+}
+/* .pre-effect가 연달아 나오면 가로줄은 마지막 문단 아래에만 */
+.ability-body .pre-effect:has(+ .pre-effect) {
+    margin-bottom: .25em;             /* 일반 문단 간격으로 복원 */
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+/* ---------- 후웅 효과 영역 (.post-effect) ----------
+   위에 가로줄을 두고 일반 효과와 구분. 예) 간파 1+ 처럼 자원을 써서 얻는 추가 효과
+   <p class="post-effect"><span class="trait badge">간파 1+</span> 소모한 간파 만큼 …</p> */
+.ability-body .post-effect {
+    margin-top: .4em;
+    padding-top: .4em;
+    border-top: 1px solid var(--neutral-300);
+    break-inside: avoid;
+}
+/* 영웅 효과가 연달아 나오면 가로줄은 첫 문단 위에만 */
+.ability-body .post-effect + .post-effect {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* 항목 이름 (.entry-name)
+   본문 문단 앞에 붙는 "효과" 같은 라벨. trait badge보다 조용한 옅은 회색 칩
+   <p class="effect"><span class="entry-name">효과</span> 본문…</p> */
+.entry-name {
+    display: inline-block;
+    margin-right: .25em;
+    padding: .05em .55em;
+    border-radius: 2px;
+    background: rgba(22, 24, 28, .6);
+    color: #fff; /* var(--neutral-600) */
+    font-family: var(--font-ui), sans-serif;
+    font-size: .85em;
+    font-weight: 700;
+    letter-spacing: .03em;
+    line-height: 1.35;
+}
+
+/* 설명 상자: 다단(.cols) 안에서 문장이 길어도 중간에 끊겨 다음 단으로 넘어가지 않고 한 단에 통째로 유지 */
+.cols > .desc-box,
+.desc-box {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;   /* 구형 WebKit 호환 */
+    page-break-inside: avoid;             /* 인쇄 시에도 쪽이 갈리지 않도록 */
+}
+
+/* 굴림 3단계 */
+.roll { margin: .3em 0 .5em; }
+.roll .power-roll {
+    margin: 0 0 .25em;
+    font-family: var(--font-head), sans-serif;
+    font-weight: 700;
+    font-size: calc(0.85rem * var(--scale));
+    text-transform: uppercase;
+    color: var(--neutral-800);
+}
+
+/* "위력 판정 + 민첩" 처럼 한 요소에서 앞/뒤를 다르게 꾸밈
+   <p class="power-roll stat">민첩</p>
+   - ::before("위력 판정 + ")  → .power-roll 의 모양 (작고 어두운 글자)
+   - 요소 안의 글자("민첩")    → .stat 의 모양 (크고 진한 앰버)
+   요소 자체에 .stat 모양을 주고, ::before에서 .power-roll 모양으로 되돌리는 방식 */
+.roll .power-roll::before {
+    content: "위력 판정 + ";
+    color: var(--neutral-800);
+    font-size: calc(0.85rem * var(--scale));
+    font-weight: 700;
+    letter-spacing: normal;
+}
+
+/* 스탯 글자: 같은 요소(.power-roll.stat) 또는 안쪽 요소(.power-roll > .stat) 어느 쪽이든 적용 */
+.roll .power-roll.stat,
+.roll .power-roll .stat {
+    margin-left: .2em;
+    color: var(--highlight-ink);
+    font-size: calc(1.1rem * var(--scale));
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.roll .power-roll.stat { margin-left: 0; }   /* 같은 요소일 땐 ::before 안의 공백이 간격 역할 */
+
+/* 굴림 단계표: [단계] [피해·개별 효과] [위력(potency) 부가효과] 3열
+   <ul class="tiers">
+     <li><b>12–16</b><span class="damage">피해 4</span><span class="potency">M&lt;weak 느려짐(내성 판정 종료)</span></li>
+   </ul>
+   - 세 단계(li)가 같은 열 너비를 공유(subgrid)해서 단계마다 열 경계가 어긋나지 않음
+   - 피해 열은 글자 길이만큼(최대 55%)만 차지하고, 남는 폭이 위력 열 → 위력이 길어도 줄바꿈될 뿐 피해 열을 침범하지 않음
+   - 위력 요소가 없는 예전 마크업(<li><b>…</b><span>…</span></li>)은 두 번째 칸이 끝까지 펼쳐짐 */
+.tiers {
+    display: grid;
+    grid-template-columns: 4.2rem fit-content(55%) minmax(0, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.tiers li {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;   /* 부모 .tiers의 열을 그대로 사용 */
+    align-items: stretch;
+    margin: 0 0 3px;
+    padding: 0;
+    background: var(--paper-2);
+}
+.tiers li::before { content: none; }
+.tiers b {
+    display: grid;
+    place-items: center;
+    padding: .1em 0;
+    color: #fff;
+    font-family: var(--font-head), sans-serif;
+    font-size: calc(1rem * var(--scale));
+    font-weight: 800;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.tiers li > span {
+    min-width: 0;                     /* 긴 글자가 칸 밖으로 밀고 나가지 않게 */
+    padding: .15em .6em;
+}
+.tiers li > span:nth-child(2):last-child { grid-column: 2 / -1; }   /* 위력 없는 단계는 끝까지 */
+.tiers .potency {
+    border-left: 1px dashed var(--neutral-300);   /* 피해 열과 시각적으로 분리 */
+    overflow-wrap: anywhere;                    /* 띄어쓰기 없는 긴 표기도 칸 안에서 줄바꿈 */
+}
+.tiers li:nth-child(1) b { background: var(--tier-1); }
+.tiers li:nth-child(2) b { background: var(--tier-2); }
+.tiers li:nth-child(3) b { background: var(--tier-3); }
+
+.effect {
+    margin: .2em 0;
+}
+.effect .label {
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* ---------- 성장표 (Advancement Table) ---------- */
+.table-wrap {
+    width: 100%;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    break-inside: avoid;
+}
+
+table.advancement-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8167rem;
+    line-height: 1.4;
+    background: #fdfcf9;
+    border: 2px solid var(--neutral-800);
+    box-shadow: 4px 4px 0 var(--neutral-300);
+}
+
+/* 표 제목 */
+table.advancement-table caption {
+    padding: 0 0 .35rem;
+    font-family: var(--font-ui), sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--neutral-800);
+    text-align: center;
+}
+
+/* 테이블 헤더 */
+table.advancement-table thead {
+    background: var(--neutral-800);
+    color: var(--paper);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+table.advancement-table th {
+    padding: 0.55rem 0.75rem;
+    font-size: 0.9167rem;
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 3px solid var(--accent);
+    white-space: normal;          /* 긴 제목은 줄바꿈 허용 */
+    word-break: keep-all;         /* 한글은 단어(띄어쓰기) 단위로 끊기 */
+    overflow-wrap: anywhere;      /* 띄어쓰기 없는 긴 제목은 열 너비 강제 끊기. */
+}
+
+/* 열 너비 (HTML의 style="width:..." 대신 class로 지정)
+   <th class="center col-level">레벨</th>  — 폭은 th의 content 기준 */
+table.advancement-table th.col-level    { width: 2rem; }
+table.advancement-table th.col-ability  { width: 2rem; }
+table.advancement-table th.col-subclass { width: 3.5em; }   /* 약 3자 폭: "양성소 / 능력" 으로 끊김 */
+
+table.advancement-table th.center,
+table.advancement-table td.center {
+    text-align: center;
+}
+
+/* 행 구분 및 교차 색상 (Zebra) */
+table.advancement-table tbody tr {
+    border-bottom: 1px solid var(--neutral-300);
+    transition: background 0.15s ease;
+}
+
+table.advancement-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+table.advancement-table tbody tr:nth-child(even) {
+    background: var(--paper-2);
+}
+
+table.advancement-table tbody tr:hover {
+    background: rgba(217, 130, 43, 0.12); /* ember 틴트 강조 */
+}
+
+table.advancement-table td {
+    padding: 0.45rem 0.75rem;
+    vertical-align: middle;
+    text-align: center;
+}
+
+table.advancement-table td.desc {
+    text-align: start;
+}
+
+/* 레벨 배지 셀 */
+table.advancement-table .lvl-badge {
+    display: inline-block;
+    min-width: 1.5rem;
+    padding: 0.1rem 0.4rem;
+    background: var(--neutral-800);
+    color: var(--paper);
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-align: center;
+    clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+    transition: background 0.15s;
+}
+
+table.advancement-table tr:hover .lvl-badge {
+    background: var(--accent);
+}
+
+/* 주요 티어 분기점 강조 행 (예: 4레벨, 7레벨, 10레벨 등) */
+table.advancement-table tr.tier-milestone {
+    border-top: 2px solid var(--neutral-800);
+}
+
+table.advancement-table tr.tier-milestone td {
+    font-weight: 600;
+}
+
+table.advancement-table tr.tier-milestone .lvl-badge {
+    background: var(--accent);
+}
+
+/* 특징 목록 내 인라인 하이라이트 */
+table.advancement-table .feat-tag {
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--accent-dark);
+}
+
+/* ---------- 종족/목록 버튼 그리드 (표지 페이지용) ---------- */
+html { scroll-behavior: smooth; }
+
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);   /* 2열 */
+    gap: 1rem 1.2rem;
+    margin: 1.5rem 0 0;
+}
+.choice-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .15em;
+    min-height: 4.5rem;
+    padding: .7rem 1.1rem;
+    background: var(--neutral-800);
+    color: var(--paper);
+    text-decoration: none;
+    border-left: 8px solid var(--accent);
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+    font-family: var(--font-head), sans-serif;
+    text-transform: uppercase;
+    transition: background .2s, transform .15s;
+}
+.choice-btn .ko {
+    font-size: calc(1.5rem * var(--scale));
+    font-weight: 800;
+    letter-spacing: .03em;
+    line-height: 1.1;
+}
+.choice-btn .en {
+    font-size: calc(.95rem * var(--scale));
+    font-weight: 600;
+    color: var(--neutral-300);
+    letter-spacing: .06em;
+}
+.choice-btn:hover,
+.choice-btn:focus-visible {
+    background: var(--accent);
+    transform: translateY(-2px);
+}
+.choice-btn:hover .en,
+.choice-btn:focus-visible .en { color: var(--paper); }
+
+@media (max-width: 30rem) {
+    .choice-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- 특성 이름 배지 (.trait.badge) ----------
+   피해 배지(평행사변형)와 구분되도록 모서리를 깎은 직사각형 + 왼쪽 엠버 띠
+   ※ clip-path를 요소 자체에 걸면 툴팁까지 잘려서,
+      모양(배경 + clip-path)은 ::before 레이어로 옮기고 ::after는 툴팁 전용으로 비워둠 */
+
+.trait.badge {
+    position: relative;
+    isolation: isolate;               /* ::before(z-index:-1)가 배지 안에 머물도록 */
+    display: inline-block;
+    padding: 0.05em 0.6em 0.05em 0.7em;
+    margin: 0 0.15em;
+    color: var(--paper);
+    font-family: var(--font-ui), sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: .03em;
+    vertical-align: baseline;
+}
+
+.trait.badge::before {                /* 배지 모양 */
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+            linear-gradient(90deg, var(--highlight) 0 3px, transparent 3px),
+            var(--neutral-800);
+    clip-path: polygon(
+            5px 0, 100% 0,
+            100% calc(100% - 5px), calc(100% - 5px) 100%,
+            0 100%, 0 5px
+    );
+}
+
+/* ---------- 가벼운 툴팁 표시 (.tip) ----------
+   배지처럼 무겁지 않게, 글자 아래쪽 절반에 엠버 형광펜만 칠해 "설명이 있음"을 표시.
+   id 또는 tool-tip이 있을 때만 적용
+   <span class="tip" id="xxx">용어</span>  /  <span class="tip" tool-tip="보기 좋은 설명">용어</span>
+   ※ 반투명 색이라 .sidebar·성장표 등 어떤 배경 위에서도 자연스럽게 섞임 */
+.tip:is([id], [tool-tip]) {
+    position: relative;
+    cursor: help;
+    background: linear-gradient(transparent 70%, rgba(var(--tip-rgb, 217, 130, 43), .32) 70%);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;      /* 줄바꿈되어도 형광펜이 줄마다 끊기지 않게 */
+    transition: background .15s;
+}
+.tip:is([id], [tool-tip]):hover,
+.tip:is([id], [tool-tip]):focus-visible {
+    background: linear-gradient(transparent 50%, rgba(var(--tip-rgb, 217, 130, 43), .6) 50%);
+}
+
+/* ---------- 공용 툴팁 (id 값을 표시) ----------
+   대상: .trait.badge / .tip / .feat-tag / h1~h5  — 모두 id 또는 tool-tip이 있을 때만
+   표시 문구: tool-tip 우선, 없으면 id
+   ※ h1~h5는 h2::after(붉은 쐐기)·h1::after(모양)와 겹치지 않도록 ::before 사용
+   ※ 표시하려면 호스트에 position:relative 필요 (위에서 각각 지정) */
+.trait.badge:is([id], [tool-tip])::after,
+.tip:is([id], [tool-tip])::after,
+.kw:is([id], [tool-tip])::after,
+.ability-head .name:is([id], [tool-tip])::after,
+table.advancement-table .feat-tag:is([id], [tool-tip])::after,
+h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [tool-tip])::before, h4:is([id], [tool-tip])::before, h5:is([id], [tool-tip])::before {
+    content: attr(id);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    z-index: 20;
+    padding: .2em .65em;
+    background: var(--neutral-900);
+    color: var(--paper);
+    border: 1px solid var(--highlight);
+    border-left-width: 3px;
+    font-family: var(--font-ui), sans-serif;
+    font-size: .8em;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: .04em;
+    text-transform: none;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0,0,0,.45);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease, visibility .15s;
+}
+
+/* ---------- 성장표 feat-tag: 옅은 배경 칩 + 툴팁 ----------
+   성장표는 짝수 행 배경(--paper-2)과 행 hover 틴트가 있으므로
+   불투명 색 대신 "반투명 먹색"으로 칩을 만들어 어떤 행 위에서도 비치도록 함 */
+table.advancement-table .feat-tag:is([id], [tool-tip]) {
+    position: relative;
+    cursor: help;
+    padding: 0 .25em;
+    background: rgba(22, 24, 28, .07);
+    border-bottom: 1px solid rgba(22, 24, 28, .28);
+    transition: background .15s, border-color .15s;
+}
+/* 행 hover(ember .12)와 겹쳐도 구분되도록 칩 hover는 한 단계 더 진하게 */
+table.advancement-table .feat-tag:is([id], [tool-tip]):hover,
+table.advancement-table .feat-tag:is([id], [tool-tip]):focus-visible {
+    background: rgba(217, 130, 43, .3);
+    border-color: var(--highlight);
+}
+
+/* 표시 문구: tool-tip이 있으면 id보다 우선, 없으면 id 값을 표시
+   (같은 우선순위에서 뒤에 오는 이 규칙이 위의 content: attr(id)를 덮어씀) */
+.trait.badge[tool-tip]::after,
+.tip[tool-tip]::after,
+.kw[tool-tip]::after,
+.ability-head .name[tool-tip]::after,
+table.advancement-table .feat-tag[tool-tip]::after,
+h1[tool-tip]::before, h2[tool-tip]::before, h3[tool-tip]::before,
+h4[tool-tip]::before, h5[tool-tip]::before {
+    content: attr(tool-tip);
+}
+
+/* 인라인(배지·tip·kw): 가운데 정렬 */
+.trait.badge:is([id], [tool-tip])::after,
+.tip:is([id], [tool-tip])::after,
+.kw:is([id], [tool-tip])::after {
+    left: 50%;
+    transform: translate(-50%, 4px);
+}
+/* 어빌리티 이름: 카드 왼쪽 끝에 붙어 있으므로 왼쪽 기준, 글자 크기는 이름(1.15rem·대문자)과 무관하게 고정
+   ※ 카드 맨 위 요소라서 위로 띄우면 다단(.cols)에서 단 위쪽 밖으로 나가 잘림 → 아래로 띄움 */
+.ability-head .name:is([id], [tool-tip])::after {
+    left: 0;
+    bottom: auto;
+    top: calc(100% + 6px);
+    font-size: calc(0.8333rem * var(--scale));
+    transform: translateY(-4px);
+}
+/* 성장표: 셀 밖으로 삐져나가 잘리지 않도록 왼쪽 기준 */
+table.advancement-table .feat-tag:is([id], [tool-tip])::after {
+    left: 0;
+    transform: translateY(4px);
+}
+/* 제목: 제목은 가로로 길어서 글자 시작점 기준, 글자 크기는 제목과 무관하게 고정 */
+h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [tool-tip])::before, h4:is([id], [tool-tip])::before, h5:is([id], [tool-tip])::before {
+    left: var(--tip-left, 0);
+    font-size: calc(0.8333rem * var(--scale));
+    transform: translateY(4px);
+}
+
+/* 표시 상태 */
+.trait.badge:is([id], [tool-tip]):hover::after,  .trait.badge:is([id], [tool-tip]):focus-visible::after,
+.tip:is([id], [tool-tip]):hover::after,          .tip:is([id], [tool-tip]):focus-visible::after,
+.kw:is([id], [tool-tip]):hover::after,           .kw:is([id], [tool-tip]):focus-visible::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+table.advancement-table .feat-tag:is([id], [tool-tip]):hover::after,
+table.advancement-table .feat-tag:is([id], [tool-tip]):focus-visible::after,
+.ability-head .name:is([id], [tool-tip]):hover::after,
+.ability-head .name:is([id], [tool-tip]):focus-visible::after,
+h1:is([id], [tool-tip]):hover::before, h1:is([id], [tool-tip]):focus-visible::before,
+h2:is([id], [tool-tip]):hover::before, h2:is([id], [tool-tip]):focus-visible::before,
+h3:is([id], [tool-tip]):hover::before, h3:is([id], [tool-tip]):focus-visible::before,
+h4:is([id], [tool-tip]):hover::before, h4:is([id], [tool-tip]):focus-visible::before,
+h5:is([id], [tool-tip]):hover::before, h5:is([id], [tool-tip]):focus-visible::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* 다단(.cols) 안의 제목: 단 맨 위에 올 수 있어서 위로 띄우면 단 경계에서 잘림 → 아래로 띄움
+   (hover 규칙의 우선순위보다 높게 hover 상태도 함께 지정) */
+.cols h1:is([id], [tool-tip])::before, .cols h2:is([id], [tool-tip])::before,
+.cols h3:is([id], [tool-tip])::before, .cols h4:is([id], [tool-tip])::before,
+.cols h5:is([id], [tool-tip])::before {
+    bottom: auto;
+    top: calc(100% + 6px);
+    transform: translateY(-4px);
+}
+.cols h1:is([id], [tool-tip]):hover::before, .cols h1:is([id], [tool-tip]):focus-visible::before,
+.cols h2:is([id], [tool-tip]):hover::before, .cols h2:is([id], [tool-tip]):focus-visible::before,
+.cols h3:is([id], [tool-tip]):hover::before, .cols h3:is([id], [tool-tip]):focus-visible::before,
+.cols h4:is([id], [tool-tip]):hover::before, .cols h4:is([id], [tool-tip]):focus-visible::before,
+.cols h5:is([id], [tool-tip]):hover::before, .cols h5:is([id], [tool-tip]):focus-visible::before {
+    transform: translateY(0);
+}
+
+/* 제목 툴팁이 달린 제목은 도움말 커서 */
+h1:is([id], [tool-tip]), h2:is([id], [tool-tip]), h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { cursor: help; }
+h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { position: relative; }
+
+/* 어빌리티 이름·키워드 칩: 도움말 커서 (.kw는 위에서 이미 position:relative) */
+.kw:is([id], [tool-tip]) { cursor: help; }
+.ability-head .name:is([id], [tool-tip]) { position: relative; cursor: help; }
+
+/* ---------- 접근성·반응형·인쇄 ---------- */
+:focus-visible { outline: 3px solid var(--highlight); outline-offset: 2px; }
+
+/* 좁은 화면 대응: 일반 페이지는 뷰포트 기준 */
+@media (max-width: 45rem /*7.5in*/) {
+    :root { --scale: 1.05; }
+    .page {
+        padding: 1.5rem 1rem 2rem; /*.5in .3in .8in*/
+        min-height: auto;
+    }
+
+    h1 {
+        --tip-left: 1rem;
+        margin: 0 -1rem .5em; /*0 -.3in .5em*/
+        padding-left: 1rem;
+        font-size: calc(1.75rem * var(--scale));
+    }
+    .cols,
+    .cols.cols-short {
+        column-count: 1;
+        column-rule: none;
+    }
+    .stat-row, .characteristics {
+        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    }
+}
+
+/* 상하폭만 좁은 모니터/창 환경:
+   기본 .cols는 1단으로 풀리지만, .cols-short는 2단 유지 */
+@media (min-width: 45.01rem) and (max-height: 45rem) {
+    .page {
+        min-height: auto;
+    }
+    .cols:not(.cols-short) {
+        column-count: 1;
+        column-rule: none;
+    }
+}
+
+/* pager.js 한 쪽씩 보기: 쪽 컨테이너(.book) 폭 기준으로 다시 배치 */
+@container book (max-width: 7.5in) {
+    .page { padding: .5in .3in .8in; min-height: auto; }
+    h1 {
+        --tip-left: .3in;
+        margin: 0 -.3in .5em; padding-left: .3in; font-size: calc(2.3333rem * var(--scale)); }
+    .cols { column-count: 1; }
+    .stat-row, .characteristics { grid-template-columns: repeat(3, 1fr); }
+}
