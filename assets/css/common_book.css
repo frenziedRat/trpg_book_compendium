@@ -887,7 +887,7 @@ html { scroll-behavior: smooth; }
    id 또는 tool-tip이 있을 때만 적용
    <span class="tip" id="xxx">용어</span>  /  <span class="tip" tool-tip="보기 좋은 설명">용어</span>
    ※ 반투명 색이라 .sidebar·성장표 등 어떤 배경 위에서도 자연스럽게 섞임 */
-.tip:is([id], [tool-tip]) {
+.tip {
     position: relative;
     cursor: help;
     background: linear-gradient(transparent 70%, rgba(var(--tip-rgb, 217, 130, 43), .32) 70%);
@@ -895,8 +895,8 @@ html { scroll-behavior: smooth; }
     box-decoration-break: clone;      /* 줄바꿈되어도 형광펜이 줄마다 끊기지 않게 */
     transition: background .15s;
 }
-.tip:is([id], [tool-tip]):hover,
-.tip:is([id], [tool-tip]):focus-visible {
+.tip:hover,
+.tip:focus-visible {
     background: linear-gradient(transparent 50%, rgba(var(--tip-rgb, 217, 130, 43), .6) 50%);
 }
 
