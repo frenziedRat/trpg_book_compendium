@@ -21,6 +21,7 @@ window.SITE_MANIFEST = [
     { title: "기초", path: "draw-steel/starter-rule/01-basic.html" },
     { title: "능력", path: "draw-steel/starter-rule/05-abilities.html" },
     { title: "상태이상", path: "draw-steel/starter-rule/05-condition.html" },
+    { title: "시도 test", path: "draw-steel/starter-rule/09-test.html" },
 
     // ---- 데이터 (오른쪽) ----
     // { title: "종족", path: "draw-steel/data/ancestry.html" },
