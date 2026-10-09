@@ -27,9 +27,23 @@
             return p.toLowerCase();
         };
 
-        // 현재 문서의 manifest 인덱스
+        // ★ manifest 항목은 하위 메뉴(children)를 가질 수 있습니다.
+        //   { title: "직군", children: [ { title: "암행자", path: "..." }, ... ] }
+        //   - path 가 있는 항목만 "문서"이고, 이전/다음 버튼은 위에서 아래로 펼친 이 순서를 따릅니다.
+        //   - children 이 없는 평면 manifest 도 예전과 똑같이 동작합니다.
+        const childrenOf = (item) => (item && Array.isArray(item.children) ? item.children : []);
+        const flat = [];
+        const walk = (items) => items.forEach((item) => {
+            if (item.path) flat.push(item);
+            walk(childrenOf(item));
+        });
+        walk(manifest);
+
+        // 현재 문서의 인덱스 (flat 기준)
         const here = norm(window.location);
-        const fileIndex = manifest.findIndex(item => norm(toUrl(item.path)) === here);
+        const isCurrent = (item) => !!item.path && norm(toUrl(item.path)) === here;
+        const containsCurrent = (item) => isCurrent(item) || childrenOf(item).some(containsCurrent);
+        const fileIndex = flat.findIndex(isCurrent);
 
         const resolveTargetUrl = (targetPath) => (targetPath ? toUrl(targetPath).href : "#");
 
@@ -95,53 +109,107 @@
         const menuTree = drawer.querySelector("#drawer-menu-tree");
         menuTree.innerHTML = "";
 
-        manifest.forEach((item, idx) => {
-            const group = document.createElement("div");
-            group.className = "drawer-doc-group";
+        // 홈 메뉴: 메인 목차 페이지로 돌아가는 링크 (목차 맨 위)
+        //  - 기본 대상은 사이트 루트의 draw_steel_index.html
+        //  - manifest.js 에서 바꾸려면: window.SITE_HOME = { title: "홈", path: "다른/페이지.html" };
+        //  - 끄려면: window.SITE_HOME = false;
+        const homeCfg = window.SITE_HOME === false ? null
+            : Object.assign({ title: "홈", path: "draw_steel_index.html" }, window.SITE_HOME || {});
+        if (homeCfg && homeCfg.path) {
+            const homeGroup = document.createElement("div");
+            homeGroup.className = "drawer-doc-group drawer-home";
+            const homeLink = document.createElement("a");
+            homeLink.className = "drawer-doc-title";
+            homeLink.href = resolveTargetUrl(homeCfg.path);
+            homeLink.textContent = `⌂ ${homeCfg.title}`;
+            homeGroup.appendChild(homeLink);
+            menuTree.appendChild(homeGroup);
+        }
 
-            if (idx === fileIndex) {
-                group.classList.add("current");
-                const titleLink = document.createElement("a");
-                titleLink.className = "drawer-doc-title";
-                titleLink.href = "#";
-                titleLink.textContent = `▶ ${item.title}`;
-                titleLink.onclick = (e) => {
+        // 현재 문서의 .page 단위 목록 (페이지가 2개 이상일 때만 표시)
+        const buildPageList = () => {
+            if (pages.length <= 1) return null;
+            const subUl = document.createElement("ul");
+            subUl.className = "drawer-h2-list"; // 기존 CSS 재사용
+            pages.forEach((pageEl, pIdx) => {
+                if (!pageEl.id) pageEl.id = "page-" + pIdx;
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.href = "#" + pageEl.id;
+                a.textContent = getPageTitle(pageEl);
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    closeDrawer();
+                    pageEl.scrollIntoView({ behavior: "smooth" });
+                };
+                li.appendChild(a);
+                subUl.appendChild(li);
+            });
+            return subUl;
+        };
+
+        // 항목(문서 또는 그룹) 하나를 그림. depth 0 = 최상위, 1 이상 = 하위 메뉴
+        //  - 현재 문서: "▶ 제목" + (페이지가 여럿이면) 페이지 목록
+        //  - 다른 문서: 링크
+        //  - 하위 메뉴(children): 현재 문서가 그 안에 있으면 펼쳐지고, 아니면 접힘 (item.open === true 면 항상 펼침)
+        //  - path 가 없는 그룹 제목: 누르면 접고 펼침
+        const renderItem = (item, depth) => {
+            const kids = childrenOf(item);
+            const cur = isCurrent(item);
+            const holdsCur = kids.some(containsCurrent);
+
+            const box = document.createElement(depth === 0 ? "div" : "li");
+            box.className = depth === 0 ? "drawer-doc-group" : "drawer-sub-item";
+            if (cur) box.classList.add("current");
+            if (holdsCur) box.classList.add("has-current");
+
+            const link = document.createElement("a");
+            link.className = depth === 0 ? "drawer-doc-title" : "drawer-sub-title";
+
+            const open = cur || holdsCur || item.open === true;
+            let kidsUl = null;
+            if (kids.length) {
+                kidsUl = document.createElement("ul");
+                kidsUl.className = "drawer-h2-list drawer-sub-list";
+                kids.forEach((kid) => kidsUl.appendChild(renderItem(kid, depth + 1)));
+                kidsUl.style.display = open ? "" : "none";
+            }
+
+            if (cur) {
+                link.href = "#";
+                link.textContent = `▶ ${item.title}`;
+                link.onclick = (e) => {
                     e.preventDefault();
                     window.scrollTo({ top: 0, behavior: "smooth" });
                     closeDrawer();
                 };
-                group.appendChild(titleLink);
-
-                // 현재 문서의 .page 단위 목록 (페이지가 2개 이상일 때만 표시)
-                if (pages.length > 1) {
-                    const subUl = document.createElement("ul");
-                    subUl.className = "drawer-h2-list"; // 기존 CSS 재사용
-                    pages.forEach((pageEl, pIdx) => {
-                        if (!pageEl.id) pageEl.id = "page-" + pIdx;
-                        const li = document.createElement("li");
-                        const a = document.createElement("a");
-                        a.href = "#" + pageEl.id;
-                        a.textContent = getPageTitle(pageEl);
-                        a.onclick = (e) => {
-                            e.preventDefault();
-                            closeDrawer();
-                            pageEl.scrollIntoView({ behavior: "smooth" });
-                        };
-                        li.appendChild(a);
-                        subUl.appendChild(li);
-                    });
-                    group.appendChild(subUl);
-                }
-            } else {
+            } else if (item.path) {
                 // 다른 문서: 순수 <a href> (절대 URL)
-                const otherLink = document.createElement("a");
-                otherLink.className = "drawer-doc-title";
-                otherLink.href = resolveTargetUrl(item.path);
-                otherLink.textContent = item.title;
-                group.appendChild(otherLink);
+                link.href = resolveTargetUrl(item.path);
+                link.textContent = item.title;
+            } else {
+                // 그룹 제목 (문서 없음): 접고 펼치기
+                const caret = () => (kidsUl && kidsUl.style.display === "none" ? "▸ " : "▾ ");
+                link.href = "#";
+                link.textContent = caret() + item.title;
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    if (!kidsUl) return;
+                    kidsUl.style.display = kidsUl.style.display === "none" ? "" : "none";
+                    link.textContent = caret() + item.title;
+                };
             }
-            menuTree.appendChild(group);
-        });
+            box.appendChild(link);
+
+            if (cur) {
+                const pageList = buildPageList();
+                if (pageList) box.appendChild(pageList);
+            }
+            if (kidsUl) box.appendChild(kidsUl);
+            return box;
+        };
+
+        manifest.forEach((item) => menuTree.appendChild(renderItem(item, 0)));
 
         // ----------------------------------------------------
         // Bottom Pager
@@ -204,9 +272,9 @@
                     e.preventDefault();
                     pages[currIdx - 1].scrollIntoView({ behavior: "smooth" });
                 });
-            } else if (fileIndex > 0 && manifest[fileIndex - 1]) {
-                setLink(prevBtn, prevLabel, manifest[fileIndex - 1].title,
-                    resolveTargetUrl(manifest[fileIndex - 1].path), null);
+            } else if (fileIndex > 0 && flat[fileIndex - 1]) {
+                setLink(prevBtn, prevLabel, flat[fileIndex - 1].title,
+                    resolveTargetUrl(flat[fileIndex - 1].path), null);
             } else {
                 setDisabled(prevBtn, prevLabel, "이전");
             }
@@ -217,9 +285,9 @@
                     e.preventDefault();
                     pages[currIdx + 1].scrollIntoView({ behavior: "smooth" });
                 });
-            } else if (fileIndex !== -1 && fileIndex < manifest.length - 1) {
-                setLink(nextBtn, nextLabel, manifest[fileIndex + 1].title,
-                    resolveTargetUrl(manifest[fileIndex + 1].path), null);
+            } else if (fileIndex !== -1 && fileIndex < flat.length - 1) {
+                setLink(nextBtn, nextLabel, flat[fileIndex + 1].title,
+                    resolveTargetUrl(flat[fileIndex + 1].path), null);
             } else {
                 setDisabled(nextBtn, nextLabel, "다음");
             }
