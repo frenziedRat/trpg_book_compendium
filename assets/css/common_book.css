@@ -264,6 +264,45 @@ em { font-style: italic; }
     font-size: calc(1.1667rem * var(--scale)); color: var(--accent);
 }
 
+/* ---------- 발동 행동 (.action-trigger) ----------
+   본문에서 "어떤 행동으로 발동되는지"를 알리는 배지. 오른쪽이 ">" 모양으로 튀어나온 직사각형
+   색·글꼴은 .entry-name 과 같은 값이지만 변수로 독립시켜서 서로 영향을 주지 않음
+   <p class="effect"><span class="action-trigger" tool-tip="행동 설명">주 행동</span> 본문…</p>
+   - 툴팁(tool-tip 속성)은 common-book.css 의 공용 규칙을 그대로 사용
+   - 모양(clip-path)을 ::before 로 분리해서 ::after 의 툴팁이 잘리지 않음 */
+.action-trigger {
+    --trigger-bg: rgba(var(--ink-rgb), .6);    /* .entry-name 과 같은 값 (독립) */
+    --trigger-fg: #fff;
+    --trigger-tip: .6em;                       /* ">" 가 튀어나온 깊이 */
+
+    position: relative;
+    isolation: isolate;                        /* ::before(z-index:-1)가 배지 안에 머물도록 */
+    display: inline-block;
+    margin-right: .25em;
+    padding: .05em calc(var(--trigger-tip) + .45em) .05em .55em;
+    color: var(--trigger-fg);
+    font-family: var(--font-ui), sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: .03em;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+.action-trigger::before {                      /* 배지 모양 */
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--trigger-bg);
+    clip-path: polygon(
+            0 0,
+            calc(100% - var(--trigger-tip)) 0,
+            100% 50%,
+            calc(100% - var(--trigger-tip)) 100%,
+            0 100%
+    );
+}
+
 /* ---------- 어빌리티 카드 ---------- */
 .ability {
     break-inside: avoid;
