@@ -54,11 +54,16 @@
 .tag.condition.weakened   { --tag-bg: #0e7490; --tag-tip: "Weakened"}
 
 /* --------- 액션 -------- */
-.tag.action.triggered     { --tag-tip: "Triggered Action"}
-.tag.action.move          { --tag-tip: "Move Action"}
-.tag.action.maneuver      { --tag-tip: "Maneuver"}
-.tag.action.main          { --tag-tip: "Main Action"}
-.tag.action.respite       { --tag-tip: "Respite"}
+.tag.action.triggered,
+.action-cost.triggered { --tag-tip: "Triggered Action"}
+.tag.action.move,
+.action-cost.move { --tag-tip: "Move Action"}
+.tag.action.maneuver,
+.action-cost.maneuver { --tag-tip: "Maneuver"}
+.tag.action.main,
+.action-cost.main { --tag-tip: "Main Action"}
+.tag.action.respite,
+.action-cost.respite { --tag-tip: "Respite"}
 
 /* --------- 키워드 ------- */
 .kw.area                  { --tag-tip: "Area"}

@@ -461,6 +461,12 @@ em { font-style: italic; }
 }
 .ability-meta > .action-line .action-cost { margin-right: 0; }   /* 간격은 gap이 담당 */
 
+.action-cost {
+    position: relative;
+    display: inline-block;
+    --tag-tip: none;                  /* 기본값: 툴팁 미표시 */
+}
+
 /*--- 키워드 ---*/
 .kw-list {
     display: flex;
@@ -549,7 +555,7 @@ em { font-style: italic; }
     border-bottom: 0;
 }
 
-/* ---------- 후웅 효과 영역 (.post-effect) ----------
+/* ---------- 후속 효과 영역 (.post-effect) ----------
    위에 가로줄을 두고 일반 효과와 구분. 예) 간파 1+ 처럼 자원을 써서 얻는 추가 효과
    <p class="post-effect"><span class="trait badge">간파 1+</span> 소모한 간파 만큼 …</p> */
 .ability-body .post-effect {
@@ -983,6 +989,7 @@ html { scroll-behavior: smooth; }
 .tip:is([id], [tool-tip])::after,
 .kw::after,
 .tag::after,
+.action-cost::after,
 .ability-head .name:is([id], [tool-tip])::after,
 table.advancement-table .feat-tag:is([id], [tool-tip])::after,
 h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [tool-tip])::before, h4:is([id], [tool-tip])::before, h5:is([id], [tool-tip])::before {
@@ -1017,7 +1024,8 @@ h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [t
    2순위: CSS --tag-tip 변수
    3순위: 둘 다 없으면 none (미표시) */
 .tag::after,
-.kw::after {
+.kw::after,
+.action-cost::after {
     content: var(--tag-tip, none);
 }
 .tag[id]::after {
@@ -1030,6 +1038,7 @@ h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [t
 .tip[tool-tip]::after,
 .kw[tool-tip]::after,
 .tag[tool-tip]::after,
+.action-cost[tool-tip]::after,
 .ability-head .name[tool-tip]::after,
 table.advancement-table .feat-tag[tool-tip]::after,
 h1[tool-tip]::before, h2[tool-tip]::before, h3[tool-tip]::before,
@@ -1041,6 +1050,7 @@ h4[tool-tip]::before, h5[tool-tip]::before {
 .trait.badge:is([id], [tool-tip])::after,
 .tip::after,
 .kw::after,
+.action-cost::after,
 .tag[tool-tip]::after {
     left: 50%;
     transform: translate(-50%, 4px);
@@ -1050,7 +1060,8 @@ h4[tool-tip]::before, h5[tool-tip]::before {
 .trait.badge:is([id], [tool-tip]):hover::after,  .trait.badge:is([id], [tool-tip]):focus-visible::after,
 .tip:is([id], [tool-tip]):hover::after,          .tip:is([id], [tool-tip]):focus-visible::after,
 .kw:hover::after,     .kw:focus-visible::after,
-.tag:hover::after,   .tag:focus-visible::after {
+.tag:hover::after,   .tag:focus-visible::after,
+.action-cost:hover::after,                       .action-cost:focus-visible::after {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
