@@ -21,15 +21,15 @@
 .dmg-psychic     { color: #9333ea; } /* 정신 */
 .dmg-sonic       { color: #4b5563; } /* 음파 */
 
-.tag.damage.acid        { --tag-bg: #4d7c0f; --tag-tip: "Acid"}
-.tag.damage.cold        { --tag-bg: #0284c7; --tag-tip: "Cold"}
-.tag.damage.corruption  { --tag-bg: #701a75; --tag-tip: "Corruption"}
-.tag.damage.fire        { --tag-bg: #c2410c; --tag-tip: "Fire"}
-.tag.damage.holy        { --tag-bg: #b45309; --tag-tip: "Holy"}
-.tag.damage.lightning   { --tag-bg: #0f766e; --tag-tip: "Lightning"}
-.tag.damage.poison      { --tag-bg: #15803d; --tag-tip: "Poison"}
-.tag.damage.psychic     { --tag-bg: #9333ea; --tag-tip: "Psychic"}
-.tag.damage.sonic       { --tag-bg: #4b5563; --tag-tip: "Sonic"}
+.tag.damage.acid        { --tag-bg: #4d7c0f; --tag-en: "Acid"; --tag-ko: "산성"}
+.tag.damage.cold        { --tag-bg: #0284c7; --tag-en: "Cold"; --tag-ko: "냉기"}
+.tag.damage.corruption  { --tag-bg: #701a75; --tag-en: "Corruption"; --tag-ko: "부패"}
+.tag.damage.fire        { --tag-bg: #c2410c; --tag-en: "Fire"; --tag-ko: "화염"}
+.tag.damage.holy        { --tag-bg: #b45309; --tag-en: "Holy"; --tag-ko: "신성"}
+.tag.damage.lightning   { --tag-bg: #0f766e; --tag-en: "Lightning"; --tag-ko: "번개"}
+.tag.damage.poison      { --tag-bg: #15803d; --tag-en: "Poison"; --tag-ko: "독성"}
+.tag.damage.psychic     { --tag-bg: #9333ea; --tag-en: "Psychic"; --tag-ko: "정신"}
+.tag.damage.sonic       { --tag-bg: #4b5563; --tag-en: "Sonic"; --tag-ko: "음파"}
 
 /* .tip 마커 색상 — 기본(엠버)은 그대로, 필요할 때 색 클래스를 덧붙임
    <span class="tip tip-skill" id="xxx">기술</span>
@@ -43,34 +43,34 @@
 .tip-rule      { --tip-rgb: 74, 83, 94; }     /* 강철  : 규칙·용어 */
 
 /* ---------- 상태 이상 배지 (.cond.badge) ----------*/
-.tag.condition.bleeding   { --tag-bg: #b3121f; --tag-tip: "Bledding"}
-.tag.condition.dazed      { --tag-bg: #a16207; --tag-tip: "Dazed"}
-.tag.condition.frightened { --tag-bg: #5b21b6; --tag-tip: "Frightened"}
-.tag.condition.grabbed    { --tag-bg: #854d0e; --tag-tip: "Grabbed"}
-.tag.condition.prone      { --tag-bg: #57534e; --tag-tip: "Prone"}
-.tag.condition.restrained { --tag-bg: #1f2937; --tag-tip: "Restrained"}
-.tag.condition.slowed     { --tag-bg: #1e40af; --tag-tip: "Slowed"}
-.tag.condition.taunted    { --tag-bg: #be185d; --tag-tip: "taunted"}
-.tag.condition.weakened   { --tag-bg: #0e7490; --tag-tip: "Weakened"}
+.tag.condition.bleeding   { --tag-bg: #b3121f; --tag-en: "Bledding"; --tag-ko: "출혈"}
+.tag.condition.dazed      { --tag-bg: #a16207; --tag-en: "Dazed"; --tag-ko: "혼미"}
+.tag.condition.frightened { --tag-bg: #5b21b6; --tag-en: "Frightened"; --tag-ko: "두려움"}
+.tag.condition.grabbed    { --tag-bg: #854d0e; --tag-en: "Grabbed"; --tag-ko: "붙들림"}
+.tag.condition.prone      { --tag-bg: #57534e; --tag-en: "Prone"; --tag-ko: "넘어짐"}
+.tag.condition.restrained { --tag-bg: #1f2937; --tag-en: "Restrained"; --tag-ko: "결박"}
+.tag.condition.slowed     { --tag-bg: #1e40af; --tag-en: "Slowed"; --tag-ko: "감속"}
+.tag.condition.taunted    { --tag-bg: #be185d; --tag-en: "taunted"; --tag-ko: "도발당함"}
+.tag.condition.weakened   { --tag-bg: #0e7490; --tag-en: "Weakened"; --tag-ko: "약화"}
 
 /* --------- 액션 -------- */
 .tag.action.triggered,
-.action-cost.triggered { --tag-tip: "Triggered Action"}
+.action-cost.triggered { --tag-en: "Triggered Action"; --tag-ko: "발동 행동"}
 .tag.action.move,
-.action-cost.move { --tag-tip: "Move Action"}
+.action-cost.move { --tag-en: "Move Action"; --tag-ko: "이동 행동"}
 .tag.action.maneuver,
-.action-cost.maneuver { --tag-tip: "Maneuver"}
+.action-cost.maneuver { --tag-en: "Maneuver"; --tag-ko: "동작"}
 .tag.action.main,
-.action-cost.main { --tag-tip: "Main Action"}
+.action-cost.main { --tag-en: "Main Action"; --tag-ko: "주요 행동"}
 .tag.action.respite,
-.action-cost.respite { --tag-tip: "Respite"}
+.action-cost.respite { --tag-en: "Respite"; --tag-ko: "휴식"}
 
 /* --------- 키워드 ------- */
-.kw.area                  { --tag-tip: "Area"}
-.kw.charge                { --tag-tip: "Charge"}
-.kw.magic                 { --tag-tip: "Magic"}
-.kw.melee                 { --tag-tip: "Melee"}
-.kw.psionic               { --tag-tip: "psionic"}
-.kw.ranged                { --tag-tip: "Ranged"}
-.kw.strike                { --tag-tip: "Strike"}
-.kw.weapon                { --tag-tip: "Weapon"}
+.kw.area                  { --tag-en: "Area"; --tag-ko: "광역"}
+.kw.charge                { --tag-en: "Charge"; --tag-ko: "돌격"}
+.kw.magic                 { --tag-en: "Magic"; --tag-ko: "마법"}
+.kw.melee                 { --tag-en: "Melee"; --tag-ko: "근접"}
+.kw.psionic               { --tag-en: "psionic"; --tag-ko: "초능력"}
+.kw.ranged                { --tag-en: "Ranged"; --tag-ko: "원거리"}
+.kw.strike                { --tag-en: "Strike"; --tag-ko: "타격"}
+.kw.weapon                { --tag-en: "Weapon"; --tag-ko: "무기"}

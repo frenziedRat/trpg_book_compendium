@@ -913,10 +913,10 @@ html { scroll-behavior: smooth; }
     line-height: 1.25;
     vertical-align: baseline;
     white-space: nowrap;
-
-    --tag-tip: none;
 }
 
+/* 1. [글자가 직접 적혀 있을 때] <span>산성</span>
+      ::before가 글자 뒤에 깔리는 배경/모양 레이어가 됨 */
 .tag::before {
     content: "";
     position: absolute;
@@ -924,6 +924,46 @@ html { scroll-behavior: smooth; }
     z-index: -1;
     background: var(--tag-bg, var(--neutral-600));
     clip-path: var(--tag-clip, none);
+}
+
+/* 2. [태그 안이 비어 있을 때] <span></span>
+      본체 패딩을 0으로 비우고, ::before가 글자(var(--tag-ko)) + 배경 + 모양을 동시에 생성 */
+.tag:empty {
+    padding: 0 !important;
+}
+.tag:empty::before {
+    content: var(--tag-ko, "");
+    position: relative;
+    display: inline-block;
+    padding: var(--tag-pad, 0.05em 0.6em);
+    background: var(--tag-bg, var(--neutral-600));
+    clip-path: var(--tag-clip, none);
+    z-index: 0;
+}
+
+.tag::after,
+.kw::after,
+.action-cost::after {
+    content: var(--tag-tip, var(--tag-en, none));   /* ★ 대체값 체인 연결 */
+}
+
+/* 1순위: HTML에 tool-tip 속성이 직접 적혀 있으면 최우선 */
+.trait.badge[tool-tip]::after,
+.tip[tool-tip]::after,
+.kw[tool-tip]::after,
+.tag[tool-tip]::after,
+.action-cost[tool-tip]::after,
+.ability-head .name[tool-tip]::after,
+table.advancement-table .feat-tag[tool-tip]::after,
+h1[tool-tip]::before, h2[tool-tip]::before, h3[tool-tip]::before,
+h4[tool-tip]::before, h5[tool-tip]::before {
+    content: attr(tool-tip);
+}
+
+/* (참고) 화면에 한/영 병기 플래그가 켜졌을 때: tag-text와 tag-en을 함께 출력 */
+body.show-tips .tag:empty::before,
+.page.show-tips .tag:empty::before {
+    content: var(--tag-text, "") " " var(--tag-en, "");
 }
 /* 피해 태그 */
 .tag.damage {
@@ -934,7 +974,9 @@ html { scroll-behavior: smooth; }
             calc(100% - var(--hex-tip)) 100%, var(--hex-tip) 100%,
             0 50%
     );
+    --tag-pad: 0.05em calc(var(--hex-tip) + .4em);
     margin: 0 0.15em;
+    padding: var(--tag-pad);
 }
 
 /* 상태 이상 태그 */
@@ -943,7 +985,8 @@ html { scroll-behavior: smooth; }
     --tag-clip: polygon(var(--cond-cut) 0, 100% 0, calc(100% - var(--cond-cut)) 100%, 0 100%);
 
     /* 우측 여백 0.8em(글자 잘림 방지) + 좌측 여백 1.15em(다이아몬드 간격) */
-    padding: 0.05em 0.8em 0.05em 0.5em;
+    --tag-pad: 0.05em 0.8em 0.05em 0.5em;
+    padding: var(--tag-pad);
 }
 
 /* 액션 태그 */
@@ -958,8 +1001,9 @@ html { scroll-behavior: smooth; }
             0 100%
     );
     margin-right: .25em;
-    padding: .05em calc(var(--trigger-tip) + .45em) .05em .55em;
+    --tag-pad: .05em calc(var(--trigger-tip) + .45em) .05em .55em;
     line-height: 1.35;
+    padding: var(--tag-pad);
 }
 
 /* ---------- 가벼운 툴팁 표시 (.tip) ----------
@@ -1026,7 +1070,7 @@ h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [t
 .tag::after,
 .kw::after,
 .action-cost::after {
-    content: var(--tag-tip, none);
+    content: var(--tag-tip, var(--tag-en, none));
 }
 .tag[id]::after {
     content: var(--tag-tip, attr(id));
@@ -1051,7 +1095,7 @@ h4[tool-tip]::before, h5[tool-tip]::before {
 .tip::after,
 .kw::after,
 .action-cost::after,
-.tag[tool-tip]::after {
+.tag::after {
     left: 50%;
     transform: translate(-50%, 4px);
 }
@@ -1214,4 +1258,60 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
         margin: 0 -.3in .5em; padding-left: .3in; font-size: calc(2.3333rem * var(--scale)); }
     .cols { column-count: 1; }
     .stat-row, .characteristics { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---------- lang-toggle.js 언어 전환 플로팅 버튼 ---------- */
+#lang-toggle-btn {
+    position: fixed;
+    top: 1rem;
+    right: 1.2rem;
+    z-index: 1000;
+    padding: 0.35em 0.8em;
+    background: var(--neutral-800);
+    color: var(--paper);
+    border: 1px solid var(--neutral-300);
+    border-left: 4px solid var(--highlight);
+    border-radius: 2px;
+    font-family: var(--font-ui), sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+#lang-toggle-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+#lang-toggle-btn:active {
+    transform: translateY(1px);
+}
+
+/* 인쇄 시 버튼 숨김 */
+@media print {
+    #lang-toggle-btn {
+        display: none !important;
+    }
+}
+
+/* [한] 모드: 기본 상태 (tag-ko 만 출력) */
+.tag:empty::before {
+    content: var(--tag-ko, "");
+}
+
+/* [한/영] 모드: body.show-tips 추가 시 (tag-ko와 tag-en 함께 출력) */
+body.show-tips .tag:empty::before,
+.page.show-tips .tag:empty::before {
+    content: var(--tag-ko, "") " " var(--tag-en, "");
+}
+
+body.show-tips .tag:empty::before,
+body.show-tips .kw:empty::before,
+body.show-tips .action-cost:empty::before {
+    content: var(--tag-ko, "") " " var(--tag-en, "");
 }
