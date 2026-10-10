@@ -1304,14 +1304,17 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
     content: var(--tag-ko, "");
 }
 
-/* [한/영] 모드: body.show-tips 추가 시 (tag-ko와 tag-en 함께 출력) */
-body.show-tips .tag:empty::before,
-.page.show-tips .tag:empty::before {
-    content: var(--tag-ko, "") " " var(--tag-en, "");
+/* ========================================================
+   1. 태그(.tag) & 팁(.tip) 공통 텍스트 및 다국어 시스템
+   ======================================================== */
+
+/* [한] 기본 모드: 빈 태그일 때 tag-ko 출력 */
+:is(.tag, .tip, .kw, .action-cost):empty::before {
+    content: var(--tag-ko, "");
 }
 
-body.show-tips .tag:empty::before,
-body.show-tips .kw:empty::before,
-body.show-tips .action-cost:empty::before {
+/* [한/영] 모드: body.show-tips 활성화 시 빈 태그에 tag-ko + tag-en 병기 */
+body.show-tips :is(.tag, .tip, .kw, .action-cost):empty::before,
+.page.show-tips :is(.tag, .tip, .kw, .action-cost):empty::before {
     content: var(--tag-ko, "") " " var(--tag-en, "");
 }

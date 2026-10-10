@@ -34,13 +34,13 @@
 /* .tip 마커 색상 — 기본(엠버)은 그대로, 필요할 때 색 클래스를 덧붙임
    <span class="tip tip-skill" id="xxx">기술</span>
    --tip-rgb 만 바꾸면 평소(.32)·hover(.6) 농도가 함께 따라감 */
-.tip-skill     { --tip-rgb: 21, 128, 61; }    /* 초록  : 기술 */
-.tip-action    { --tip-rgb: 2, 132, 199; }    /* 파랑  : 행동 */
-.tip-condition { --tip-rgb: 147, 51, 234; }   /* 보라  : 상태 이상 */
-.tip-damage    { --tip-rgb: 179, 18, 31; }    /* 빨강  : 피해 */
-.tip-resource  { --tip-rgb: 234, 179, 8; }    /* 노랑  : 자원 */
-.tip-lore      { --tip-rgb: 15, 118, 110; }   /* 청록  : 세계관·설정 */
-.tip-rule      { --tip-rgb: 74, 83, 94; }     /* 강철  : 규칙·용어 */
+.tip.skill     { --tip-rgb: 21, 128, 61; }    /* 초록  : 기술 */
+.tip.action    { --tip-rgb: 2, 132, 199; }    /* 파랑  : 행동 */
+.tip.condition { --tip-rgb: 147, 51, 234; }   /* 보라  : 상태 이상 */
+.tip.damage    { --tip-rgb: 179, 18, 31; }    /* 빨강  : 피해 */
+.tip.resource  { --tip-rgb: 234, 179, 8; }    /* 노랑  : 자원 */
+.tip.lore      { --tip-rgb: 15, 118, 110; }   /* 청록  : 세계관·설정 */
+.tip.rule      { --tip-rgb: 74, 83, 94; }     /* 강철  : 규칙·용어 */
 
 /* ---------- 상태 이상 배지 (.cond.badge) ----------*/
 .tag.condition.bleeding   { --tag-bg: #b3121f; --tag-en: "Bledding"; --tag-ko: "출혈"}
@@ -64,6 +64,7 @@
 .action-cost.main { --tag-en: "Main Action"; --tag-ko: "주요 행동"}
 .tag.action.respite,
 .action-cost.respite { --tag-en: "Respite"; --tag-ko: "휴식"}
+.tag.action.negotiation { --tag-en: "Negotiation"; --tag-ko: "협상"}
 
 /* --------- 키워드 ------- */
 .kw.area                  { --tag-en: "Area"; --tag-ko: "광역"}
