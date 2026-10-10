@@ -55,6 +55,17 @@
 
 /* --------- 액션 -------- */
 .tag.action.triggered     { --tag-tip: "Triggered Action"}
+.tag.action.move          { --tag-tip: "Move Action"}
 .tag.action.maneuver      { --tag-tip: "Maneuver"}
 .tag.action.main          { --tag-tip: "Main Action"}
 .tag.action.respite       { --tag-tip: "Respite"}
+
+/* --------- 키워드 ------- */
+.kw.area                  { --tag-tip: "Area"}
+.kw.charge                { --tag-tip: "Charge"}
+.kw.magic                 { --tag-tip: "Magic"}
+.kw.melee                 { --tag-tip: "Melee"}
+.kw.psionic               { --tag-tip: "psionic"}
+.kw.ranged                { --tag-tip: "Ranged"}
+.kw.strike                { --tag-tip: "Strike"}
+.kw.weapon                { --tag-tip: "Weapon"}
