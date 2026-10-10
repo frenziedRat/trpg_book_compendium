@@ -6,14 +6,11 @@
     /* 룰북 특화 색상 */
     --ability-price-color: #0e7490;
 
-
+    /* damage Type 색상 */
+    --acid: #4d7c0f;
 }
 
 /* ---------- 피해 타입 (기본 굵은 글씨 형태) ---------- */
-.dmg {
-    font-weight: 700;
-}
-
 .dmg-acid        { color: #4d7c0f; } /* 산성 */
 .dmg-cold        { color: #0284c7; } /* 냉기 */
 .dmg-corruption  { color: #701a75; } /* 부패 */
@@ -24,35 +21,15 @@
 .dmg-psychic     { color: #9333ea; } /* 정신 */
 .dmg-sonic       { color: #4b5563; } /* 음파 */
 
-/* ---------- 선택 옵션: Draw Steel 스타일 키워드 배지 형태 (.badge) ---------- */
-.dmg.badge {
-    --hex-tip: 5px;                   /* 좌우 꼭짓점이 튀어나온 폭 (작을수록 좁은 육각형) */
-    display: inline-block;
-    padding: 0.05em calc(var(--hex-tip) + .4em);
-    font-family: var(--font-ui), sans-serif;
-    font-size: 0.88em;
-    line-height: 1.25;
-    color: #fff;
-    /* 육각형: 위·아래는 평평하고, 좌우 중앙이 뾰족 */
-    clip-path: polygon(
-            var(--hex-tip) 0, calc(100% - var(--hex-tip)) 0,
-            100% 50%,
-            calc(100% - var(--hex-tip)) 100%, var(--hex-tip) 100%,
-            0 50%
-    );
-    vertical-align: baseline;
-    margin: 0 0.15em;
-}
-
-.dmg-acid.badge        { background-color: #4d7c0f; }
-.dmg-cold.badge        { background-color: #0284c7; }
-.dmg-corruption.badge  { background-color: #701a75; }
-.dmg-fire.badge        { background-color: #c2410c; }
-.dmg-holy.badge        { background-color: #b45309; }
-.dmg-lightning.badge   { background-color: #0f766e; }
-.dmg-poison.badge      { background-color: #15803d; }
-.dmg-psychic.badge     { background-color: #9333ea; }
-.dmg-sonic.badge       { background-color: #4b5563; }
+.tag.damage.acid        { background-color: #4d7c0f; }
+.tag.damage.cold        { background-color: #0284c7; }
+.tag.damage.corruption  { background-color: #701a75; }
+.tag.damage.fire        { background-color: #c2410c; }
+.tag.damage.holy        { background-color: #b45309; }
+.tag.damage.lightning   { background-color: #0f766e; }
+.tag.damage.poison      { background-color: #15803d; }
+.tag.damage.psychic     { background-color: #9333ea; }
+.tag.damage.sonic       { background-color: #4b5563; }
 
 /* .tip 마커 색상 — 기본(엠버)은 그대로, 필요할 때 색 클래스를 덧붙임
    <span class="tip tip-skill" id="xxx">기술</span>
@@ -65,39 +42,14 @@
 .tip-lore      { --tip-rgb: 15, 118, 110; }   /* 청록  : 세계관·설정 */
 .tip-rule      { --tip-rgb: 74, 83, 94; }     /* 강철  : 규칙·용어 */
 
-/* ---------- 상태 이상 배지 (.cond.badge) ----------
-   피해 배지와 같은 평행사변형 + 앞쪽 작은 다이아몬드 표식 */
-.cond.badge {
-    display: inline-block;
-    padding: 0.05em 0.5em 0.05em 0.4em;
-    margin: 0 0.15em;
-    background-color: var(--neutral-600);   /* 기본값 */
-    color: #fff;
-    font-family: var(--font-ui), sans-serif;
-    font-size: 1.2em;
-    font-weight: 600;
-    line-height: 1.25;
-    vertical-align: baseline;
-    clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
-}
-.cond.badge::before {
-    content: "";
-    display: inline-block;
-    width: .4em;
-    height: .4em;
-    margin: 0 .4em .12em .25em;
-    background: currentColor;
-    opacity: .75;
-    transform: rotate(45deg);
-}
-
-.cond-bleeding.badge   { background-color: #b3121f; } /* 출혈 */
-.cond-dazed.badge      { background-color: #a16207; } /* 혼미 */
-.cond-frightened.badge { background-color: #5b21b6; } /* 공포 */
-.cond-grabbed.badge    { background-color: #854d0e; } /* 붙잡힘 */
-.cond-prone.badge      { background-color: #57534e; } /* 넘어짐 */
-.cond-restrained.badge { background-color: #1f2937; } /* 속박 */
-.cond-slowed.badge     { background-color: #1e40af; } /* 둔화 */
-.cond-taunted.badge    { background-color: #be185d; } /* 도발 */
-.cond-weakened.badge   { background-color: #0e7490; } /* 약화 */
+/* ---------- 상태 이상 배지 (.cond.badge) ----------*/
+.tag.condition.bleeding   { background-color: #b3121f; } /* 출혈 */
+.tag.condition.dazed      { background-color: #a16207; } /* 혼미 */
+.tag.condition.frightened { background-color: #5b21b6; } /* 공포 */
+.tag.condition.grabbed    { background-color: #854d0e; } /* 붙잡힘 */
+.tag.condition.prone      { background-color: #57534e; } /* 넘어짐 */
+.tag.condition.restrained { background-color: #1f2937; } /* 속박 */
+.tag.condition.slowed     { background-color: #1e40af; } /* 둔화 */
+.tag.condition.taunted    { background-color: #be185d; } /* 도발 */
+.tag.condition.weakened   { background-color: #0e7490; } /* 약화 */
 
