@@ -21,15 +21,15 @@
 .dmg-psychic     { color: #9333ea; } /* 정신 */
 .dmg-sonic       { color: #4b5563; } /* 음파 */
 
-.tag.damage.acid        { background-color: #4d7c0f; }
-.tag.damage.cold        { background-color: #0284c7; }
-.tag.damage.corruption  { background-color: #701a75; }
-.tag.damage.fire        { background-color: #c2410c; }
-.tag.damage.holy        { background-color: #b45309; }
-.tag.damage.lightning   { background-color: #0f766e; }
-.tag.damage.poison      { background-color: #15803d; }
-.tag.damage.psychic     { background-color: #9333ea; }
-.tag.damage.sonic       { background-color: #4b5563; }
+.tag.damage.acid        { --tag-bg: #4d7c0f; --tag-tip: "Acid"}
+.tag.damage.cold        { --tag-bg: #0284c7; --tag-tip: "Cold"}
+.tag.damage.corruption  { --tag-bg: #701a75; --tag-tip: "Corruption"}
+.tag.damage.fire        { --tag-bg: #c2410c; --tag-tip: "Fire"}
+.tag.damage.holy        { --tag-bg: #b45309; --tag-tip: "Holy"}
+.tag.damage.lightning   { --tag-bg: #0f766e; --tag-tip: "Lightning"}
+.tag.damage.poison      { --tag-bg: #15803d; --tag-tip: "Poison"}
+.tag.damage.psychic     { --tag-bg: #9333ea; --tag-tip: "Psychic"}
+.tag.damage.sonic       { --tag-bg: #4b5563; --tag-tip: "Sonic"}
 
 /* .tip 마커 색상 — 기본(엠버)은 그대로, 필요할 때 색 클래스를 덧붙임
    <span class="tip tip-skill" id="xxx">기술</span>
@@ -43,13 +43,18 @@
 .tip-rule      { --tip-rgb: 74, 83, 94; }     /* 강철  : 규칙·용어 */
 
 /* ---------- 상태 이상 배지 (.cond.badge) ----------*/
-.tag.condition.bleeding   { background-color: #b3121f; } /* 출혈 */
-.tag.condition.dazed      { background-color: #a16207; } /* 혼미 */
-.tag.condition.frightened { background-color: #5b21b6; } /* 공포 */
-.tag.condition.grabbed    { background-color: #854d0e; } /* 붙잡힘 */
-.tag.condition.prone      { background-color: #57534e; } /* 넘어짐 */
-.tag.condition.restrained { background-color: #1f2937; } /* 속박 */
-.tag.condition.slowed     { background-color: #1e40af; } /* 둔화 */
-.tag.condition.taunted    { background-color: #be185d; } /* 도발 */
-.tag.condition.weakened   { background-color: #0e7490; } /* 약화 */
+.tag.condition.bleeding   { --tag-bg: #b3121f; --tag-tip: "Bledding"}
+.tag.condition.dazed      { --tag-bg: #a16207; --tag-tip: "Dazed"}
+.tag.condition.frightened { --tag-bg: #5b21b6; --tag-tip: "Frightened"}
+.tag.condition.grabbed    { --tag-bg: #854d0e; --tag-tip: "Grabbed"}
+.tag.condition.prone      { --tag-bg: #57534e; --tag-tip: "Prone"}
+.tag.condition.restrained { --tag-bg: #1f2937; --tag-tip: "Restrained"}
+.tag.condition.slowed     { --tag-bg: #1e40af; --tag-tip: "Slowed"}
+.tag.condition.taunted    { --tag-bg: #be185d; --tag-tip: "taunted"}
+.tag.condition.weakened   { --tag-bg: #0e7490; --tag-tip: "Weakened"}
 
+/* --------- 액션 -------- */
+.tag.action.triggered     { --tag-tip: "Triggered Action"}
+.tag.action.maneuver      { --tag-tip: "Maneuver"}
+.tag.action.main          { --tag-tip: "Main Action"}
+.tag.action.respite       { --tag-tip: "Respite"}

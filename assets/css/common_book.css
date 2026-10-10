@@ -890,19 +890,36 @@ html { scroll-behavior: smooth; }
 
 /*--- 태그 관리 ---*/
 .tag {
+    position: relative;
+    isolation: isolate;
     display: inline-block;
+    margin: 0 0.15em;
     padding: 0.05em calc(var(--hex-tip) + .4em);
-    font-family: var(--font-ui), sans-serif;
     color: #fff;
+    background: transparent !important;
+    font-family: var(--font-ui), sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: .03em;
     line-height: 1.25;
     vertical-align: baseline;
+    white-space: nowrap;
+
+    --tag-tip: none;
 }
-/*--- 피해 태그 ----*/
+
+.tag::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--tag-bg, var(--neutral-600));
+    clip-path: var(--tag-clip, none);
+}
+/* 피해 태그 */
 .tag.damage {
     --hex-tip: 5px;
-    font-size: 0.88em;
-    font-weight: 700;
-    clip-path: polygon(
+    --tag-clip: polygon(
             var(--hex-tip) 0, calc(100% - var(--hex-tip)) 0,
             100% 50%,
             calc(100% - var(--hex-tip)) 100%, var(--hex-tip) 100%,
@@ -913,95 +930,28 @@ html { scroll-behavior: smooth; }
 
 /* 상태 이상 태그 */
 .tag.condition {
-    padding: 0.05em 0.5em 0.05em 0.5em;
-    margin: 0 0.15em;
-    background-color: var(--neutral-600);
-    font-size: 1.2em;
-    font-weight: 600;
-    clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
-}
-.tag.condition::before {
-    display: inline-block;
-    width: .4em;
-    height: .4em;
-    margin: 0 .4em .12em .25em;
-    background: currentColor;
-    opacity: .75;
-    transform: rotate(45deg);
+    --cond-cut: 4px;
+    --tag-clip: polygon(var(--cond-cut) 0, 100% 0, calc(100% - var(--cond-cut)) 100%, 0 100%);
+
+    /* 우측 여백 0.8em(글자 잘림 방지) + 좌측 여백 1.15em(다이아몬드 간격) */
+    padding: 0.05em 0.8em 0.05em 0.5em;
 }
 
+/* 액션 태그 */
 .tag.action {
-    --trigger-bg: rgba(var(--ink-rgb), .6);    /* .entry-name 과 같은 값 (독립) */
-    --trigger-fg: #fff;
-    --trigger-tip: .6em;                       /* ">" 가 튀어나온 깊이 */
-
-    position: relative;
-    isolation: isolate;                        /* ::before(z-index:-1)가 태그 안에 머물도록 */
-    margin-right: .25em;
-    padding: .05em calc(var(--trigger-tip) + .45em) .05em .55em;
-    color: var(--trigger-fg);
-    font-size: 1em;
-    font-weight: 700;
-    letter-spacing: .03em;
-    line-height: 1.35;
-    white-space: nowrap;
-}
-
-.tag.action::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--trigger-bg);
-    clip-path: polygon(
+    --trigger-tip: .6em;                       /* ">" 화살표 깊이 */
+    --tag-bg: rgba(var(--ink-rgb), .6);
+    --tag-clip: polygon(
             0 0,
             calc(100% - var(--trigger-tip)) 0,
             100% 50%,
             calc(100% - var(--trigger-tip)) 100%,
             0 100%
     );
-}
-
-/* ---------- 발동 행동 (.action-trigger) ----------
-   본문에서 "어떤 행동으로 발동되는지"를 알리는 배지. 오른쪽이 ">" 모양으로 튀어나온 직사각형
-   색·글꼴은 .entry-name 과 같은 값이지만 변수로 독립시켜서 서로 영향을 주지 않음
-   <p class="effect"><span class="action-trigger" tool-tip="행동 설명">주 행동</span> 본문…</p>
-   - 툴팁(tool-tip 속성)은 common-book.css 의 공용 규칙을 그대로 사용
-   - 모양(clip-path)을 ::before 로 분리해서 ::after 의 툴팁이 잘리지 않음 */
-.action-trigger {
-    --trigger-bg: rgba(var(--ink-rgb), .6);    /* .entry-name 과 같은 값 (독립) */
-    --trigger-fg: #fff;
-    --trigger-tip: .6em;                       /* ">" 가 튀어나온 깊이 */
-
-    position: relative;
-    isolation: isolate;                        /* ::before(z-index:-1)가 배지 안에 머물도록 */
-    display: inline-block;
     margin-right: .25em;
     padding: .05em calc(var(--trigger-tip) + .45em) .05em .55em;
-    color: var(--trigger-fg);
-    font-family: var(--font-ui), sans-serif;
-    font-size: 1em;
-    font-weight: 700;
-    letter-spacing: .03em;
     line-height: 1.35;
-    white-space: nowrap;
 }
-.action-trigger::before {                      /* 배지 모양 */
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--trigger-bg);
-    clip-path: polygon(
-            0 0,
-            calc(100% - var(--trigger-tip)) 0,
-            100% 50%,
-            calc(100% - var(--trigger-tip)) 100%,
-            0 100%
-    );
-}
-
-
 
 /* ---------- 가벼운 툴팁 표시 (.tip) ----------
    배지처럼 무겁지 않게, 글자 아래쪽 절반에 엠버 형광펜만 칠해 "설명이 있음"을 표시.
@@ -1029,7 +979,7 @@ html { scroll-behavior: smooth; }
 .trait.badge:is([id], [tool-tip])::after,
 .tip:is([id], [tool-tip])::after,
 .kw:is([id], [tool-tip])::after,
-.tag.action:is([id], [tool-tip])::after,
+.tag::after,
 .ability-head .name:is([id], [tool-tip])::after,
 table.advancement-table .feat-tag:is([id], [tool-tip])::after,
 h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [tool-tip])::before, h4:is([id], [tool-tip])::before, h5:is([id], [tool-tip])::before {
@@ -1059,6 +1009,58 @@ h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [t
     transition: opacity .15s ease, transform .15s ease, visibility .15s;
 }
 
+/* ---------- 툴팁 문구 우선순위 ----------
+   1순위: HTML tool-tip 속성
+   2순위: CSS --tag-tip 변수
+   3순위: 둘 다 없으면 none (미표시) */
+.tag::after {
+    content: var(--tag-tip, none);
+}
+.tag[id]::after {
+    content: var(--tag-tip, attr(id));
+}
+
+/* 표시 문구: tool-tip이 있으면 id보다 우선, 없으면 id 값을 표시
+   (같은 우선순위에서 뒤에 오는 이 규칙이 위의 content: attr(id)를 덮어씀) */
+.trait.badge[tool-tip]::after,
+.tip[tool-tip]::after,
+.kw[tool-tip]::after,
+.tag[tool-tip]::after,
+.ability-head .name[tool-tip]::after,
+table.advancement-table .feat-tag[tool-tip]::after,
+h1[tool-tip]::before, h2[tool-tip]::before, h3[tool-tip]::before,
+h4[tool-tip]::before, h5[tool-tip]::before {
+    content: attr(tool-tip);
+}
+
+/* 표시 상태 */
+.trait.badge:is([id], [tool-tip]):hover::after,  .trait.badge:is([id], [tool-tip]):focus-visible::after,
+.tip:is([id], [tool-tip]):hover::after,          .tip:is([id], [tool-tip]):focus-visible::after,
+.kw:is([id], [tool-tip]):hover::after,           .kw:is([id], [tool-tip]):focus-visible::after,
+.tag:hover::after,   .tag:focus-visible::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+/* 인라인(배지·tip·kw): 가운데 정렬 */
+.trait.badge:is([id], [tool-tip])::after,
+.tip::after,
+.kw:is([id], [tool-tip])::after,
+.tag[tool-tip]::after {
+    left: 50%;
+    transform: translate(-50%, 4px);
+}
+/* 어빌리티 이름: 카드 왼쪽 끝에 붙어 있으므로 왼쪽 기준, 글자 크기는 이름(1.15rem·대문자)과 무관하게 고정
+   ※ 카드 맨 위 요소라서 위로 띄우면 다단(.cols)에서 단 위쪽 밖으로 나가 잘림 → 아래로 띄움 */
+.ability-head .name:is([id], [tool-tip])::after {
+    left: 0;
+    bottom: auto;
+    top: calc(100% + 6px);
+    font-size: calc(0.8333rem * var(--scale));
+    transform: translateY(-4px);
+}
+
 /* ---------- 성장표 feat-tag: 옅은 배경 칩 + 툴팁 ----------
    성장표는 짝수 행 배경(--paper-2)과 행 hover 틴트가 있으므로
    불투명 색 대신 "반투명 먹색"으로 칩을 만들어 어떤 행 위에서도 비치도록 함 */
@@ -1077,36 +1079,6 @@ table.advancement-table .feat-tag:is([id], [tool-tip]):focus-visible {
     border-color: var(--highlight);
 }
 
-/* 표시 문구: tool-tip이 있으면 id보다 우선, 없으면 id 값을 표시
-   (같은 우선순위에서 뒤에 오는 이 규칙이 위의 content: attr(id)를 덮어씀) */
-.trait.badge[tool-tip]::after,
-.tip[tool-tip]::after,
-.kw[tool-tip]::after,
-.tag.action[tool-tip]::after,
-.ability-head .name[tool-tip]::after,
-table.advancement-table .feat-tag[tool-tip]::after,
-h1[tool-tip]::before, h2[tool-tip]::before, h3[tool-tip]::before,
-h4[tool-tip]::before, h5[tool-tip]::before {
-    content: attr(tool-tip);
-}
-
-/* 인라인(배지·tip·kw): 가운데 정렬 */
-.trait.badge:is([id], [tool-tip])::after,
-.tip:is([id], [tool-tip])::after,
-.kw:is([id], [tool-tip])::after,
-.tag.action[tool-tip]::after {
-    left: 50%;
-    transform: translate(-50%, 4px);
-}
-/* 어빌리티 이름: 카드 왼쪽 끝에 붙어 있으므로 왼쪽 기준, 글자 크기는 이름(1.15rem·대문자)과 무관하게 고정
-   ※ 카드 맨 위 요소라서 위로 띄우면 다단(.cols)에서 단 위쪽 밖으로 나가 잘림 → 아래로 띄움 */
-.ability-head .name:is([id], [tool-tip])::after {
-    left: 0;
-    bottom: auto;
-    top: calc(100% + 6px);
-    font-size: calc(0.8333rem * var(--scale));
-    transform: translateY(-4px);
-}
 /* 성장표: 셀 밖으로 삐져나가 잘리지 않도록 왼쪽 기준 */
 table.advancement-table .feat-tag:is([id], [tool-tip])::after {
     left: 0;
@@ -1119,15 +1091,6 @@ h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [t
     transform: translateY(4px);
 }
 
-/* 표시 상태 */
-.trait.badge:is([id], [tool-tip]):hover::after,  .trait.badge:is([id], [tool-tip]):focus-visible::after,
-.tip:is([id], [tool-tip]):hover::after,          .tip:is([id], [tool-tip]):focus-visible::after,
-.kw:is([id], [tool-tip]):hover::after,           .kw:is([id], [tool-tip]):focus-visible::after,
-.tag.action:is([id], [tool-tip]):hover::after,   .tag.action:is([id], [tool-tip]):focus-visible::after {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, 0);
-}
 table.advancement-table .feat-tag:is([id], [tool-tip]):hover::after,
 table.advancement-table .feat-tag:is([id], [tool-tip]):focus-visible::after,
 .ability-head .name:is([id], [tool-tip]):hover::after,
