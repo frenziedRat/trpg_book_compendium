@@ -52,8 +52,11 @@
 .tag.condition.slowed     { --tag-bg: #1e40af; --tag-en: "Slowed"; --tag-ko: "감속"}
 .tag.condition.taunted    { --tag-bg: #be185d; --tag-en: "taunted"; --tag-ko: "도발당함"}
 .tag.condition.weakened   { --tag-bg: #0e7490; --tag-en: "Weakened"; --tag-ko: "약화"}
+.tag.condition.dying      { --tag-bg: #000000; --tag-en: "Dying"; --tag-ko: "빈사"}
 
 /* --------- 액션 -------- */
+.tag.action.free-triggered,
+.action-cost.free-triggered { --tag-en: "Free Triggered Action"; --tag-ko: "자유 발동 행동"}
 .tag.action.triggered,
 .action-cost.triggered { --tag-en: "Triggered Action"; --tag-ko: "발동 행동"}
 .tag.action.move,
