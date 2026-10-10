@@ -464,7 +464,6 @@ em { font-style: italic; }
 .action-cost {
     position: relative;
     display: inline-block;
-    --tag-tip: none;                  /* 기본값: 툴팁 미표시 */
 }
 
 /*--- 키워드 ---*/
@@ -498,8 +497,6 @@ em { font-style: italic; }
     font-weight: 600;
     font-size: .85em;
     line-height: 1.35;
-
-    --tag-tip: none;
 }
 
 /* 래퍼가 첫 칸을 차지하면 이후 칸의 홀짝이 뒤바뀌므로 좌우 정렬을 다시 맞춤 */
@@ -926,46 +923,8 @@ html { scroll-behavior: smooth; }
     clip-path: var(--tag-clip, none);
 }
 
-/* 2. [태그 안이 비어 있을 때] <span></span>
-      본체 패딩을 0으로 비우고, ::before가 글자(var(--tag-ko)) + 배경 + 모양을 동시에 생성 */
-.tag:empty {
-    padding: 0 !important;
-}
-.tag:empty::before {
-    content: var(--tag-ko, "");
-    position: relative;
-    display: inline-block;
-    padding: var(--tag-pad, 0.05em 0.6em);
-    background: var(--tag-bg, var(--neutral-600));
-    clip-path: var(--tag-clip, none);
-    z-index: 0;
-}
-
-.tag::after,
-.kw::after,
-.action-cost::after {
-    content: var(--tag-tip, var(--tag-en, none));   /* ★ 대체값 체인 연결 */
-}
-
-/* 1순위: HTML에 tool-tip 속성이 직접 적혀 있으면 최우선 */
-.trait.badge[tool-tip]::after,
-.tip[tool-tip]::after,
-.kw[tool-tip]::after,
-.tag[tool-tip]::after,
-.action-cost[tool-tip]::after,
-.ability-head .name[tool-tip]::after,
-table.advancement-table .feat-tag[tool-tip]::after,
-h1[tool-tip]::before, h2[tool-tip]::before, h3[tool-tip]::before,
-h4[tool-tip]::before, h5[tool-tip]::before {
-    content: attr(tool-tip);
-}
-
-/* (참고) 화면에 한/영 병기 플래그가 켜졌을 때: tag-text와 tag-en을 함께 출력 */
-body.show-tips .tag:empty::before,
-.page.show-tips .tag:empty::before {
-    content: var(--tag-text, "") " " var(--tag-en, "");
-}
 /* 피해 태그 */
+.tag.type,
 .tag.damage {
     --hex-tip: 5px;
     --tag-clip: polygon(
@@ -1024,13 +983,13 @@ body.show-tips .tag:empty::before,
     background: linear-gradient(transparent 50%, rgba(var(--tip-rgb, 217, 130, 43), .6) 50%);
 }
 
-/* ---------- 공용 툴팁 (id 값을 표시) ----------
+/* ---------- 공용 툴팁 ----------
    대상: .trait.badge / .tip / .feat-tag / h1~h5  — 모두 id 또는 tool-tip이 있을 때만
    표시 문구: tool-tip 우선, 없으면 id
    ※ h1~h5는 h2::after(붉은 쐐기)·h1::after(모양)와 겹치지 않도록 ::before 사용
    ※ 표시하려면 호스트에 position:relative 필요 (위에서 각각 지정) */
-.trait.badge:is([id], [tool-tip])::after,
-.tip:is([id], [tool-tip])::after,
+.trait.badge::after,
+.tip::after,
 .kw::after,
 .tag::after,
 .action-cost::after,
@@ -1069,11 +1028,9 @@ h1:is([id], [tool-tip])::before, h2:is([id], [tool-tip])::before, h3:is([id], [t
    3순위: 둘 다 없으면 none (미표시) */
 .tag::after,
 .kw::after,
+.tip::after,
 .action-cost::after {
-    content: var(--tag-tip, var(--tag-en, none));
-}
-.tag[id]::after {
-    content: var(--tag-tip, attr(id));
+    content: var(--tag-text, var(--tag-en, none));
 }
 
 /* HTML에 tool-tip 속성이 직접 지정된 경우 최우선 적용
@@ -1090,8 +1047,16 @@ h4[tool-tip]::before, h5[tool-tip]::before {
     content: attr(tool-tip);
 }
 
+/* HTML 속성 최우선 적용: tag-text="..." */
+:is(.tag, .tip, .kw, .action-cost, .trait.badge, .ability-head .name, table.advancement-table .feat-tag)[tag-text]::after {
+    content: attr(tag-text);
+}
+:is(h1, h2, h3, h4, h5)[tag-text]::before {
+    content: attr(tag-text);
+}
+
 /* 인라인(배지·tip·kw): 가운데 정렬 */
-.trait.badge:is([id], [tool-tip])::after,
+.trait.badge::after,
 .tip::after,
 .kw::after,
 .action-cost::after,
@@ -1101,11 +1066,11 @@ h4[tool-tip]::before, h5[tool-tip]::before {
 }
 
 /* 표시 상태 */
-.trait.badge:is([id], [tool-tip]):hover::after,  .trait.badge:is([id], [tool-tip]):focus-visible::after,
-.tip:is([id], [tool-tip]):hover::after,          .tip:is([id], [tool-tip]):focus-visible::after,
-.kw:hover::after,     .kw:focus-visible::after,
-.tag:hover::after,   .tag:focus-visible::after,
-.action-cost:hover::after,                       .action-cost:focus-visible::after {
+.trait.badge:hover::after,  .trait:focus-visible::after,
+.tip:hover::after,          .tip:focus-visible::after,
+.kw:hover::after,           .kw:focus-visible::after,
+.tag:hover::after,          .tag:focus-visible::after,
+.action-cost:hover::after,  .action-cost:focus-visible::after {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);

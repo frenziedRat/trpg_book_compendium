@@ -21,15 +21,36 @@
 .dmg-psychic     { color: #9333ea; } /* 정신 */
 .dmg-sonic       { color: #4b5563; } /* 음파 */
 
+.tag.type.acid,
 .tag.damage.acid        { --tag-bg: #4d7c0f; --tag-en: "Acid"; --tag-ko: "산성"}
+.tag.type.cold,
 .tag.damage.cold        { --tag-bg: #0284c7; --tag-en: "Cold"; --tag-ko: "냉기"}
+.tag.type.corruption,
 .tag.damage.corruption  { --tag-bg: #701a75; --tag-en: "Corruption"; --tag-ko: "부패"}
+.tag.type.fire,
 .tag.damage.fire        { --tag-bg: #c2410c; --tag-en: "Fire"; --tag-ko: "화염"}
+.tag.type.holy,
 .tag.damage.holy        { --tag-bg: #b45309; --tag-en: "Holy"; --tag-ko: "신성"}
+.tag.type.lightning,
 .tag.damage.lightning   { --tag-bg: #0f766e; --tag-en: "Lightning"; --tag-ko: "번개"}
+.tag.type.poison,
 .tag.damage.poison      { --tag-bg: #15803d; --tag-en: "Poison"; --tag-ko: "독성"}
+.tag.type.psychic,
 .tag.damage.psychic     { --tag-bg: #9333ea; --tag-en: "Psychic"; --tag-ko: "정신"}
+.tag.type.sonic,
 .tag.damage.sonic       { --tag-bg: #4b5563; --tag-en: "Sonic"; --tag-ko: "음파"}
+
+.tag.damage:empty::before {
+    content: var(--tag-ko, "") " 피해";
+}
+
+body.show-tips .tag.damage:empty::before,
+.page.show-tips .tag.damage:empty::before {
+    content: var(--tag-ko, "") " 피해 " var(--tag-en, "");
+
+    /* 만약 영문 뒤에도 Damage를 붙여 "산성 피해 Acid Damage"로 하고 싶다면 아래 줄 사용 */
+    /* content: var(--tag-ko, "") " 피해 " var(--tag-en, "") " Damage"; */
+}
 
 /* .tip 마커 색상 — 기본(엠버)은 그대로, 필요할 때 색 클래스를 덧붙임
    <span class="tip tip-skill" id="xxx">기술</span>
@@ -41,6 +62,12 @@
 .tip.resource  { --tip-rgb: 234, 179, 8; }    /* 노랑  : 자원 */
 .tip.lore      { --tip-rgb: 15, 118, 110; }   /* 청록  : 세계관·설정 */
 .tip.rule      { --tip-rgb: 74, 83, 94; }     /* 강철  : 규칙·용어 */
+.tip.stat      { --tip-rgb: 2, 132, 199; }    /* 파랑  : 행동 */
+
+.rule.concealment { --tag-en: "Concealment"; --tag-ko: "은폐"}
+.rule.bane {--tag-en: "Bane"; --tag-ko: "불리함"}
+.stat.speed {--tag-en: "Speed"; --tag-ko: "속력"}
+
 
 /* ---------- 상태 이상 배지 (.cond.badge) ----------*/
 .tag.condition.bleeding   { --tag-bg: #b3121f; --tag-en: "Bledding"; --tag-ko: "출혈"}
