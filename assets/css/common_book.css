@@ -432,15 +432,18 @@ article.ability {
 
 /* 어빌리티의 스탯블록 */
 .ability-meta {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
     margin: 0;
     border-bottom: 1px solid var(--neutral-300);
     font-family: var(--font-ui), sans-serif;
     font-size: calc(0.9167rem * var(--scale));
 }
+
 .ability-meta > * {
     padding: .2em .7em;
+    box-sizing: border-box;
 }
 .ability-meta > *:nth-child(even) { text-align: right; }
 .ability-meta .action-cost,
@@ -455,15 +458,50 @@ article.ability {
     transform: translateY(0.08em);
 }
 
+/* 1. 액션 라인: 윗줄 전체(100%) 차지 */
 .ability-meta > .action-line {
-    grid-column: 1 / -1;              /* 두 칸을 모두 차지 */
+    flex: 1 1 100%;
+    width: 100%;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;                  /* 키워드가 많으면 다음 줄로 */
+    flex-wrap: wrap;
     gap: .2em .6em;
     text-align: left;
 }
-.ability-meta > .action-line .action-cost { margin-right: 0; }   /* 간격은 gap이 담당 */
+.ability-meta > .action-line .action-cost {
+    margin-right: 0;
+}
+
+.ability-meta > :is(.distance, .target) {
+    flex: 1 1 auto;
+    min-width: 0; /* 긴 텍스트 넘침 방지 */
+    display: inline-flex;
+    align-items: center;
+    gap: .35em;
+}
+
+/* 3. 좌우 정렬: distance는 왼쪽, target은 오른쪽 끝 */
+.ability-meta > .distance {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.ability-meta > .target {
+    justify-content: flex-end;
+    text-align: right;
+    margin-left: auto; /* distance가 아주 짧아도 target을 오른쪽 끝으로 밀착 */
+}
+
+/* 아이콘 설정 유지 */
+.ability-meta .distance { --icon: var(--icon-distance); }
+.ability-meta .target   { --icon: var(--icon-target); }
+.ability-meta :is(.distance, .target)::before {
+    content: "";
+    flex: none;
+    width: 1.2em;
+    height: 1.2em;
+    background: var(--icon) center / contain no-repeat;
+}
 
 .action-cost {
     position: relative;
