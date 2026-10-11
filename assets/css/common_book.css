@@ -265,7 +265,7 @@ em { font-style: italic; }
 }
 
 /* ---------- 어빌리티 카드 ---------- */
-.ability {
+article.ability {
     break-inside: avoid;
     margin: 1em 6px 1em 0; /* 다음 단과의 충돌을 방지하는 여백 */
     background: var(--ability-back);
@@ -276,6 +276,10 @@ em { font-style: italic; }
 
     font-size: calc(0.8333rem * var(--scale));
     line-height: 1.4;
+}
+
+.ability.inner {
+    margin: 0.1em 0.5em 1em;
 }
 
 .ability-head {
@@ -1053,6 +1057,17 @@ h4[tool-tip]::before, h5[tool-tip]::before {
 }
 :is(h1, h2, h3, h4, h5)[tag-text]::before {
     content: attr(tag-text);
+}
+
+/* term-en 속성이 지정된 경우 툴팁(말풍선) 텍스트로 적용 */
+:is(.tag, .tip, .kw, .action-cost, .trait.badge)[term-en]::after {
+    content: attr(term-en);
+}
+
+/* 3. [한영 혼용 모드]: 본문에 이미 영문이 표기되므로 중복 툴팁은 숨김 처리
+      (단, tool-tip 속성으로 별도 긴 설명이 적힌 경우는 제외) */
+body.show-tips :is(.tip, .trait.badge)[term-en]:not([tool-tip]):not([tag-text])::after {
+    display: none !important;
 }
 
 /* 인라인(배지·tip·kw): 가운데 정렬 */
