@@ -70,14 +70,14 @@
 :is(.tag, #global-tooltip).weakened    { --tag-bg: var(--color-weakened); --tt-accent: var(--color-weakened); }
 :is(.tag, #global-tooltip).dying       { --tag-bg: var(--color-dying); --tt-accent: var(--color-dying); }
 
-/* TIP */
-.tip.rule      { --tip-color: var(--color-rule); }
-.tip.stat      { --tip-color: var(--color-stat); }
-.tip.resource  { --tip-color: var(--color-resource); }
-.tip.skill     { --tip-color: var(--color-skill); }
+/* ---------- TIP (본문 밑줄과 툴팁 팝업 양쪽에 동일 색상 적용) ---------- */
+:is(.tip.rule,      #global-tooltip.tt-rule)      { --tip-color: var(--color-rule);      --tt-accent: var(--color-rule); }
+:is(.tip.stat,      #global-tooltip.tt-stat)      { --tip-color: var(--color-stat);      --tt-accent: var(--color-stat); }
+:is(.tip.resource,  #global-tooltip.tt-resource)  { --tip-color: var(--color-resource);  --tt-accent: var(--color-resource); }
+:is(.tip.skill,     #global-tooltip.tt-skill)     { --tip-color: var(--color-skill);     --tt-accent: var(--color-skill); }
 
-.tip.action    { --tip-color: var(--color-action); }
-.tip.roll      { --tip-color: var(--color-roll); }
-.tip.condition { --tip-color: var(--color-condition); }
+:is(.tip.action,    #global-tooltip.tt-action)    { --tip-color: var(--color-action);    --tt-accent: var(--color-action); }
+:is(.tip.roll,      #global-tooltip.tt-roll)      { --tip-color: var(--color-roll);      --tt-accent: var(--color-roll); }
+:is(.tip.condition, #global-tooltip.tt-condition) { --tip-color: var(--color-condition); --tt-accent: var(--color-condition); }
 
-.tip.lore      { --tip-color: var(--color-lore); }
+:is(.tip.lore,      #global-tooltip.tt-lore)      { --tip-color: var(--color-lore);      --tt-accent: var(--color-lore); }

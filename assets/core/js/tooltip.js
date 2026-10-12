@@ -236,6 +236,15 @@ class TooltipEngine {
         if (data.subType) this.el.classList.add(`tt-${data.subType}`);
         if (data.key) this.el.classList.add(data.key); // 예: 'acid', 'dazed' 클래스 추가 -> CSS 변수 자동 상속
 
+        // ★ [여기 추가] 호버된 .tip 요소의 --tip-color를 읽어 툴팁(#global-tooltip)에 주입
+        const computedStyle = window.getComputedStyle(target);
+        const tipColor = computedStyle.getPropertyValue("--tip-color").trim();
+        if (tipColor) {
+            this.el.style.setProperty("--active-tip-color", tipColor);
+        } else {
+            this.el.style.removeProperty("--active-tip-color");
+        }
+
         if (data.color) {
             this.el.style.setProperty("--tt-accent", data.color);
         } else {
@@ -300,6 +309,8 @@ class TooltipEngine {
     hide() {
         if (this.el) {
             this.el.classList.remove("visible");
+            // ★ [여기 추가] 툴팁이 닫힐 때 주입했던 임시 색상 변수 제거
+            this.el.style.removeProperty("--active-tip-color");
         }
         this.activeTarget = null;
     }
