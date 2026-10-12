@@ -49,7 +49,6 @@ class TooltipEngine {
     async init() {
         this.createTooltipElement();
 
-        // 룰 이름을 찾으면 해당 폴더 안의 terms.yaml을 바로 호출
         const ruleName = this.detectRuleSystem();
         const yamlPath = `../../../assets/system/${ruleName}/terms.yaml`;
 
@@ -63,7 +62,7 @@ class TooltipEngine {
                 this.termsData = jsyaml.load(yamlText);
                 console.log(`[Tooltip] '${ruleName}.yaml' 로드 성공`);
 
-                // ★ YAML 데이터로 HTML 본문의 빈 태그 텍스트 및 색상 주입
+                // YAML 데이터 로드 완료 후 1회만 실행
                 this.renderEmptyTags();
             } else {
                 console.warn("[Tooltip] js-yaml 라이브러리가 로드되지 않았습니다.");
@@ -72,12 +71,10 @@ class TooltipEngine {
         } catch (err) {
             console.warn(`[Tooltip] ${yamlPath} 로드 실패:`, err);
             this.termsData = {};
-
         }
 
-        this.renderEmptyTags();
-        this.renderPotencyTags(); // 추가!
-
+        // ★ [삭제] 기존 76행의 중복 this.renderEmptyTags(); 제거!
+        this.renderPotencyTags();
         this.bindEvents();
     }
 
@@ -85,24 +82,20 @@ class TooltipEngine {
     renderEmptyTags() {
         if (!this.termsData) return;
 
-        // :empty 대신 대상 태그 전체 탐색
         const targets = document.querySelectorAll(".tag, .tip, .kw, .action-cost");
 
         targets.forEach(el => {
-            const rawText = el.textContent.trim();
-            // 1. data-val 또는 val 속성 확인
-            const attrVal = el.getAttribute("data-val") || el.getAttribute("val") || el.getAttribute("data-num");
+            // ★ 이미 변환 완료된 요소는 재처리 건너뜀 (이중 증식 원천 차단)
+            if (el.dataset.rendered === "true") return;
 
-            // 2. 태그 내부 텍스트가 순수 숫자인지 판별 (예: 1, 5, +2, -1, 1d10, 2칸 등)
+            const rawText = el.textContent.trim();
+            const attrVal = el.getAttribute("data-val") || el.getAttribute("val") || el.getAttribute("data-num");
             const isNumericOnly = /^[+-]?\d+(?:[a-zA-Z가-힣]+)?$/.test(rawText);
 
-            // 비어있지도 않고, data-val도 없고, 텍스트가 숫자가 아니면 일반 본문이므로 건너뜀
             const isEmpty = rawText === "";
             if (!isEmpty && !attrVal && !isNumericOnly) return;
 
-            // 부착할 숫자(값) 결정
             const val = attrVal || (isNumericOnly ? rawText : "");
-
             const data = this.resolveData(el);
 
             if (data.ko) {
@@ -111,12 +104,10 @@ class TooltipEngine {
                     displayText = `${data.ko} 피해`;
                 }
 
-                // 숫자가 있을 때: 줄바꿈 없는 공백(\u00A0)으로 결합
                 if (val) {
                     el.classList.add("has-val");
                     el.textContent = `${displayText}\u00A0${val}`;
 
-                    // lang-toggle.js 연동 데이터 (다국어 변환 시 숫자 유지)
                     el.dataset.langTarget = "true";
                     el.dataset.baseKo = `${displayText} ${val}`;
                     el.dataset.baseEn = data.en ? `${data.en} ${val}` : `${displayText} ${val}`;
@@ -132,6 +123,9 @@ class TooltipEngine {
                     el.style.setProperty("--tag-bg", data.color);
                     el.style.setProperty("--tt-accent", data.color);
                 }
+
+                // ★ 변환 완료 플래그 기록
+                el.dataset.rendered = "true";
             }
         });
     }
