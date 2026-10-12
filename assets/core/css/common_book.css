@@ -1279,3 +1279,142 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
         display: none !important;
     }
 }
+
+/* ---------- 목차 전용 스타일 (색·글꼴은 common-book.css 의 변수를 사용) ---------- */
+.toc-back {
+    display: inline-block;
+    margin: 0 0 1rem;
+    color: var(--neutral-600);
+    font-family: var(--font-ui), sans-serif;
+    font-size: calc(.95rem * var(--scale));
+    text-decoration: none;
+}
+.toc-back:hover { color: var(--accent); text-decoration: underline; }
+
+.toc-lead {
+    max-width: 38rem;
+    margin: 0 0 1.4rem;
+    color: var(--neutral-600);
+}
+
+/* 좌우 2단: 왼쪽 = 시작 규칙, 오른쪽 = 데이터 */
+.toc-cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+}
+.toc-cols > section:first-child { padding-right: 1.2rem; }
+.toc-cols > section + section {               /* 두 단 사이 세로 구분선 */
+    padding-left: 1.2rem;
+    border-left: 1px solid var(--neutral-300);
+}
+.toc-cols.is-single { grid-template-columns: minmax(0, 1fr); }
+.toc-cols.is-single > section { padding: 0; border-left: 0; }
+.toc-cols h2 { margin: 0 0 .6rem; }
+
+.toc-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 2px solid var(--neutral-800);
+}
+.toc-list .toc-list,
+.toc-cols .toc-list { border-top: 0; }        /* 단 제목(h2)의 밑줄이 이미 구분선 역할 */
+
+/* 문서 한 줄 (링크) 과 묶음 버튼은 같은 모양 */
+.toc-link,
+.toc-group-btn {
+    box-sizing: border-box;                   /* width:100% 에 여백이 더해져 칸 밖으로 넘치지 않도록 */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    width: 100%;
+    margin: 0;
+    padding: .8rem .8rem .8rem .7rem;
+    border: 0;
+    border-bottom: 1px solid var(--neutral-300);
+    background: none;
+    color: var(--neutral-800);
+    font-family: var(--font-head), sans-serif;
+    font-size: calc(1.35rem * var(--scale));
+    font-weight: 800;
+    line-height: 1.15;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .15s, box-shadow .15s, color .15s;
+}
+.toc-link:hover,
+.toc-group-btn:hover,
+.toc-group.is-open > .toc-group-btn {
+    background: rgba(var(--highlight-rgb), .1);
+    box-shadow: inset 4px 0 0 var(--accent);
+}
+.toc-link:hover,
+.toc-group-btn:hover { color: var(--accent); }
+.toc-link:focus-visible,
+.toc-group-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+/* 묶음 버튼의 화살표 (펼치면 아래로 돌아감) */
+.toc-caret {
+    flex: none;
+    width: .55rem;
+    height: .55rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform .2s;
+}
+.toc-group.is-open > .toc-group-btn .toc-caret { transform: rotate(45deg); }
+
+/* 펼침 영역: 높이를 0 → 내용 높이로 부드럽게 */
+.toc-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .22s ease;
+}
+.toc-group.is-open > .toc-panel { grid-template-rows: 1fr; }
+.toc-panel > .toc-list {
+    min-height: 0;
+    overflow: hidden;
+    visibility: hidden;                       /* 접힌 동안은 키보드 포커스도 막음 */
+    transition: visibility 0s .22s;
+    margin-left: 1rem;
+    border-left: 2px solid var(--neutral-300);
+}
+.toc-group.is-open > .toc-panel > .toc-list {
+    visibility: visible;
+    transition-delay: 0s;
+}
+.toc-panel .toc-link,
+.toc-panel .toc-group-btn {
+    font-size: calc(1.1rem * var(--scale));
+    font-weight: 700;
+    padding-top: .6rem;
+    padding-bottom: .6rem;
+}
+
+/* 비어 있거나 불러오지 못했을 때 */
+.toc-message {
+    padding: 1.2rem 1rem;
+    border-left: 4px solid var(--accent);
+    background: rgba(var(--ink-rgb), .06);
+}
+.toc-message strong { display: block; margin-bottom: .2rem; }
+.toc-message code {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .9em;
+}
+
+@media (max-width: 45rem) {
+    .toc-cols { grid-template-columns: minmax(0, 1fr); row-gap: 2rem; }
+    .toc-cols > section { padding: 0 !important; border-left: 0 !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .toc-link, .toc-group-btn, .toc-caret, .toc-panel, .toc-panel > .toc-list { transition: none; }
+}
