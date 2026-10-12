@@ -35,9 +35,9 @@ class TooltipEngine {
         }
 
         // <link href=".../assets/rules/draw_steel/theme.css"> 경로에서 룰 이름 추출
-        const ruleLink = document.querySelector('link[href*="/assets/rules/"]');
+        const ruleLink = document.querySelector('link[href*="/assets/system/"]');
         if (ruleLink) {
-            const match = ruleLink.getAttribute("href").match(/\/assets\/rules\/([^\/]+)\//);
+            const match = ruleLink.getAttribute("href").match(/\/assets\/system\/([^\/]+)\//);
             if (match) return match[1]; // "draw_steel"
         }
 
