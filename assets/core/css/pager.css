@@ -225,8 +225,8 @@
 .drawer-sub-title {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* ★ space-between 제거 -> 좌측 정렬 */
-    gap: 0.5rem;                 /* ★ 아이콘과 텍스트 사이 자연스러운 여백 */
+    justify-content: flex-start;
+    gap: 0.5rem;
     padding: 0.65rem 1.4rem;
     font-family: var(--font-head), sans-serif;
     font-size: 1.15rem;
@@ -234,6 +234,8 @@
     color: var(--paper-2, #dfdacd);
     text-decoration: none;
     border-left: 3px solid transparent;
+    cursor: pointer;
+    user-select: none;
     transition: all 0.2s ease;
 }
 .drawer-sub-title {
@@ -264,7 +266,7 @@
 
 /* '열람중' 칩 뱃지 */
 .current-badge {
-    margin-left: auto; /* 뱃지만 오른쪽 끝에 정돈 */
+    margin-left: auto;
     font-family: var(--font-head), sans-serif;
     font-size: 0.7rem;
     font-weight: 700;
@@ -282,11 +284,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1rem;
+    width: 1.1rem;
     font-family: monospace;
     font-weight: 700;
     color: var(--neutral-300, #a7aeb6);
     flex-shrink: 0;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+.toggle-icon:hover {
+    color: var(--highlight, #d9822b);
+    transform: scale(1.15);
+}
+
+.title-text {
+    flex: 1;
+    min-width: 0;
 }
 
 /* 서브 리스트 (하위 데이터 파일 목록) */

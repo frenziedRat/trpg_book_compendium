@@ -12,7 +12,7 @@
             headerTitle: "목차",                   // 드로어 상단 헤더 제목
             closeAria: "목차 닫기",                    // 닫기 버튼 접근성 라벨
             closeIcon: "&times;",                      // 닫기 버튼 기호 (×)
-            currentBadge: "열람중",                    // 현재 열람 중인 문서 뱃지 문구
+            currentBadge: "현재",                    // 현재 열람 중인 문서 뱃지 문구
             groupExpandIcon: "＋",                     // 하위 목차 접혀있을 때 기호
             groupCollapseIcon: "－",                   // 하위 목차 펼쳐졌을 때 기호
             homeSubLabel: "MAIN INDEX",                // 홈 버튼 상단 영문 라벨
@@ -199,53 +199,106 @@
             const kids = childrenOf(item);
             const cur = isCurrent(item);
             const holdsCur = kids.some(containsCurrent);
+            const hasKids = kids.length > 0;
+            const hasPath = !!item.path;
 
             const box = document.createElement(depth === 0 ? "div" : "li");
             box.className = depth === 0 ? "drawer-doc-group" : "drawer-sub-item";
             if (cur) box.classList.add("current");
             if (holdsCur) box.classList.add("has-current");
 
+            // 단일 통합 링크 생성
             const link = document.createElement("a");
             link.className = depth === 0 ? "drawer-doc-title" : "drawer-sub-title";
+            link.href = hasPath ? resolveTargetUrl(item.path) : "#";
 
             const open = cur || holdsCur || item.open === true;
             let kidsUl = null;
 
-            if (kids.length) {
+            if (hasKids) {
                 kidsUl = document.createElement("ul");
                 kidsUl.className = "drawer-sub-list";
                 kids.forEach((kid) => kidsUl.appendChild(renderItem(kid, depth + 1)));
                 kidsUl.style.display = open ? "" : "none";
             }
 
-            if (cur) {
-                link.href = "#";
-                link.innerHTML = `
-                    <span class="title-text">${item.title}</span>
-                    <span class="current-badge">${PAGER_UI_TEXT.drawer.currentBadge}</span>
-                `;
-                link.onclick = (e) => {
+            // 하위 목록이 있는 경우 기호(＋ / －) 생성
+            let toggleSpan = null;
+            if (hasKids) {
+                toggleSpan = document.createElement("span");
+                toggleSpan.className = "toggle-icon";
+                toggleSpan.textContent = open ? PAGER_UI_TEXT.drawer.groupCollapseIcon : PAGER_UI_TEXT.drawer.groupExpandIcon;
+
+                // 기호 아이콘을 직접 눌렀을 때는 언제든 접기/펼치기만 동작하도록 분기
+                toggleSpan.onclick = (e) => {
                     e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                    closeDrawer();
-                };
-            } else if (item.path) {
-                link.href = resolveTargetUrl(item.path);
-                link.innerHTML = `<span class="title-text">${item.title}</span>`;
-            } else {
-                const getCaret = () => (kidsUl && kidsUl.style.display === "none" ? PAGER_UI_TEXT.drawer.groupExpandIcon : PAGER_UI_TEXT.drawer.groupCollapseIcon);
-                link.href = "#";
-                link.innerHTML = `<span class="toggle-icon">${getCaret()}</span><span class="title-text">${item.title}</span>`;
-                link.onclick = (e) => {
-                    e.preventDefault();
+                    e.stopPropagation();
                     if (!kidsUl) return;
                     const willShow = kidsUl.style.display === "none";
                     kidsUl.style.display = willShow ? "" : "none";
-                    link.querySelector(".toggle-icon").textContent = willShow ? PAGER_UI_TEXT.drawer.groupCollapseIcon : PAGER_UI_TEXT.drawer.groupExpandIcon;
+                    toggleSpan.textContent = willShow ? PAGER_UI_TEXT.drawer.groupCollapseIcon : PAGER_UI_TEXT.drawer.groupExpandIcon;
                 };
+                link.appendChild(toggleSpan);
             }
+
+            // 제목 텍스트
+            const titleSpan = document.createElement("span");
+            titleSpan.className = "title-text";
+            titleSpan.textContent = item.title;
+            link.appendChild(titleSpan);
+
+            // 열람 중 뱃지
+            if (cur) {
+                const badge = document.createElement("span");
+                badge.className = "current-badge";
+                badge.textContent = PAGER_UI_TEXT.drawer.currentBadge;
+                link.appendChild(badge);
+            }
+
+            // ★ 스마트 클릭 핸들러 (접혀있으면 펼치기, 펼쳐져있으면 이동)
+            link.onclick = (e) => {
+                // 1. 현재 열람 중인 페이지라면 최상단 스크롤 후 드로어 닫기
+                if (cur) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    closeDrawer();
+                    return;
+                }
+
+                // 2. 하위 목록이 있는 경우
+                if (hasKids && kidsUl) {
+                    const isCurrentlyOpen = kidsUl.style.display !== "none";
+
+                    // [접혀 있는 상태] -> 이동하지 않고 하위 목록 펼치기
+                    if (!isCurrentlyOpen) {
+                        e.preventDefault();
+                        kidsUl.style.display = "";
+                        if (toggleSpan) toggleSpan.textContent = PAGER_UI_TEXT.drawer.groupCollapseIcon;
+                        return;
+                    }
+
+                    // [이미 펼쳐져 있는 상태]
+                    if (hasPath) {
+                        // path가 있으면 페이지 정상 이동 (기본 href 동작 수행)
+                        closeDrawer();
+                    } else {
+                        // path가 없는 순수 그룹이면 다시 접기
+                        e.preventDefault();
+                        kidsUl.style.display = "none";
+                        if (toggleSpan) toggleSpan.textContent = PAGER_UI_TEXT.drawer.groupCollapseIcon;
+                    }
+                    return;
+                }
+
+                // 3. 단일 문서 페이지
+                if (hasPath) {
+                    closeDrawer();
+                }
+            };
+
             box.appendChild(link);
 
+            // Rule 문서일 때만 내부 h2 목록 표시
             if (cur && isRuleDocument(item)) {
                 const h2List = buildRuleH2List();
                 if (h2List) box.appendChild(h2List);
