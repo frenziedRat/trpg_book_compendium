@@ -279,7 +279,7 @@ article.ability {
     line-height: 1.4;
 }
 
-.ability.inner {
+.feature > .ability {
     margin: 0.1em 0.5em 1em;
 }
 
