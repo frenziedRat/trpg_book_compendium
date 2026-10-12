@@ -72,7 +72,11 @@ class TooltipEngine {
         } catch (err) {
             console.warn(`[Tooltip] ${yamlPath} 로드 실패:`, err);
             this.termsData = {};
+
         }
+
+        this.renderEmptyTags();
+        this.renderPotencyTags(); // 추가!
 
         this.bindEvents();
     }
@@ -81,31 +85,168 @@ class TooltipEngine {
     renderEmptyTags() {
         if (!this.termsData) return;
 
-        const emptyTargets = document.querySelectorAll(".tag:empty, .tip:empty, .kw:empty, .action-cost:empty");
+        // :empty 대신 대상 태그 전체 탐색
+        const targets = document.querySelectorAll(".tag, .tip, .kw, .action-cost");
 
-        emptyTargets.forEach(el => {
+        targets.forEach(el => {
+            const rawText = el.textContent.trim();
+            // 1. data-val 또는 val 속성 확인
+            const attrVal = el.getAttribute("data-val") || el.getAttribute("val") || el.getAttribute("data-num");
+
+            // 2. 태그 내부 텍스트가 순수 숫자인지 판별 (예: 1, 5, +2, -1, 1d10, 2칸 등)
+            const isNumericOnly = /^[+-]?\d+(?:[a-zA-Z가-힣]+)?$/.test(rawText);
+
+            // 비어있지도 않고, data-val도 없고, 텍스트가 숫자가 아니면 일반 본문이므로 건너뜀
+            const isEmpty = rawText === "";
+            if (!isEmpty && !attrVal && !isNumericOnly) return;
+
+            // 부착할 숫자(값) 결정
+            const val = attrVal || (isNumericOnly ? rawText : "");
+
             const data = this.resolveData(el);
 
             if (data.ko) {
-                // 피해 태그(.tag.damage)는 뒤에 " 피해" 자동 부착 (단, type 태그는 제외)
                 let displayText = data.ko;
                 if (el.classList.contains("damage") && !el.classList.contains("type")) {
                     displayText = `${data.ko} 피해`;
                 }
 
-                el.textContent = displayText;
+                // 숫자가 있을 때: 줄바꿈 없는 공백(\u00A0)으로 결합
+                if (val) {
+                    el.classList.add("has-val");
+                    el.textContent = `${displayText}\u00A0${val}`;
 
-                // lang-toggle.js 연동용 데이터 속성 부여
-                el.dataset.langTarget = "true";
-                el.dataset.baseKo = displayText;
-                el.dataset.baseEn = data.en;
+                    // lang-toggle.js 연동 데이터 (다국어 변환 시 숫자 유지)
+                    el.dataset.langTarget = "true";
+                    el.dataset.baseKo = `${displayText} ${val}`;
+                    el.dataset.baseEn = data.en ? `${data.en} ${val}` : `${displayText} ${val}`;
+                } else {
+                    el.textContent = displayText;
 
-                // YAML에 color가 지정되어 있으면 스타일 변수 주입
+                    el.dataset.langTarget = "true";
+                    el.dataset.baseKo = displayText;
+                    el.dataset.baseEn = data.en || displayText;
+                }
+
                 if (data.color) {
                     el.style.setProperty("--tag-bg", data.color);
                     el.style.setProperty("--tt-accent", data.color);
                 }
             }
+        });
+    }
+
+    // ★ <potency stat="..." dc="..."> 커스텀 태그 자동 조립
+    // ★ <potency> 엔진: terms.yaml의 stat / rule 데이터 연동
+    renderPotencyTags() {
+        if (!this.termsData) return;
+
+        const statSource = this.termsData.stat || {};
+        const ruleSource = this.termsData.rule || {};
+
+        // 1. stat 조회 헬퍼 (YAML 키 매칭 -> 한글/영문 값 역탐색)
+        const resolveStat = (token) => {
+            const raw = token.trim();
+            const lower = raw.toLowerCase();
+
+            // YAML 키 직접 매칭 (might, intuition 등)
+            if (statSource[lower]) return statSource[lower];
+            if (statSource[raw]) return statSource[raw];
+
+            // ko 또는 en 값으로 역탐색 (완력, Might, 지능 등)
+            for (const key in statSource) {
+                const item = statSource[key];
+                if (item.ko === raw || (item.en && item.en.toLowerCase() === lower)) {
+                    return item;
+                }
+            }
+            return { ko: raw, en: raw };
+        };
+
+        // 2. grade 조회 헬퍼 (terms.yaml의 rule 섹션에서 조회)
+        const resolveGrade = (token) => {
+            const raw = token.trim();
+            const lower = raw.toLowerCase();
+
+            let matchedKey = "";
+            let item = null;
+
+            // YAML 키 직접 매칭 (weak, medium, strong 등)
+            if (ruleSource[lower]) {
+                matchedKey = lower;
+                item = ruleSource[lower];
+            } else if (ruleSource[raw]) {
+                matchedKey = raw;
+                item = ruleSource[raw];
+            } else {
+                // ko 또는 en 값으로 역탐색 (약, 중, 강 등)
+                for (const key in ruleSource) {
+                    const r = ruleSource[key];
+                    if (r.ko === raw || (r.en && r.en.toLowerCase() === lower)) {
+                        matchedKey = key;
+                        item = r;
+                        break;
+                    }
+                }
+            }
+
+            if (!item) {
+                return { ko: raw, en: raw, cls: lower };
+            }
+
+            // medium / med 클래스 명칭 통일
+            const cls = (matchedKey === "med" || matchedKey === "medium") ? "medium" : matchedKey;
+            return { ko: item.ko || raw, en: item.en || raw, cls: cls };
+        };
+
+        document.querySelectorAll("potency, .potency[stat]").forEach(el => {
+            const rawStat = (el.getAttribute("stat") || "").trim();
+            const rawDc = (el.getAttribute("dc") || el.getAttribute("grade") || "").trim();
+
+            // 쉼표/슬래시 분리 후 terms.yaml의 stat에서 각각 조회
+            const tokens = rawStat.split(/[,/]\s*/).filter(Boolean);
+            const koNames = [];
+            const enNames = [];
+
+            tokens.forEach(tok => {
+                const info = resolveStat(tok);
+                koNames.push(info.ko || tok);
+                enNames.push(info.en || tok);
+            });
+
+            let statTextKo = "";
+            let statTextEn = "";
+
+            if (koNames.length === 1) {
+                statTextKo = koNames[0];
+                statTextEn = enNames[0];
+                el.classList.remove("multi-stat");
+            } else if (koNames.length > 1) {
+                // 다중 능력치: "중 하나" 결합 및 줄바꿈 클래스 부여
+                statTextKo = `${koNames.join(", ")} 중 하나`;
+                if (enNames.length === 2) {
+                    statTextEn = `${enNames[0]} or ${enNames[1]}`;
+                } else {
+                    statTextEn = `${enNames.slice(0, -1).join(", ")}, or ${enNames[enNames.length - 1]}`;
+                }
+                el.classList.add("multi-stat");
+            }
+
+            // terms.yaml의 rule에서 등급(약/중/강) 정보 조회
+            const gradeInfo = resolveGrade(rawDc);
+
+            el.innerHTML = `
+                <span class="stat">${statTextKo}</span>
+                <span class="dc-group">
+                    <span class="op">&lt;</span>
+                    <span class="grade ${gradeInfo.cls}">${gradeInfo.ko}</span>
+                </span>
+            `.trim();
+
+            // lang-toggle.js 연동 데이터
+            el.dataset.langTarget = "true";
+            el.dataset.baseKo = `${statTextKo} < ${gradeInfo.ko}`;
+            el.dataset.baseEn = `${statTextEn} < ${gradeInfo.en}`;
         });
     }
 
@@ -162,48 +303,84 @@ class TooltipEngine {
         let en = target.getAttribute("term-en") || "";
         let desc = target.getAttribute("tool-tip") || target.getAttribute("tag-text") || "";
 
-        // 1. 카테고리 및 서브타입 판별
-        if (classList.includes("tag")) {
-            category = "tag";
-            if (classList.includes("damage") || classList.includes("type")) subType = "damage";
-            else if (classList.includes("condition")) subType = "condition";
-            else if (classList.includes("action")) subType = "action";
-        } else if (classList.includes("tip")) {
-            category = "tip";
-            const tipTypes = ["skill", "action", "condition", "damage", "resource", "lore", "rule", "stat", "roll", "test"];
-            for (const t of tipTypes) {
-                if (classList.includes(t) || classList.includes(`tip-${t}`)) {
-                    subType = t;
-                    break;
-                }
+        // 1. 기본 카테고리(category) 식별
+        const baseCategories = ["tag", "tip", "kw", "action-cost", "trait"];
+        for (const cat of baseCategories) {
+            if (classList.includes(cat)) {
+                category = cat;
+                break;
             }
-            if (!subType) subType = "rule";
-        } else if (classList.includes("kw")) {
-            category = "kw";
-            subType = "kw";
-        } else if (classList.includes("action-cost")) {
-            category = "action-cost";
-            subType = "action";
-        } else if (classList.includes("trait")) {
-            category = "trait";
-            subType = "trait";
+        }
+        if (category === "action-cost") subType = "action";
+        if (category === "kw") subType = "kw";
+        if (category === "trait") subType = "trait";
+
+        // 2. 예약어 제외 후 커스텀 클래스 추출
+        // (예: class="tip effect knockback" -> ["effect", "knockback"])
+        const systemReserved = [
+            "tag", "tip", "kw", "trait", "badge", "action-cost", "type",
+            "visible", "inner", "name", "price", "signature"
+        ];
+        const customClasses = classList.filter(c => !systemReserved.includes(c) && !c.startsWith("tt-"));
+
+        // 3. 서브타입(subType)과 키(key) 동적 결정
+        let key = "";
+
+        if (customClasses.length >= 2) {
+            // 클래스가 2개 이상인 경우: 첫 번째가 서브타입, 두 번째가 키
+            // (예: .tip.effect.knockback, .tag.damage.psychic)
+            subType = customClasses[0];
+            key = customClasses[1];
+        } else if (customClasses.length === 1) {
+            const single = customClasses[0];
+            const attrKey = target.getAttribute("term-en") || target.getAttribute("id") || "";
+
+            if (attrKey) {
+                // <span class="tip skill" term-en="interpersonal"> 형태
+                subType = single;
+                key = attrKey;
+            } else if (this.termsData && this.termsData[single]) {
+                // 단독 서브타입이면서 YAML에 해당 그룹이 있는 경우 (예: .tip.effect)
+                subType = single;
+                key = single;
+            } else {
+                // 키만 적힌 경우 (예: .tip.concealment)
+                key = single;
+            }
         }
 
-        // 2. YAML 키 추출
-        const reserved = ["tag", "tip", "kw", "trait", "badge", "action-cost", "type", subType, `tip-${subType}`];
-        const candidateKey = classList.find(c => !reserved.includes(c));
-        let key = candidateKey || target.getAttribute("id") || "";
-        if (key.startsWith("tip-")) key = key.replace("tip-", "");
+        // 4. YAML 데이터 매칭
+        let item = null;
+        if (this.termsData) {
+            // 1순위: subType과 key가 모두 맞는 경우 (termsData.effect.knockback)
+            if (subType && key && this.termsData[subType] && this.termsData[subType][key]) {
+                item = this.termsData[subType][key];
+            }
+            // 2순위: termsData[subType][subType] 단독 항목 매칭
+            else if (subType && this.termsData[subType] && this.termsData[subType][subType]) {
+                item = this.termsData[subType][subType];
+            }
+            // 3순위: subType 미지정 시 YAML 전체 카테고리에서 key 역추적
+            else if (key) {
+                for (const cat in this.termsData) {
+                    if (this.termsData[cat] && this.termsData[cat][key]) {
+                        item = this.termsData[cat][key];
+                        if (!subType) subType = cat;
+                        break;
+                    }
+                }
+            }
+        }
 
-        // 3. YAML 데이터 매칭
-        if (this.termsData && subType && this.termsData[subType] && this.termsData[subType][key]) {
-            const item = this.termsData[subType][key];
+        // 데이터 반영
+        if (item) {
             ko = item.ko || ko;
             en = item.en || en;
             desc = desc || item.desc || "";
             color = item.color || "";
         }
 
+        // 5. 뱃지 문구 매핑 (새로운 카테고리가 들어오면 여기에 추가 가능)
         const badgeMap = {
             damage: "피해",
             condition: "상태 이상",
@@ -215,9 +392,15 @@ class TooltipEngine {
             skill: "기술",
             trait: "특성",
             roll: "판정",
-            test: "시도"
+            test: "시도",
+            effect: "효과",       // ★ effect 추가
+            area: "범위",
+            item: "아이템",
+            lore: "설정"
         };
-        const badgeText = badgeMap[subType] || category.toUpperCase();
+
+        // 매핑 목록에 없으면 서브타입 영문 대문자(예: "EFFECT", "AURA")로 폴백
+        const badgeText = badgeMap[subType] || badgeMap[category] || (subType ? subType.toUpperCase() : category.toUpperCase());
 
         return { category, subType, key, ko, en, desc, color, badgeText };
     }

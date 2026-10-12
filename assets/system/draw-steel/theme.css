@@ -36,7 +36,22 @@
     --color-roll:        #b3121f;
     --color-condition:   #9333ea;
     --color-lore:        #0f766e;
+
+    /* 효과 전용 색상 지정 (예: 주황빛 or 청록빛) */
+    --color-effect: #ea580c;
 }
+
+/* tip 과 tag 양쪽에 적용 */
+:is(.tip.effect, #global-tooltip.tt-effect) {
+    --tip-color: var(--color-effect);
+    --tt-accent: var(--color-effect);
+}
+
+:is(.tag.effect, #global-tooltip.tt-effect) {
+    --tag-bg: var(--color-effect);
+    --tt-accent: var(--color-effect);
+}
+
 /* ---------- 피해 타입 (기본 굵은 글씨 형태) ---------- */
 .dmg-acid        { color: var(--color-acid); }
 .dmg-cold        { color: var(--color-cold); }

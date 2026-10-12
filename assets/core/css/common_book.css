@@ -673,51 +673,167 @@ article.ability {
 .roll .power-roll.stat { margin-left: 0; }   /* 같은 요소일 땐 ::before 안의 공백이 간격 역할 */
 
 /* 굴림 단계표: [단계] [피해·개별 효과] [위력(potency) 부가효과] 3열
-   <ul class="tiers">
-     <li><b>12–16</b><span class="damage">피해 4</span><span class="potency">M&lt;weak 느려짐(내성 판정 종료)</span></li>
-   </ul>
    - 세 단계(li)가 같은 열 너비를 공유(subgrid)해서 단계마다 열 경계가 어긋나지 않음
    - 피해 열은 글자 길이만큼(최대 55%)만 차지하고, 남는 폭이 위력 열 → 위력이 길어도 줄바꿈될 뿐 피해 열을 침범하지 않음
    - 위력 요소가 없는 예전 마크업(<li><b>…</b><span>…</span></li>)은 두 번째 칸이 끝까지 펼쳐짐 */
+/* ========================================================
+   굴림 단계표 (.tiers) - 3열 독립 그리드 레이아웃
+======================================================== */
 .tiers {
-    display: grid;
-    grid-template-columns: 4.2rem fit-content(55%) minmax(0, 1fr);
-    margin: 0;
-    padding: 0;
     list-style: none;
+    margin: 0.5rem 0;
+    padding: 0;
 }
-.tiers li {
+
+.tiers li,
+.tiers li.outcome {
     display: grid;
-    grid-column: 1 / -1;
-    grid-template-columns: subgrid;   /* 부모 .tiers의 열을 그대로 사용 */
+    /* 1열 고정(3.4rem) / 2열(1.35fr) / 3열(1fr) */
+    grid-template-columns: 3.4rem minmax(0, 1.35fr) minmax(0, 1fr);
     align-items: stretch;
     margin: 0 0 3px;
     padding: 0;
     background: var(--paper-2);
+    font-size: calc(0.85rem * var(--scale));
+    line-height: 1.35;
 }
+
 .tiers li::before { content: none; }
+
+/* 1. 맨 앞 숫자 뱃지 (너비 고정, 줄바꿈 불가, 상하 100% 밀착) */
 .tiers b {
-    display: grid;
-    place-items: center;
-    padding: .1em 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.4rem;
+    min-width: 3.4rem;
+    max-width: 3.4rem;
+    height: 100%;
+    margin: 0;
+    padding: 0.2em 0.3em;
     color: #fff;
     font-family: var(--font-head), sans-serif;
     font-size: calc(1rem * var(--scale));
     font-weight: 800;
     clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    box-sizing: border-box;
+    flex-shrink: 0;
+    white-space: nowrap; /* 줄바꿈 방지 */
 }
-.tiers li > span {
-    min-width: 0;                     /* 긴 글자가 칸 밖으로 밀고 나가지 않게 */
-    padding: .15em .6em;
-}
-.tiers li > span:nth-child(2):last-child { grid-column: 2 / -1; }   /* 위력 없는 단계는 끝까지 */
-.tiers .potency {
-    border-left: 1px dashed var(--neutral-300);   /* 피해 열과 시각적으로 분리 */
-    overflow-wrap: anywhere;                    /* 띄어쓰기 없는 긴 표기도 칸 안에서 줄바꿈 */
-}
+
 .tiers li:nth-child(1) b { background: var(--tier-1); }
 .tiers li:nth-child(2) b { background: var(--tier-2); }
 .tiers li:nth-child(3) b { background: var(--tier-3); }
+
+/* 2. 피해 및 기본 효과 영역 (dmg + effect) */
+.tiers .dmg {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.2em 0.45em;
+    padding: 0.35rem 0.6rem;
+    color: var(--neutral-800);
+    word-break: keep-all;
+    border-right: 1px solid rgba(0, 0, 0, 0.08); /* 2열과 3열 사이 구분선 */
+}
+
+/* 3열(potency)이 없는 행은 2열이 끝까지 100% 차지 */
+.tiers li > .dmg:last-child {
+    grid-column: 2 / -1;
+    border-right: none;
+}
+
+/* 3. 위력 판정 및 상태이상 영역 (potency + effect) */
+.tiers :is(.potency-col, .potency-wrap) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 0.25em 0.45em;
+    padding: 0.35rem 0.55rem;
+    word-break: keep-all;
+}
+
+/* ========================================================
+   위력 배지 (<potency> / .potency)
+   - trait badge 계승: 검은 바탕, 엠버 포인트 바, 빗각 커팅
+======================================================== */
+:is(potency, .potency) {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    padding: 0.15em 0.55em 0.15em 0.65em;
+    color: var(--paper, #ebe7dd);
+    font-family: var(--font-head), var(--font-ui), sans-serif;
+    font-size: 0.88em;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: .02em;
+    vertical-align: middle;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+/* trait badge 형태 레이어 */
+:is(potency, .potency)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+            linear-gradient(90deg, var(--highlight, #d9822b) 0 3px, transparent 3px),
+            var(--neutral-800, #1f232a);
+    clip-path: polygon(
+            4px 0, 100% 0,
+            100% calc(100% - 4px), calc(100% - 4px) 100%,
+            0 100%, 0 4px
+    );
+}
+
+/* 능력치가 길거나 여러 개일 때: 첫 줄 stat, 둘째 줄 부등호+등급 */
+:is(potency, .potency).multi-stat {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1em;
+    padding: 0.2em 0.55em 0.2em 0.65em;
+}
+
+:is(potency, .potency) .stat {
+    font-weight: 800;
+    color: var(--paper, #ebe7dd);
+    letter-spacing: 0.02em;
+    white-space: normal;
+}
+
+/* 부등호와 등급 묶음 (한 줄 유지) */
+:is(potency, .potency) .dc-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+    white-space: nowrap;
+}
+
+/* 부등호 (<) 색상을 흰색으로 변경 */
+:is(potency, .potency) .op {
+    color: #fff;
+    font-weight: 900;
+    font-size: 0.9em;
+}
+
+/* 3. 등급 (Grade: 약 / 중 / 강 모두 흰색으로 통일) */
+:is(potency, .potency) .grade {
+    font-weight: 800;
+    color: #fff; /* 기본 흰색 */
+}
+
+/* 기존 개별 등급 색상 제거 및 흰색 유지 */
+:is(potency, .potency) .grade.strong,
+:is(potency, .potency) .grade.medium,
+:is(potency, .potency) .grade.weak {
+    color: #fff;
+}
 
 .effect {
     margin: .2em 0;
@@ -1182,6 +1298,67 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
     transform: translateY(0.08em);
 }
 
+/* ========================================================
+   위력 전용 커스텀 태그 (<potency>)
+======================================================== */
+potency {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    padding: 0.12em 0.5em;
+    background: var(--neutral-900, #14161a);
+    color: var(--paper, #ebe7dd);
+    border: 1px solid var(--neutral-600, #4a535e);
+    border-left: 3px solid var(--highlight, #d9822b); /* 좌측 오렌지 바 */
+    border-radius: 3px;
+    font-family: var(--font-head, sans-serif);
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1.15;
+    vertical-align: middle;
+    white-space: nowrap;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+/* 판정 티어표(.tiers) 내부 상속 및 베이스라인 정렬 */
+.tiers potency {
+    font-size: 0.88em;
+    margin: 0 0.25em;
+    vertical-align: baseline;
+}
+
+/* 1. 능력치 명칭 */
+potency .stat {
+    font-weight: 800;
+    color: var(--paper, #ebe7dd);
+    letter-spacing: 0.02em;
+}
+
+/* 2. 연산자 (<) */
+potency .op {
+    color: var(--highlight, #d9822b);
+    font-weight: 900;
+    font-size: 0.88em;
+}
+
+/* 3. 등급 (Grade) */
+potency .grade {
+    font-weight: 800;
+    color: #fff;
+}
+
+/* 등급별 포인트 색상 */
+potency .grade.strong {
+    color: var(--accent, #b3121f);      /* 강: 붉은색 */
+}
+potency .grade.medium {
+    color: var(--highlight, #d9822b);   /* 중: 오렌지색 */
+}
+potency .grade.weak {
+    color: var(--neutral-300, #a7aeb6); /* 약: 그레이 */
+}
+
 /* ---------- 접근성·반응형·인쇄 ---------- */
 :focus-visible { outline: 3px solid var(--highlight); outline-offset: 2px; }
 
@@ -1417,4 +1594,15 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
 }
 @media (prefers-reduced-motion: reduce) {
     .toc-link, .toc-group-btn, .toc-caret, .toc-panel, .toc-panel > .toc-list { transition: none; }
+}
+
+/* 숫자가 결합된 툴팁과 태그는 줄바꿈 분리 금지 */
+:is(.tip, .tag).has-val {
+    white-space: nowrap;
+    display: inline-block; /* 줄 끝에서 단어 전체가 함께 넘어가도록 보장 */
+}
+
+/* 기본 .tip도 짧은 용어이므로 줄바꿈 방지 권장 */
+.tip {
+    white-space: nowrap;
 }
