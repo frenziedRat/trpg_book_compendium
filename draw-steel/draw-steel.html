@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Draw Steel - 목차</title>
     <!-- 이 파일은 사이트 루트(manifest 의 path 기준 폴더)에 둡니다. 다른 폴더에 두면 아래 두 경로의 앞부분만 고치세요 -->
-    <link rel="stylesheet" href="../assets/css/common_book.css">
+    <link rel="stylesheet" href="../assets/core/css/common_book.css">
     <style>
         /* ---------- 목차 전용 스타일 (색·글꼴은 common-book.css 의 변수를 사용) ---------- */
         .toc-back {
@@ -169,7 +169,7 @@
 </div>
 
 <!-- 목차 데이터: 문서 목록(title, path, children, column)은 manifest.js 에서 가져옵니다 -->
-<script src="../assets/js/manifest.js"></script>
+<script src="../assets/system/draw_steel/manifest.js"></script>
 <script>
     (function () {
         const colsEl = document.getElementById("toc-cols");
@@ -211,7 +211,7 @@
         const manifest = window.SITE_MANIFEST;
         if (!Array.isArray(manifest)) {
             showMessage("manifest.js 를 불러오지 못했습니다.",
-                ["이 파일 하단의 ", code('<script src="../assets/js/manifest.js">'), " 경로를 확인하세요."]);
+                ["이 파일 하단의 ", code('<script src="../assets/system/draw_steel/manifest.js">'), " 경로를 확인하세요."]);
             return;
         }
 
