@@ -1,6 +1,8 @@
 /**
  * Draw Steel Web Rulebook - Global Tooltip & Tag Engine
  */
+
+
 class TooltipEngine {
     constructor() {
         this.termsData = null;
@@ -49,7 +51,7 @@ class TooltipEngine {
 
         // 룰 이름을 찾으면 해당 폴더 안의 terms.yaml을 바로 호출
         const ruleName = this.detectRuleSystem();
-        const yamlPath = `../../assets/system/${ruleName}/terms.yaml`;
+        const yamlPath = `../../../assets/system/${ruleName}/terms.yaml`;
 
         try {
             const res = await fetch(yamlPath);
