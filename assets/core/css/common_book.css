@@ -1359,20 +1359,26 @@ table.advancement-table .feat-tag {
 :is(.tag, .tip).has-split-val.is-long {
     display: inline-flex !important;
     flex-direction: column !important;
-    align-items: stretch !important;
+    align-items: stretch !important;       /* 상단과 하단 너비를 항상 일치시킴 */
     width: fit-content;
+    max-width: 100%;                       /* 칸 밖(3열)으로 절대 삐져나가지 않음 */
     vertical-align: middle;
-    margin: 0.15em 0.25em;
+    margin: 0.2em 0;
+    box-sizing: border-box;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.08));
 }
 
-/* [상단 조각: 사다리꼴] */
-:is(.tag, .tip).has-split-val.is-long > :first-child {
-    padding: 0.12em calc(var(--hex-tip) + 0.45em) 0.1em !important;
+/* [상단 수치 조각: 사다리꼴] */
+:is(.tag, .tip).has-split-val.is-long > .tag-part-val:first-child {
+    white-space: normal !important;        /* ★ 상단 수치 줄바꿈 허용 */
+    word-break: keep-all;                  /* 한글 단어 단위 자연스러운 개행 */
+    overflow-wrap: break-word;
+    line-height: 1.25;
     text-align: center;
     justify-content: center;
+    padding: 0.25em calc(var(--hex-tip) + 0.45em) 0.15em !important;
 }
-:is(.tag, .tip).has-split-val.is-long > :first-child::before {
+:is(.tag, .tip).has-split-val.is-long > .tag-part-val:first-child::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -1380,24 +1386,24 @@ table.advancement-table .feat-tag {
     background: var(--tag-bg, var(--tip-color, #0284c7));
     clip-path: polygon(var(--hex-tip) 0, calc(100% - var(--hex-tip)) 0, 100% 100%, 0 100%) !important;
 }
-
-/* 상단이 흰색 수치(.tag-part-val)일 때의 흰색 내부 채움 */
 :is(.tag, .tip).has-split-val.is-long > .tag-part-val:first-child::after {
     content: "";
     position: absolute;
-    inset: 2px 2px 1.5px 2px !important; /* 아래 경계선에 1.5px 색상선 확보 */
+    inset: 2px 2px 1.5px 2px !important;  /* 하단 경계에 1.5px 속성 색상선 유지 */
     z-index: -1;
     background: #ffffff;
     clip-path: polygon(calc(var(--hex-tip) - 0.5px) 0, calc(100% - var(--hex-tip) + 0.5px) 0, 100% 100%, 0 100%) !important;
 }
 
-/* [하단 조각: 역사다리꼴] */
-:is(.tag, .tip).has-split-val.is-long > :last-child {
-    padding: 0.1em calc(var(--hex-tip) + 0.45em) 0.12em !important;
+/* [하단 라벨 조각: 역사다리꼴] */
+:is(.tag, .tip).has-split-val.is-long > .tag-part-label:last-child {
+    white-space: nowrap !important;        /* ★ 'XX 피해'는 절대 쪼개지지 않고 1줄 고정 */
+    word-break: keep-all !important;
     text-align: center;
     justify-content: center;
+    padding: 0.12em calc(var(--hex-tip) + 0.45em) 0.22em !important;
 }
-:is(.tag, .tip).has-split-val.is-long > :last-child::before {
+:is(.tag, .tip).has-split-val.is-long > .tag-part-label:last-child::before {
     content: "";
     position: absolute;
     inset: 0;
