@@ -1162,6 +1162,135 @@ table.advancement-table .feat-tag {
     padding: var(--tag-pad);
 }
 
+/* ========================================================
+   분할 육각형 배지 (.has-split-val)
+   - 외곽: 두 조각이 합쳐져 완벽한 하나의 육각형 배지 형성
+   - 왼쪽/오른쪽: 한쪽은 흰 바탕+속성 테두리, 반대쪽은 속성색 채움
+======================================================== */
+:is(.tag, .tip).has-split-val {
+    --hex-tip: 7px; /* 뾰족한 화살표 깊이 */
+    display: inline-flex !important;
+    align-items: stretch;
+    vertical-align: baseline;
+    padding: 0 !important;
+    margin: 0 0.2em;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    white-space: nowrap;
+}
+
+/* 래퍼 자체의 기존 단일 육각형 배경 레이어 제거 */
+:is(.tag, .tip).has-split-val::before,
+:is(.tag, .tip).has-split-val::after {
+    display: none !important;
+}
+
+/* --------------------------------------------------------
+   A. 수치 영역 (.tag-part-val): 흰 바탕 + 속성색 테두리 + 검은 글자
+-------------------------------------------------------- */
+.tag-part-val {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* ★ 글자 색상을 해당 속성의 색상 변수로 적용 */
+    color: var(--tag-bg, var(--tip-color, #0284c7));
+    font-family: var(--font-head), var(--font-ui), sans-serif;
+    font-size: 1.0em;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+/* A-1. 왼쪽 배치 (< 모양 화살표) - 3번 tag damage */
+.tag-part-val.left-arrow {
+    padding: 0.1em 0.55em 0.1em calc(var(--hex-tip) + 0.35em);
+}
+.tag-part-val.left-arrow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--tag-bg, var(--tip-color, #0284c7));
+    clip-path: polygon(var(--hex-tip) 0, 100% 0, 100% 100%, var(--hex-tip) 100%, 0 50%);
+}
+.tag-part-val.left-arrow::after {
+    content: "";
+    position: absolute;
+    inset: 2px 0 2px 2px; /* 상, 우, 하, 좌 */
+    z-index: -1;
+    background: #ffffff;
+    clip-path: polygon(calc(var(--hex-tip) - 0.5px) 0, 100% 0, 100% 100%, calc(var(--hex-tip) - 0.5px) 100%, 0 50%);
+}
+
+/* A-2. 오른쪽 배치 (> 모양 화살표) - 4번 immunity/weakness */
+.tag-part-val.right-arrow {
+    padding: 0.1em calc(var(--hex-tip) + 0.35em) 0.1em 0.55em;
+}
+.tag-part-val.right-arrow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--tag-bg, var(--tip-color, #0284c7));
+    clip-path: polygon(0 0, calc(100% - var(--hex-tip)) 0, 100% 50%, calc(100% - var(--hex-tip)) 100%, 0 100%);
+}
+.tag-part-val.right-arrow::after {
+    content: "";
+    position: absolute;
+    inset: 2px 2px 2px 0; /* 상, 우, 하, 좌 */
+    z-index: -1;
+    background: #ffffff;
+    clip-path: polygon(0 0, calc(100% - var(--hex-tip) + 0.5px) 0, 100% 50%, calc(100% - var(--hex-tip) + 0.5px) 100%, 0 100%);
+}
+
+/* --------------------------------------------------------
+   B. 텍스트 라벨 영역 (.tag-part-label): 속성색 채움 + 흰 글자
+-------------------------------------------------------- */
+.tag-part-label {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-family: var(--font-head), var(--font-ui), sans-serif;
+    font-size: 1.1em;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+/* B-1. 오른쪽 배치 (> 모양 화살표) - 3번 tag damage */
+.tag-part-label.right-arrow {
+    padding: 0.1em calc(var(--hex-tip) + 0.4em) 0.1em 0.55em;
+}
+.tag-part-label.right-arrow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--tag-bg, var(--tip-color, #0284c7));
+    clip-path: polygon(0 0, calc(100% - var(--hex-tip)) 0, 100% 50%, calc(100% - var(--hex-tip)) 100%, 0 100%);
+}
+
+/* B-2. 왼쪽 배치 (< 모양 화살표) - 4번 immunity/weakness */
+.tag-part-label.left-arrow {
+    padding: 0.1em 0.55em 0.1em calc(var(--hex-tip) + 0.4em);
+}
+.tag-part-label.left-arrow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--tag-bg, var(--tip-color, #0284c7));
+    clip-path: polygon(var(--hex-tip) 0, 100% 0, 100% 100%, var(--hex-tip) 100%, 0 50%);
+}
+
 /* 상태 이상 태그 */
 .tag.condition {
     --cond-cut: 4px;

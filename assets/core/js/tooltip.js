@@ -62,20 +62,82 @@ class TooltipEngine {
                 this.termsData = jsyaml.load(yamlText);
                 console.log(`[Tooltip] '${ruleName}.yaml' 로드 성공`);
 
-                // YAML 데이터 로드 완료 후 1회만 실행
+                // ★ 1. .dmg 컨테이너에서 .tag 요소 자동 조립
+                this.renderDmgTags();
+                // ★ 2. 조립된 태그 및 기존 빈 태그 일괄 렌더링
                 this.renderEmptyTags();
             } else {
                 console.warn("[Tooltip] js-yaml 라이브러리가 로드되지 않았습니다.");
                 this.termsData = {};
+                this.renderDmgTags();
+                this.renderEmptyTags();
             }
         } catch (err) {
             console.warn(`[Tooltip] ${yamlPath} 로드 실패:`, err);
             this.termsData = {};
+            this.renderDmgTags();
+            this.renderEmptyTags();
         }
 
-        // ★ [삭제] 기존 76행의 중복 this.renderEmptyTags(); 제거!
         this.renderPotencyTags();
         this.bindEvents();
+    }
+
+    // ★ .dmg 컨테이너의 속성/수치를 감지하여 내부에 .tag 요소를 자동 생성
+    renderDmgTags() {
+        const dmgContainers = document.querySelectorAll(".dmg");
+
+        // 9대 피해 속성 목록
+        const damageTypes = [
+            "acid", "cold", "corruption", "fire", "holy",
+            "lightning", "poison", "psychic", "sonic"
+        ];
+
+        dmgContainers.forEach(el => {
+            // 중복 렌더링 방지
+            if (el.dataset.dmgRendered === "true") return;
+
+            // 이미 내부에 .tag가 직접 들어가 있는 기존 방식이면 그대로 유지
+            if (el.querySelector(".tag")) {
+                el.dataset.dmgRendered = "true";
+                return;
+            }
+
+            const classList = Array.from(el.classList);
+            const matchedType = damageTypes.find(t => classList.includes(t));
+            const hasDamageOrType = classList.includes("damage") || classList.includes("type") || !!matchedType;
+            const attrVal = el.getAttribute("data-val") || el.getAttribute("val") || el.getAttribute("data-num");
+
+            // 데미지 타입 클래스나 data-val이 있는 경우 자동으로 앞쪽에 태그 생성
+            if (hasDamageOrType || attrVal) {
+                const tagEl = document.createElement("span");
+                tagEl.classList.add("tag");
+
+                // damage 명시가 없으면 기본적으로 깔끔한 type(속성명만 표시)으로 지정
+                if (classList.includes("damage")) {
+                    tagEl.classList.add("damage");
+                } else {
+                    tagEl.classList.add("type");
+                }
+
+                if (matchedType) {
+                    tagEl.classList.add(matchedType);
+                }
+
+                if (attrVal) {
+                    tagEl.setAttribute("data-val", attrVal);
+                }
+
+                // term-en이나 tool-tip이 .dmg에 지정되어 있었다면 전달
+                if (el.hasAttribute("term-en")) tagEl.setAttribute("term-en", el.getAttribute("term-en"));
+                if (el.hasAttribute("tool-tip")) tagEl.setAttribute("tool-tip", el.getAttribute("tool-tip"));
+
+                // [effect 부분] 앞에 태그 삽입
+                el.prepend(tagEl);
+
+                el.dataset.dmgRendered = "true";
+            }
+        });
     }
 
     // ★ 빈 span 태그를 YAML 데이터 기반으로 자동 채우는 함수
@@ -85,12 +147,11 @@ class TooltipEngine {
         const targets = document.querySelectorAll(".tag, .tip, .kw, .action-cost");
 
         targets.forEach(el => {
-            // ★ 이미 변환 완료된 요소는 재처리 건너뜀 (이중 증식 원천 차단)
             if (el.dataset.rendered === "true") return;
 
             const rawText = el.textContent.trim();
             const attrVal = el.getAttribute("data-val") || el.getAttribute("val") || el.getAttribute("data-num");
-            const isNumericOnly = /^[+-]?\d+(?:[a-zA-Z가-힣]+)?$/.test(rawText);
+            const isNumericOnly = /^[+-]?\d+(?:[a-zA-Z가-힣\s+]+)?$/.test(rawText);
 
             const isEmpty = rawText === "";
             if (!isEmpty && !attrVal && !isNumericOnly) return;
@@ -99,32 +160,86 @@ class TooltipEngine {
             const data = this.resolveData(el);
 
             if (data.ko) {
+                // 면역(immunity), 취약(weakness) 여부
+                const isImmunity = el.classList.contains("immunity") || data.key === "immunity";
+                const isWeakness = el.classList.contains("weakness") || data.key === "weakness";
+                const isImmunityOrWeakness = isImmunity || isWeakness;
+
+                // 순수 피해(damage) 태그 여부 (.type 포함, 면역/취약 제외)
+                const isDamage = (el.classList.contains("damage") || el.classList.contains("type") || data.subType === "damage") && !isImmunityOrWeakness;
+                const isDamageTag = isDamage && (el.classList.contains("tag") || el.classList.contains("damage") || el.classList.contains("type"));
+
+                // 한글 텍스트 조립
                 let displayText = data.ko;
-                if (el.classList.contains("damage") && !el.classList.contains("type")) {
-                    displayText = `${data.ko} 피해`;
+                let enDisplayText = data.en || displayText;
+
+                if (isImmunityOrWeakness) {
+                    const elemKo = (data.subType === "damage" || data.category === "damage") ? data.ko : "";
+                    const elemEn = (data.subType === "damage" || data.category === "damage") ? (data.en || data.ko) : "";
+
+                    if (isImmunity) {
+                        displayText = elemKo ? `${elemKo} 면역` : "면역";
+                        enDisplayText = elemEn ? `${elemEn} Immunity` : "Immunity";
+                    } else if (isWeakness) {
+                        displayText = elemKo ? `${elemKo} 취약` : "취약";
+                        enDisplayText = elemEn ? `${elemEn} Weakness` : "Weakness";
+                    }
+                } else if (isDamage && !el.classList.contains("type")) {
+                    if (!displayText.endsWith("피해")) {
+                        displayText = `${displayText} 피해`;
+                    }
+                    if (!enDisplayText.toLowerCase().includes("damage")) {
+                        enDisplayText = `${enDisplayText} Damage`;
+                    }
                 }
 
-                if (val) {
+                // 속성 색상 변수 주입
+                if (data.color) {
+                    el.style.setProperty("--tag-bg", data.color);
+                    el.style.setProperty("--tip-color", data.color);
+                    el.style.setProperty("--tt-accent", data.color);
+                }
+
+                // ★ 3번: tag damage + val -> [< 수치][속성 >]
+                if (isDamageTag && val) {
+                    el.classList.add("has-split-val");
+                    const koHtml = `<span class="tag-part-val left-arrow">${val}</span><span class="tag-part-label right-arrow">${displayText}</span>`;
+                    const enHtml = `<span class="tag-part-val left-arrow">${val}</span><span class="tag-part-label right-arrow">${enDisplayText}</span>`;
+                    el.innerHTML = koHtml;
+
+                    el.dataset.langTarget = "true";
+                    el.dataset.baseKo = koHtml;
+                    el.dataset.baseEn = enHtml;
+                }
+                // ★ 4번: immunity, weakness + val -> [< 속성 면역][수치 >] (3번과 반대)
+                else if (isImmunityOrWeakness && val) {
+                    el.classList.add("has-split-val");
+                    const koHtml = `<span class="tag-part-label left-arrow">${displayText}</span><span class="tag-part-val right-arrow">${val}</span>`;
+                    const enHtml = `<span class="tag-part-label left-arrow">${enDisplayText}</span><span class="tag-part-val right-arrow">${val}</span>`;
+                    el.innerHTML = koHtml;
+
+                    el.dataset.langTarget = "true";
+                    el.dataset.baseKo = koHtml;
+                    el.dataset.baseEn = enHtml;
+                }
+                // 그 외 일반 수치 팁/태그 (effect push 등)
+                else if (val) {
                     el.classList.add("has-val");
                     el.textContent = `${displayText}\u00A0${val}`;
 
                     el.dataset.langTarget = "true";
                     el.dataset.baseKo = `${displayText} ${val}`;
-                    el.dataset.baseEn = data.en ? `${data.en} ${val}` : `${displayText} ${val}`;
-                } else {
+                    el.dataset.baseEn = `${enDisplayText} ${val}`;
+                }
+                // 1, 2번: 수치가 없는 일반 태그 -> 기존 모양과 텍스트 그대로 유지
+                else {
                     el.textContent = displayText;
 
                     el.dataset.langTarget = "true";
                     el.dataset.baseKo = displayText;
-                    el.dataset.baseEn = data.en || displayText;
+                    el.dataset.baseEn = enDisplayText;
                 }
 
-                if (data.color) {
-                    el.style.setProperty("--tag-bg", data.color);
-                    el.style.setProperty("--tt-accent", data.color);
-                }
-
-                // ★ 변환 완료 플래그 기록
                 el.dataset.rendered = "true";
             }
         });
