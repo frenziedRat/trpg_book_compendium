@@ -12,10 +12,10 @@
     align-items: center;
     gap: 0.6rem; /* [개선 4] 아이콘과 텍스트 간격 */
     padding: 0.5rem 1rem;
-    background: var(--steel-800, #1f232a);
+    background: var(--neutral-800, #1f232a);
     color: var(--paper, #ebe7dd);
     border: none;
-    border-left: 4px solid var(--blood, #b3121f);
+    border-left: 4px solid var(--accent, #b3121f);
     font-family: var(--font-head, sans-serif);
     font-size: 1.1rem;
     font-weight: 700;
@@ -26,7 +26,7 @@
     user-select: none;
 }
 .drawer-toggle-btn:hover {
-    background: var(--blood, #b3121f);
+    background: var(--accent, #b3121f);
     transform: translateY(-1px);
 }
 .drawer-toggle-btn .toggle-icon {
@@ -61,8 +61,8 @@
     width: 320px;
     max-width: 85vw;
     height: 100vh;
-    background: var(--steel-900, #14161a);
-    border-right: 3px solid var(--blood, #b3121f);
+    background: var(--neutral-900, #14161a);
+    border-right: 3px solid var(--accent, #b3121f);
     z-index: 9999;
     box-shadow: 5px 0 25px rgba(0, 0, 0, 0.8);
     transform: translateX(-100%);
@@ -80,8 +80,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.2rem 1.4rem;
-    background: var(--steel-800, #1f232a);
-    border-bottom: 2px solid var(--blood, #b3121f);
+    background: var(--neutral-800, #1f232a);
+    border-bottom: 2px solid var(--accent, #b3121f);
 }
 .drawer-header h3 {
     margin: 0;
@@ -93,7 +93,7 @@
 .drawer-close-btn {
     background: none;
     border: none;
-    color: var(--steel-300, #a7aeb6);
+    color: var(--neutral-300, #a7aeb6);
     font-size: 1.7rem;
     cursor: pointer;
     line-height: 1;
@@ -101,7 +101,7 @@
     transition: color 0.15s;
 }
 .drawer-close-btn:hover {
-    color: var(--blood, #b3121f);
+    color: var(--accent, #b3121f);
 }
 
 .drawer-content {
@@ -123,17 +123,17 @@
     align-items: center;
     gap: 0.75rem; /* [개선 4] 아이콘-텍스트 간격 */
     padding: 0.65rem 0.9rem;
-    background: linear-gradient(135deg, var(--steel-800, #1f232a) 0%, rgba(217, 130, 43, 0.15) 100%);
-    border: 1px solid var(--steel-600, #4a535e);
-    border-left: 4px solid var(--ember, #d9822b);
+    background: linear-gradient(135deg, var(--neutral-800, #1f232a) 0%, rgba(217, 130, 43, 0.15) 100%);
+    border: 1px solid var(--neutral-600, #4a535e);
+    border-left: 4px solid var(--highlight, #d9822b);
     border-radius: 4px;
     text-decoration: none;
     color: var(--paper, #ebe7dd);
     transition: all 0.2s ease;
 }
 .drawer-home-link:hover {
-    background: linear-gradient(135deg, var(--ember, #d9822b) 0%, #b86a0a 100%);
-    border-color: var(--ember, #d9822b);
+    background: linear-gradient(135deg, var(--highlight, #d9822b) 0%, #b86a0a 100%);
+    border-color: var(--highlight, #d9822b);
     color: #fff;
     transform: translateY(-1px);
     box-shadow: 0 4px 14px rgba(217, 130, 43, 0.35);
@@ -142,7 +142,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--ember, #d9822b);
+    color: var(--highlight, #d9822b);
     transition: color 0.2s;
 }
 .drawer-home-link:hover .home-icon-wrap {
@@ -158,7 +158,7 @@
     font-family: var(--font-head, sans-serif);
     font-size: 0.68rem;
     letter-spacing: 0.1em;
-    color: var(--steel-300, #a7aeb6);
+    color: var(--neutral-300, #a7aeb6);
     font-weight: 700;
 }
 .drawer-home-link:hover .home-label {
@@ -173,7 +173,7 @@
 .drawer-home-link .home-arrow {
     font-family: var(--font-head, sans-serif);
     font-size: 1.1rem;
-    color: var(--steel-300, #a7aeb6);
+    color: var(--neutral-300, #a7aeb6);
     transition: transform 0.2s, color 0.2s;
 }
 .drawer-home-link:hover .home-arrow {
@@ -213,7 +213,7 @@
 .drawer-sub-title:hover {
     background: rgba(255, 255, 255, 0.05);
     color: #fff;
-    border-left-color: var(--steel-300, #a7aeb6);
+    border-left-color: var(--neutral-300, #a7aeb6);
     padding-left: 1.6rem;
 }
 .drawer-sub-title:hover {
@@ -225,7 +225,7 @@
 .drawer-sub-item.current > .drawer-sub-title {
     color: #fff !important;
     background: linear-gradient(90deg, rgba(179, 18, 31, 0.3) 0%, rgba(179, 18, 31, 0.05) 100%) !important;
-    border-left: 4px solid var(--blood, #b3121f) !important;
+    border-left: 4px solid var(--accent, #b3121f) !important;
     font-weight: 800;
 }
 
@@ -237,7 +237,7 @@
     font-weight: 700;
     letter-spacing: 0.05em;
     padding: 0.15rem 0.45rem;
-    background: var(--blood, #b3121f);
+    background: var(--accent, #b3121f);
     color: #fff;
     border-radius: 2px;
     text-transform: uppercase;
@@ -252,7 +252,7 @@
     width: 1rem;
     font-family: monospace;
     font-weight: 700;
-    color: var(--steel-300, #a7aeb6);
+    color: var(--neutral-300, #a7aeb6);
     flex-shrink: 0;
 }
 
@@ -287,7 +287,7 @@
     font-family: var(--font-head, sans-serif);
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--steel-300, #a7aeb6);
+    color: var(--neutral-300, #a7aeb6);
     text-decoration: none;
     position: relative;
     transition: all 0.15s ease;
@@ -296,15 +296,15 @@
     content: "–";
     position: absolute;
     left: 1.85rem;
-    color: var(--steel-600, #4a535e);
+    color: var(--neutral-600, #4a535e);
     transition: color 0.15s;
 }
 .drawer-h2-list li a:hover {
-    color: var(--ember, #d9822b);
+    color: var(--highlight, #d9822b);
     padding-left: 2.85rem;
 }
 .drawer-h2-list li a:hover::before {
-    color: var(--ember, #d9822b);
+    color: var(--highlight, #d9822b);
 }
 
 /* ----------------------------------------------------
@@ -316,8 +316,8 @@
     left: 0;
     width: 100%;
     margin-top: 2rem;
-    background: var(--steel-800, #1f232a);
-    border-top: 3px solid var(--blood, #b3121f);
+    background: var(--neutral-800, #1f232a);
+    border-top: 3px solid var(--accent, #b3121f);
     padding: 0.8rem 1.5rem;
     display: flex;
     justify-content: space-between;
@@ -332,9 +332,9 @@
     align-items: center;
     gap: 0.65rem; /* [개선 4] 화살표와 텍스트 간격 */
     max-width: 42%;
-    background: var(--steel-900, #14161a);
+    background: var(--neutral-900, #14161a);
     color: var(--paper, #ebe7dd);
-    border: 1px solid var(--steel-600, #4a535e);
+    border: 1px solid var(--neutral-600, #4a535e);
     padding: 0.55rem 1.1rem;
     font-family: var(--font-head, sans-serif);
     font-size: 1rem;
@@ -347,8 +347,8 @@
     box-sizing: border-box;
 }
 .pager-btn:hover:not(.disabled) {
-    background: var(--blood, #b3121f);
-    border-color: var(--blood, #b3121f);
+    background: var(--accent, #b3121f);
+    border-color: var(--accent, #b3121f);
     color: #fff;
 }
 .pager-btn.disabled {
@@ -364,7 +364,7 @@
 }
 .pager-btn .pager-arrow {
     flex-shrink: 0;
-    color: var(--blood, #b3121f);
+    color: var(--accent, #b3121f);
     transition: color 0.2s;
 }
 .pager-btn:hover:not(.disabled) .pager-arrow {
