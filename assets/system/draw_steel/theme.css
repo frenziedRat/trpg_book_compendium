@@ -27,17 +27,26 @@
     --color-taunted:     #be185d;
     --color-weakened:    #0e7490;
     --color-dying:       #000000;
+
+    --color-rule:        #4a5e5e;
+    --color-stat:        #0284c7;
+    --color-resource:    #eab308;
+    --color-skill:       #15803d;
+    --color-action:      #0284c7;
+    --color-roll:        #b3121f;
+    --color-condition:   #9333ea;
+    --color-lore:        #0f766e;
 }
 /* ---------- 피해 타입 (기본 굵은 글씨 형태) ---------- */
 .dmg-acid        { color: var(--color-acid); }
-.dmg-cold        { color: #0284c7; }
-.dmg-corruption  { color: #701a75; }
-.dmg-fire        { color: #c2410c; }
-.dmg-holy        { color: #b45309; }
-.dmg-lightning   { color: #0f766e; }
-.dmg-poison      { color: #15803d; }
-.dmg-psychic     { color: #9333ea; }
-.dmg-sonic       { color: #4b5563; }
+.dmg-cold        { color: var(--color-cold); }
+.dmg-corruption  { color: var(--color-corruption); }
+.dmg-fire        { color: var(--color-fire); }
+.dmg-holy        { color: var(--color-holy); }
+.dmg-lightning   { color: var(--color-lightning); }
+.dmg-poison      { color: var(--color-poison); }
+.dmg-psychic     { color: var(--color-psychic); }
+.dmg-sonic       { color: var(--color-sonic); }
 
 /* 본문 배지(.tag)와 툴팁(#global-tooltip) 양쪽에 동일 색상 적용 */
 :is(.tag, #global-tooltip).acid        { --tag-bg: var(--color-acid); --tt-accent: var(--color-acid); }
@@ -62,13 +71,13 @@
 :is(.tag, #global-tooltip).dying       { --tag-bg: var(--color-dying); --tt-accent: var(--color-dying); }
 
 /* TIP */
-.tip.rule      { --tip-rgb: 74, 83, 94; }
-.tip.stat      { --tip-rgb: 2, 132, 199; }
-.tip.resource  { --tip-rgb: 234, 179, 8; }
-.tip.skill     { --tip-rgb: 21, 128, 61; }
+.tip.rule      { --tip-color: var(--color-rule); }
+.tip.stat      { --tip-color: var(--color-stat); }
+.tip.resource  { --tip-color: var(--color-resource); }
+.tip.skill     { --tip-color: var(--color-skill); }
 
-.tip.action    { --tip-rgb: 2, 132, 199; }
-.tip.roll      { --tip-rgb: 179, 18, 31; }
-.tip.condition { --tip-rgb: 147, 51, 234; }
+.tip.action    { --tip-color: var(--color-action); }
+.tip.roll      { --tip-color: var(--color-roll); }
+.tip.condition { --tip-color: var(--color-condition); }
 
-.tip.lore      { --tip-rgb: 15, 118, 110; }
+.tip.lore      { --tip-color: var(--color-lore); }
