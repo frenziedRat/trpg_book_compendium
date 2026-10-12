@@ -96,11 +96,12 @@
         if (!drawer) {
             drawer = document.createElement("aside");
             drawer.className = "drawer";
+            // ★ drawer-header 자체를 button으로 변경하여 전체 영역을 닫기 버튼화
             drawer.innerHTML = `
-                <div class="drawer-header">
+                <button type="button" class="drawer-header" aria-label="${PAGER_UI_TEXT.drawer.closeAria}">
                     <h3>${PAGER_UI_TEXT.drawer.headerTitle}</h3>
-                    <button type="button" class="drawer-close-btn" aria-label="${PAGER_UI_TEXT.drawer.closeAria}">${PAGER_UI_TEXT.drawer.closeIcon}</button>
-                </div>
+                    <span class="drawer-close-icon">${PAGER_UI_TEXT.drawer.closeIcon}</span>
+                </button>
                 <nav class="drawer-content">
                     <div id="drawer-menu-tree"></div>
                 </nav>
@@ -119,8 +120,10 @@
 
         drawerToggle.onclick = openDrawer;
         drawerOverlay.onclick = closeDrawer;
-        const closeBtn = drawer.querySelector(".drawer-close-btn");
-        if (closeBtn) closeBtn.onclick = closeDrawer;
+
+        // ★ 헤더 전체 클릭 시 드로어 닫기
+        const closeHeader = drawer.querySelector(".drawer-header");
+        if (closeHeader) closeHeader.onclick = closeDrawer;
 
         const menuTree = drawer.querySelector("#drawer-menu-tree");
         menuTree.innerHTML = "";

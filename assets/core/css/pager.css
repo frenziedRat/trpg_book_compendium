@@ -79,17 +79,36 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 1.4rem;
+    width: 100%;
+    padding: 1.1rem 1.4rem;
     background: var(--neutral-800, #1f232a);
+    border: none;
     border-bottom: 2px solid var(--accent, #b3121f);
+    cursor: pointer;
+    text-align: left;
+    user-select: none;
+    box-sizing: border-box;
+    transition: background 0.2s ease;
 }
+
+.drawer-header:hover {
+    background: rgba(179, 18, 31, 0.18); /* 호버 시 블러드 레드 은은한 하이라이트 */
+}
+
 .drawer-header h3 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     color: var(--paper, #ebe7dd);
-    letter-spacing: .05em;
-    font-family: var(--font-head, sans-serif);
+    letter-spacing: .06em;
+    font-family: var(--font-head), sans-serif;
+    font-weight: 800;
+    transition: color 0.15s ease;
 }
+
+.drawer-header:hover h3 {
+    color: #fff;
+}
+
 .drawer-close-btn {
     background: none;
     border: none;
@@ -104,6 +123,20 @@
     color: var(--accent, #b3121f);
 }
 
+/* 우측 X 아이콘 기호 */
+.drawer-close-icon {
+    color: var(--neutral-300, #a7aeb6);
+    font-size: 1.7rem;
+    line-height: 1;
+    padding: 0 0.2rem;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.drawer-header:hover .drawer-close-icon {
+    color: var(--accent, #b3121f);
+    transform: scale(1.1);
+}
+
 .drawer-content {
     flex: 1;
     overflow-y: auto;
@@ -111,7 +144,7 @@
 }
 
 /* ----------------------------------------------------
-   [개선 3] 홈(Home) 버튼 - 세련된 대시보드 카드 스타일
+   홈(Home) 버튼 - 세련된 대시보드 카드 스타일
 ---------------------------------------------------- */
 .drawer-home-box {
     margin: 0.2rem 1rem 1.2rem;
