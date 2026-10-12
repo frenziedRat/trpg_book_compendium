@@ -94,6 +94,14 @@ class TooltipEngine {
 
         dmgContainers.forEach(el => {
             if (el.dataset.dmgRendered === "true") return;
+
+            // 본문 텍스트 내 "중 하나" 자동 제거
+            el.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.nodeValue.includes("중 하나")) {
+                    node.nodeValue = node.nodeValue.replace(/\s*중\s*하나/g, "");
+                }
+            });
+
             if (el.querySelector(".tag")) {
                 el.dataset.dmgRendered = "true";
                 return;
@@ -114,15 +122,15 @@ class TooltipEngine {
                     tagEl.classList.add("type");
                 }
 
-                // 속성이 명시되지 않은 경우 untype을 주되, 기본값 플래그 부여
                 if (!matchedType) {
                     matchedType = "untype";
                     tagEl.dataset.defaultUntype = "true";
                 }
                 tagEl.classList.add(matchedType);
 
+                // data-val에서 "중 하나" 제거 후 주입
                 if (attrVal) {
-                    tagEl.setAttribute("data-val", attrVal);
+                    tagEl.setAttribute("data-val", attrVal.replace(/\s*중\s*하나/g, "").trim());
                 }
 
                 if (el.hasAttribute("term-en")) tagEl.setAttribute("term-en", el.getAttribute("term-en"));
@@ -150,7 +158,12 @@ class TooltipEngine {
             const isEmpty = rawText === "";
             if (!isEmpty && !attrVal && !isNumericOnly) return;
 
-            const val = attrVal || (isNumericOnly ? rawText : "");
+            // ★ 수치에서 "중 하나" 완전히 제거
+            let val = attrVal || (isNumericOnly ? rawText : "");
+            if (val) {
+                val = val.replace(/\s*중\s*하나/g, "").trim();
+            }
+
             const data = this.resolveData(el);
 
             if (data.ko) {
@@ -161,8 +174,8 @@ class TooltipEngine {
                 const isDamage = (el.classList.contains("damage") || el.classList.contains("type") || data.subType === "damage") && !isImmunityOrWeakness;
                 const isDamageTag = isDamage && (el.classList.contains("tag") || el.classList.contains("damage") || el.classList.contains("type"));
 
-                let displayText = data.ko;
-                let enDisplayText = data.en || displayText;
+                let displayText = data.ko.replace(/\s*중\s*하나/g, "").trim();
+                let enDisplayText = (data.en || displayText).replace(/\s*or\s*one/gi, "").trim();
 
                 if (isImmunityOrWeakness) {
                     const elemKo = (data.subType === "damage" || data.category === "damage") ? data.ko : "";
@@ -190,13 +203,8 @@ class TooltipEngine {
                     el.style.setProperty("--tt-accent", data.color);
                 }
 
-                // ★ 수치가 10글자 이상이거나 쉼표/'중 하나'가 있으면 상하 분할 적용
-                const isLongVal = el.classList.contains("wrap") ||
-                    val.length >= 10 ||
-                    val.includes(",") ||
-                    val.includes("중 하나");
+                const isLongVal = el.classList.contains("wrap") || val.length >= 10 || val.includes(",");
 
-                // 3번: tag damage + val
                 if (isDamageTag && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
@@ -209,7 +217,6 @@ class TooltipEngine {
                     el.dataset.baseKo = koHtml;
                     el.dataset.baseEn = enHtml;
                 }
-                // 4번: immunity, weakness + val (순서 반대)
                 else if (isImmunityOrWeakness && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
@@ -251,16 +258,11 @@ class TooltipEngine {
         const statSource = this.termsData.stat || {};
         const ruleSource = this.termsData.rule || {};
 
-        // 1. stat 조회 헬퍼 (YAML 키 매칭 -> 한글/영문 값 역탐색)
         const resolveStat = (token) => {
             const raw = token.trim();
             const lower = raw.toLowerCase();
-
-            // YAML 키 직접 매칭 (might, intuition 등)
             if (statSource[lower]) return statSource[lower];
             if (statSource[raw]) return statSource[raw];
-
-            // ko 또는 en 값으로 역탐색 (완력, Might, 지능 등)
             for (const key in statSource) {
                 const item = statSource[key];
                 if (item.ko === raw || (item.en && item.en.toLowerCase() === lower)) {
@@ -270,15 +272,12 @@ class TooltipEngine {
             return { ko: raw, en: raw };
         };
 
-        // 2. grade 조회 헬퍼 (terms.yaml의 rule 섹션에서 조회)
         const resolveGrade = (token) => {
             const raw = token.trim();
             const lower = raw.toLowerCase();
-
             let matchedKey = "";
             let item = null;
 
-            // YAML 키 직접 매칭 (weak, medium, strong 등)
             if (ruleSource[lower]) {
                 matchedKey = lower;
                 item = ruleSource[lower];
@@ -286,7 +285,6 @@ class TooltipEngine {
                 matchedKey = raw;
                 item = ruleSource[raw];
             } else {
-                // ko 또는 en 값으로 역탐색 (약, 중, 강 등)
                 for (const key in ruleSource) {
                     const r = ruleSource[key];
                     if (r.ko === raw || (r.en && r.en.toLowerCase() === lower)) {
@@ -297,11 +295,7 @@ class TooltipEngine {
                 }
             }
 
-            if (!item) {
-                return { ko: raw, en: raw, cls: lower };
-            }
-
-            // medium / med 클래스 명칭 통일
+            if (!item) return { ko: raw, en: raw, cls: lower };
             const cls = (matchedKey === "med" || matchedKey === "medium") ? "medium" : matchedKey;
             return { ko: item.ko || raw, en: item.en || raw, cls: cls };
         };
@@ -310,7 +304,6 @@ class TooltipEngine {
             const rawStat = (el.getAttribute("stat") || "").trim();
             const rawDc = (el.getAttribute("dc") || el.getAttribute("grade") || "").trim();
 
-            // 쉼표/슬래시 분리 후 terms.yaml의 stat에서 각각 조회
             const tokens = rawStat.split(/[,/]\s*/).filter(Boolean);
             const koNames = [];
             const enNames = [];
@@ -321,39 +314,22 @@ class TooltipEngine {
                 enNames.push(info.en || tok);
             });
 
-            let statTextKo = "";
-            let statTextEn = "";
-
-            if (koNames.length === 1) {
-                statTextKo = koNames[0];
-                statTextEn = enNames[0];
-                el.classList.remove("multi-stat");
-            } else if (koNames.length > 1) {
-                // 다중 능력치: "중 하나" 결합 및 줄바꿈 클래스 부여
-                statTextKo = `${koNames.join(", ")} 중 하나`;
-                if (enNames.length === 2) {
-                    statTextEn = `${enNames[0]} or ${enNames[1]}`;
-                } else {
-                    statTextEn = `${enNames.slice(0, -1).join(", ")}, or ${enNames[enNames.length - 1]}`;
-                }
-                el.classList.add("multi-stat");
-            }
-
-            // terms.yaml의 rule에서 등급(약/중/강) 정보 조회
+            // ★ "중 하나" 없이 순수 능력치만 줄바꿈 태그로 감쌈
+            const statItemsHtml = koNames.map(name => `<span class="stat-item">${name}</span>`).join("");
             const gradeInfo = resolveGrade(rawDc);
 
             el.innerHTML = `
-                <span class="stat">${statTextKo}</span>
+                <span class="stat">${statItemsHtml}</span>
                 <span class="dc-group">
                     <span class="op">&lt;</span>
                     <span class="grade ${gradeInfo.cls}">${gradeInfo.ko}</span>
                 </span>
             `.trim();
 
-            // lang-toggle.js 연동 데이터
+            // 다국어 전환 지원
             el.dataset.langTarget = "true";
-            el.dataset.baseKo = `${statTextKo} < ${gradeInfo.ko}`;
-            el.dataset.baseEn = `${statTextEn} < ${gradeInfo.en}`;
+            el.dataset.baseKo = `${koNames.join(", ")} < ${gradeInfo.ko}`;
+            el.dataset.baseEn = `${enNames.join(", ")} < ${gradeInfo.en}`;
         });
     }
 
