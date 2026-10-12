@@ -87,54 +87,51 @@ class TooltipEngine {
     renderDmgTags() {
         const dmgContainers = document.querySelectorAll(".dmg");
 
-        // 9대 피해 속성 목록
+        // 9대 피해 속성 및 untype 목록
         const damageTypes = [
             "acid", "cold", "corruption", "fire", "holy",
-            "lightning", "poison", "psychic", "sonic"
+            "lightning", "poison", "psychic", "sonic", "untype", "untyped"
         ];
 
         dmgContainers.forEach(el => {
-            // 중복 렌더링 방지
             if (el.dataset.dmgRendered === "true") return;
 
-            // 이미 내부에 .tag가 직접 들어가 있는 기존 방식이면 그대로 유지
+            // 이미 내부에 .tag가 직접 들어있는 경우 건너뜀
             if (el.querySelector(".tag")) {
                 el.dataset.dmgRendered = "true";
                 return;
             }
 
             const classList = Array.from(el.classList);
-            const matchedType = damageTypes.find(t => classList.includes(t));
-            const hasDamageOrType = classList.includes("damage") || classList.includes("type") || !!matchedType;
+            let matchedType = damageTypes.find(t => classList.includes(t));
+            const hasDamageOrType = classList.includes("damage") || classList.includes("type");
             const attrVal = el.getAttribute("data-val") || el.getAttribute("val") || el.getAttribute("data-num");
 
-            // 데미지 타입 클래스나 data-val이 있는 경우 자동으로 앞쪽에 태그 생성
-            if (hasDamageOrType || attrVal) {
+            // dmg.damage, dmg.type 이거나 수치(data-val)가 있는 경우
+            if (hasDamageOrType || matchedType || attrVal) {
                 const tagEl = document.createElement("span");
                 tagEl.classList.add("tag");
 
-                // damage 명시가 없으면 기본적으로 깔끔한 type(속성명만 표시)으로 지정
                 if (classList.includes("damage")) {
                     tagEl.classList.add("damage");
                 } else {
                     tagEl.classList.add("type");
                 }
 
-                if (matchedType) {
-                    tagEl.classList.add(matchedType);
+                // ★ 속성이 지정되지 않았다면 기본값으로 'untype' 부여
+                if (!matchedType) {
+                    matchedType = "untype";
                 }
+                tagEl.classList.add(matchedType);
 
                 if (attrVal) {
                     tagEl.setAttribute("data-val", attrVal);
                 }
 
-                // term-en이나 tool-tip이 .dmg에 지정되어 있었다면 전달
                 if (el.hasAttribute("term-en")) tagEl.setAttribute("term-en", el.getAttribute("term-en"));
                 if (el.hasAttribute("tool-tip")) tagEl.setAttribute("tool-tip", el.getAttribute("tool-tip"));
 
-                // [effect 부분] 앞에 태그 삽입
                 el.prepend(tagEl);
-
                 el.dataset.dmgRendered = "true";
             }
         });
@@ -160,16 +157,13 @@ class TooltipEngine {
             const data = this.resolveData(el);
 
             if (data.ko) {
-                // 면역(immunity), 취약(weakness) 여부
                 const isImmunity = el.classList.contains("immunity") || data.key === "immunity";
                 const isWeakness = el.classList.contains("weakness") || data.key === "weakness";
                 const isImmunityOrWeakness = isImmunity || isWeakness;
 
-                // 순수 피해(damage) 태그 여부 (.type 포함, 면역/취약 제외)
                 const isDamage = (el.classList.contains("damage") || el.classList.contains("type") || data.subType === "damage") && !isImmunityOrWeakness;
                 const isDamageTag = isDamage && (el.classList.contains("tag") || el.classList.contains("damage") || el.classList.contains("type"));
 
-                // 한글 텍스트 조립
                 let displayText = data.ko;
                 let enDisplayText = data.en || displayText;
 
@@ -193,16 +187,23 @@ class TooltipEngine {
                     }
                 }
 
-                // 속성 색상 변수 주입
                 if (data.color) {
                     el.style.setProperty("--tag-bg", data.color);
                     el.style.setProperty("--tip-color", data.color);
                     el.style.setProperty("--tt-accent", data.color);
                 }
 
-                // ★ 3번: tag damage + val -> [< 수치][속성 >]
+                // ★ 수치가 10글자 이상이거나 쉼표/'중 하나'가 있으면 상하 분할 적용
+                const isLongVal = el.classList.contains("wrap") ||
+                    val.length >= 10 ||
+                    val.includes(",") ||
+                    val.includes("중 하나");
+
+                // 3번: tag damage + val
                 if (isDamageTag && val) {
                     el.classList.add("has-split-val");
+                    if (isLongVal) el.classList.add("is-long");
+
                     const koHtml = `<span class="tag-part-val left-arrow">${val}</span><span class="tag-part-label right-arrow">${displayText}</span>`;
                     const enHtml = `<span class="tag-part-val left-arrow">${val}</span><span class="tag-part-label right-arrow">${enDisplayText}</span>`;
                     el.innerHTML = koHtml;
@@ -211,9 +212,11 @@ class TooltipEngine {
                     el.dataset.baseKo = koHtml;
                     el.dataset.baseEn = enHtml;
                 }
-                // ★ 4번: immunity, weakness + val -> [< 속성 면역][수치 >] (3번과 반대)
+                // 4번: immunity, weakness + val (순서 반대)
                 else if (isImmunityOrWeakness && val) {
                     el.classList.add("has-split-val");
+                    if (isLongVal) el.classList.add("is-long");
+
                     const koHtml = `<span class="tag-part-label left-arrow">${displayText}</span><span class="tag-part-val right-arrow">${val}</span>`;
                     const enHtml = `<span class="tag-part-label left-arrow">${enDisplayText}</span><span class="tag-part-val right-arrow">${val}</span>`;
                     el.innerHTML = koHtml;
@@ -222,7 +225,6 @@ class TooltipEngine {
                     el.dataset.baseKo = koHtml;
                     el.dataset.baseEn = enHtml;
                 }
-                // 그 외 일반 수치 팁/태그 (effect push 등)
                 else if (val) {
                     el.classList.add("has-val");
                     el.textContent = `${displayText}\u00A0${val}`;
@@ -231,7 +233,6 @@ class TooltipEngine {
                     el.dataset.baseKo = `${displayText} ${val}`;
                     el.dataset.baseEn = `${enDisplayText} ${val}`;
                 }
-                // 1, 2번: 수치가 없는 일반 태그 -> 기존 모양과 텍스트 그대로 유지
                 else {
                     el.textContent = displayText;
 
@@ -412,7 +413,7 @@ class TooltipEngine {
         let en = target.getAttribute("term-en") || "";
         let desc = target.getAttribute("tool-tip") || target.getAttribute("tag-text") || "";
 
-        // 1. 기본 카테고리(category) 식별
+        // 1. 기본 카테고리 식별
         const baseCategories = ["tag", "tip", "kw", "action-cost", "trait"];
         for (const cat of baseCategories) {
             if (classList.includes(cat)) {
@@ -424,53 +425,45 @@ class TooltipEngine {
         if (category === "kw") subType = "kw";
         if (category === "trait") subType = "trait";
 
-        // 2. 예약어 제외 후 커스텀 클래스 추출
-        // (예: class="tip effect knockback" -> ["effect", "knockback"])
+        // 2. 예약어 제외 클래스 필터링
         const systemReserved = [
             "tag", "tip", "kw", "trait", "badge", "action-cost", "type",
-            "visible", "inner", "name", "price", "signature"
+            "visible", "inner", "name", "price", "signature", "has-val", "has-split-val", "is-long"
         ];
         const customClasses = classList.filter(c => !systemReserved.includes(c) && !c.startsWith("tt-"));
 
-        // 3. 서브타입(subType)과 키(key) 동적 결정
+        // 3. 피해 속성 추출
+        const damageTypes = [
+            "acid", "cold", "corruption", "fire", "holy",
+            "lightning", "poison", "psychic", "sonic", "untype", "untyped"
+        ];
+        const foundElem = customClasses.find(c => damageTypes.includes(c));
+
         let key = "";
 
-        if (customClasses.length >= 2) {
-            // 클래스가 2개 이상인 경우: 첫 번째가 서브타입, 두 번째가 키
-            // (예: .tip.effect.knockback, .tag.damage.psychic)
+        if (foundElem) {
+            subType = "damage";
+            key = foundElem === "untyped" ? "untype" : foundElem;
+        }
+        // ★ tag.damage, tag.type 등 속성 클래스가 없는 경우 untype으로 폴백
+        else if (classList.includes("damage") || classList.includes("type")) {
+            subType = "damage";
+            key = "untype";
+            target.classList.add("untype");
+        } else if (customClasses.length >= 2) {
             subType = customClasses[0];
             key = customClasses[1];
         } else if (customClasses.length === 1) {
             const single = customClasses[0];
-            const attrKey = target.getAttribute("term-en") || target.getAttribute("id") || "";
-
-            if (attrKey) {
-                // <span class="tip skill" term-en="interpersonal"> 형태
-                subType = single;
-                key = attrKey;
-            } else if (this.termsData && this.termsData[single]) {
-                // 단독 서브타입이면서 YAML에 해당 그룹이 있는 경우 (예: .tip.effect)
-                subType = single;
-                key = single;
-            } else {
-                // 키만 적힌 경우 (예: .tip.concealment)
-                key = single;
-            }
+            key = single;
         }
 
         // 4. YAML 데이터 매칭
         let item = null;
         if (this.termsData) {
-            // 1순위: subType과 key가 모두 맞는 경우 (termsData.effect.knockback)
             if (subType && key && this.termsData[subType] && this.termsData[subType][key]) {
                 item = this.termsData[subType][key];
-            }
-            // 2순위: termsData[subType][subType] 단독 항목 매칭
-            else if (subType && this.termsData[subType] && this.termsData[subType][subType]) {
-                item = this.termsData[subType][subType];
-            }
-            // 3순위: subType 미지정 시 YAML 전체 카테고리에서 key 역추적
-            else if (key) {
+            } else if (key) {
                 for (const cat in this.termsData) {
                     if (this.termsData[cat] && this.termsData[cat][key]) {
                         item = this.termsData[cat][key];
@@ -479,6 +472,16 @@ class TooltipEngine {
                     }
                 }
             }
+        }
+
+        // ★ terms.yaml에 untype 정의가 없더라도 안전하게 동작하는 기본값
+        if (!item && (key === "untype" || key === "untyped")) {
+            item = {
+                ko: "피해",
+                en: "Damage",
+                desc: "속성이 없는 일반 물리 및 기본 피해입니다.",
+                color: "var(--color-untype, #57534e)"
+            };
         }
 
         // 데이터 반영
