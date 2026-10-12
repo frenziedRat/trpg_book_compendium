@@ -1,0 +1,206 @@
+# damage Type
+damage:
+  acid:
+    en: Acid
+    ko: 산성
+  cold:
+    en: Cold
+    ko: 냉기
+  corruption:
+    en: Corruption
+    ko: 부패
+  fire:
+    en: Fire
+    ko: 화염
+  holy:
+    en: Holy
+    ko: 신성
+  lightning:
+    en: Lightning
+    ko: 번개
+  poison:
+    en: Poison
+    ko: 독성
+  psychic:
+    en: Psychic
+    ko: 정신
+  sonic:
+    en: Sonic
+    ko: 음파
+
+# condition
+condition:
+  bleeding:
+    en: Bleeding
+    ko: 출혈
+  dazed:
+    en: Dazed
+    ko: 혼미
+  frightened:
+    en: Frightened
+    ko: 두려움
+  grabbed:
+    en: Grabbed
+    ko: 붙들림
+  prone:
+    en: Prone
+    ko: 넘어짐
+  restrained:
+    en: Restrained
+    ko: 결박
+  slowed:
+    en: Slowed
+    ko: 감속
+  taunted:
+    en: taunted
+    ko: 도발당함
+  weakened:
+    en: Weakened
+    ko: 약화"
+  dying:
+    en: Dying
+    ko: 빈사
+
+# kw
+kw:
+  area:
+    en: Area
+    ko: 광역
+  charge:
+    en: Charge
+    ko: 돌격
+  magic:
+    en: Magic
+    ko: 마법
+  melee:
+    en: Melee
+    ko: 근접
+  psionic:
+    en: Psionic
+    ko: 초능력
+  ranged:
+    en: Ranged
+    ko: 원거리
+  strike:
+    en: Strike
+    ko: 타격
+  weapon:
+    en: Weapon
+    ko: 무기
+
+# rule
+rule:
+  bane:
+    en: Bane
+    ko: 불리함
+  concealment:
+    en: Concealment
+    ko: 은폐
+  cover:
+    en: Cover
+    ko: 엄폐
+  difficulty-terrain:
+    en: Difficulty Terrain
+    ko: 험지
+  edge:
+    en: Edge
+    ko: 유리함
+  shift:
+    en: Shift
+    ko: 잰걸음
+  immunity:
+    en: Damage Immunity
+    ko: 피해 저항
+  weakness:
+    en: Damage Weakness
+    ko: 피해 취약
+
+stat:
+  might:
+    en: Might
+    ko: 근력
+  agility:
+    ko: 민첩
+    en: Agility
+  reason:
+    ko: 지능
+    en: Reason
+  intuition:
+    ko: 직관
+    en: Intuition
+  presence:
+    ko: 매력
+    en: Presence
+  speed:
+    ko: 속력
+    en: Speed
+  stability:
+    ko: 안정성
+    en: Stability
+  potency:
+    ko: 세기
+    en: Potency
+  recovery:
+    ko: 회복량
+    en: Recovery Value
+  size:
+    ko: 체격
+    en: Size
+  winded:
+    ko: 탈진값
+    en: Winded Value
+
+# 자원
+resource:
+  stamina:
+    ko: 체력
+    en: Stamina
+  surge:
+    ko: 격동
+    en: Surge
+  recovery:
+    ko: 회복력
+    en: Recovery
+
+roll:
+  ability:
+    en: Ability Roll
+    ko: 능력 판정
+  project:
+    en: Project Roll
+    ko: 과제 판정
+  saving:
+    en: Saving Throw
+    ko: 극복 판정
+  power:
+    en: Power Roll
+    ko: 위력 판정
+
+test:
+  might:
+    en: Might Test
+    ko: 근력 시도
+
+action:
+  triggered:
+    en: Triggered Action
+    ko: 발동 행동
+  free-triggered:
+    en: Free Triggered Action
+    ko: 자유 발동 행동
+  maneuver:
+    en: Maneuver
+    ko: 동작
+  move:
+    en: Move Action
+    ko: 이동 행동
+  main:
+    en: Main Action
+    ko: 주요 행동
+  respite:
+    en: Respite
+    ko: 휴식
+  negotiation:
+    en: Negotiation
+    ko: 협상
+

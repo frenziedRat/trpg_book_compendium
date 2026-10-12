@@ -1,0 +1,74 @@
+:root {
+    /* 아이콘 */
+    --icon-distance: url("../../core/svg/distance.svg");
+    --icon-target:   url("../../core/svg/target.svg");
+
+    /* 룰북 특화 색상 */
+    --ability-price-color: #0e7490;
+
+    /* damage Type 색상 */
+    --color-acid:        #4d7c0f;
+    --color-cold:        #0284c7;
+    --color-corruption:  #701a75;
+    --color-fire:        #c2410c;
+    --color-holy:        #b45309;
+    --color-lightning:   #0f766e;
+    --color-poison:      #15803d;
+    --color-psychic:     #9333ea;
+    --color-sonic:       #4b5563;
+
+    --color-bleeding:    #b3121f;
+    --color-dazed:       #a16207;
+    --color-frightened:  #5b21b6;
+    --color-grabbed:     #854d0e;
+    --color-prone:       #57534e;
+    --color-restrained:  #1f2937;
+    --color-slowed:      #1e40af;
+    --color-taunted:     #be185d;
+    --color-weakened:    #0e7490;
+    --color-dying:       #000000;
+}
+/* ---------- 피해 타입 (기본 굵은 글씨 형태) ---------- */
+.dmg-acid        { color: var(--color-acid); }
+.dmg-cold        { color: #0284c7; }
+.dmg-corruption  { color: #701a75; }
+.dmg-fire        { color: #c2410c; }
+.dmg-holy        { color: #b45309; }
+.dmg-lightning   { color: #0f766e; }
+.dmg-poison      { color: #15803d; }
+.dmg-psychic     { color: #9333ea; }
+.dmg-sonic       { color: #4b5563; }
+
+/* 본문 배지(.tag)와 툴팁(#global-tooltip) 양쪽에 동일 색상 적용 */
+:is(.tag, #global-tooltip).acid        { --tag-bg: var(--color-acid); --tt-accent: var(--color-acid); }
+:is(.tag, #global-tooltip).cold        { --tag-bg: var(--color-cold); --tt-accent: var(--color-cold); }
+:is(.tag, #global-tooltip).corruption  { --tag-bg: var(--color-corruption); --tt-accent: var(--color-corruption); }
+:is(.tag, #global-tooltip).fire        { --tag-bg: var(--color-fire); --tt-accent: var(--color-fire); }
+:is(.tag, #global-tooltip).holy        { --tag-bg: var(--color-holy); --tt-accent: var(--color-holy); }
+:is(.tag, #global-tooltip).lightning   { --tag-bg: var(--color-lightning); --tt-accent: var(--color-lightning); }
+:is(.tag, #global-tooltip).poison      { --tag-bg: var(--color-poison); --tt-accent: var(--color-poison); }
+:is(.tag, #global-tooltip).psychic     { --tag-bg: var(--color-psychic); --tt-accent: var(--color-psychic); }
+:is(.tag, #global-tooltip).sonic       { --tag-bg: var(--color-sonic); --tt-accent: var(--color-sonic); }
+
+:is(.tag, #global-tooltip).bleeding    { --tag-bg: var(--color-bleeding); --tt-accent: var(--color-bleeding); }
+:is(.tag, #global-tooltip).dazed       { --tag-bg: var(--color-dazed); --tt-accent: var(--color-dazed); }
+:is(.tag, #global-tooltip).frightened  { --tag-bg: var(--color-frightened); --tt-accent: var(--color-frightened); }
+:is(.tag, #global-tooltip).grabbed     { --tag-bg: var(--color-grabbed); --tt-accent: var(--color-grabbed); }
+:is(.tag, #global-tooltip).prone       { --tag-bg: var(--color-prone); --tt-accent: var(--color-prone); }
+:is(.tag, #global-tooltip).restrained  { --tag-bg: var(--color-restrained); --tt-accent: var(--color-restrained); }
+:is(.tag, #global-tooltip).slowed      { --tag-bg: var(--color-slowed); --tt-accent: var(--color-slowed); }
+:is(.tag, #global-tooltip).taunted     { --tag-bg: var(--color-taunted); --tt-accent: var(--color-taunted); }
+:is(.tag, #global-tooltip).weakened    { --tag-bg: var(--color-weakened); --tt-accent: var(--color-weakened); }
+:is(.tag, #global-tooltip).dying       { --tag-bg: var(--color-dying); --tt-accent: var(--color-dying); }
+
+/* TIP */
+.tip.rule      { --tip-rgb: 74, 83, 94; }
+.tip.stat      { --tip-rgb: 2, 132, 199; }
+.tip.resource  { --tip-rgb: 234, 179, 8; }
+.tip.skill     { --tip-rgb: 21, 128, 61; }
+
+.tip.action    { --tip-rgb: 2, 132, 199; }
+.tip.roll      { --tip-rgb: 179, 18, 31; }
+.tip.condition { --tip-rgb: 147, 51, 234; }
+
+.tip.lore      { --tip-rgb: 15, 118, 110; }
