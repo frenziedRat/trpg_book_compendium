@@ -1,0 +1,125 @@
+/* ========================================================
+   전역 JS 툴팁 시스템 (#global-tooltip)
+   ======================================================== */
+#global-tooltip {
+    position: absolute;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    max-width: 20rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+#global-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#global-tooltip.place-bottom {
+    transform: translateY(0);
+}
+
+/* 내부 헤더 및 본문 기본 레이아웃 */
+#global-tooltip .tt-header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.65rem;
+}
+
+#global-tooltip .tt-badge {
+    font-family: var(--font-head, sans-serif);
+    font-size: 0.75em;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#global-tooltip .tt-title {
+    font-family: var(--font-head, sans-serif);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+#global-tooltip .tt-desc {
+    padding: 0.35rem 0.65rem 0.45rem;
+    font-family: var(--font-body, serif);
+    font-size: 0.82rem;
+    color: var(--paper, #ebe7dd);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    word-break: keep-all;
+}
+
+/* --------------------------------------------------------
+   [스타일 구분 1] .tag (게임 카드 / 룰북 배지 테마)
+   - 강철 어두운 배경, 좌측 포인트 쐐기 테두리, 원소별 Accent 색상
+   -------------------------------------------------------- */
+#global-tooltip.tt-tag {
+    background: var(--neutral-900, #14161a);
+    color: #fff;
+    border: 1px solid var(--tt-accent, var(--neutral-600));
+    border-left: 4px solid var(--tt-accent, var(--neutral-600));
+}
+
+#global-tooltip.tt-tag .tt-badge {
+    background: var(--tt-accent, var(--neutral-600));
+    color: #fff;
+}
+
+/* --------------------------------------------------------
+   [스타일 구분 2] .tip (양피지 주석 / 룰북 각주 테마)
+   - 엠버/골드 하이라이트 테두리, 학구적인 노트 느낌
+   -------------------------------------------------------- */
+#global-tooltip.tt-tip {
+    background: #1c1e24;
+    color: var(--paper, #ebe7dd);
+    border: 1px solid var(--highlight, #d9822b);
+    border-left: 3px solid var(--highlight, #d9822b);
+}
+
+#global-tooltip.tt-tip .tt-badge {
+    background: rgba(217, 130, 43, 0.25);
+    color: var(--highlight-light, #e8a04a);
+}
+
+#global-tooltip.tt-tip .tt-title {
+    color: var(--highlight-light, #e8a04a);
+}
+
+/* --------------------------------------------------------
+   [스타일 구분 3] .kw (키워드 테마)
+   - 심플한 컴팩트 그레이 테두리
+   -------------------------------------------------------- */
+#global-tooltip.tt-kw {
+    background: var(--neutral-800, #1f232a);
+    color: var(--paper, #ebe7dd);
+    border: 1px solid var(--neutral-300, #a7aeb6);
+}
+
+#global-tooltip.tt-kw .tt-badge {
+    background: var(--neutral-600, #4a535e);
+    color: #fff;
+}
+
+/* --------------------------------------------------------
+   [스타일 구분 4] .trait (영웅 특성 배지 테마)
+   - 블러드 레드 액센트 테두리
+   -------------------------------------------------------- */
+#global-tooltip.tt-trait {
+    background: var(--neutral-900, #14161a);
+    color: #fff;
+    border: 1px solid var(--accent, #b3121f);
+    border-left: 4px solid var(--accent, #b3121f);
+}
+
+#global-tooltip.tt-trait .tt-badge {
+    background: var(--accent, #b3121f);
+    color: #fff;
+}
