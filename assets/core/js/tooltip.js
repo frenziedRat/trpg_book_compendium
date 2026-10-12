@@ -87,7 +87,6 @@ class TooltipEngine {
     renderDmgTags() {
         const dmgContainers = document.querySelectorAll(".dmg");
 
-        // 9대 피해 속성 및 untype 목록
         const damageTypes = [
             "acid", "cold", "corruption", "fire", "holy",
             "lightning", "poison", "psychic", "sonic", "untype", "untyped"
@@ -95,8 +94,6 @@ class TooltipEngine {
 
         dmgContainers.forEach(el => {
             if (el.dataset.dmgRendered === "true") return;
-
-            // 이미 내부에 .tag가 직접 들어있는 경우 건너뜀
             if (el.querySelector(".tag")) {
                 el.dataset.dmgRendered = "true";
                 return;
@@ -107,7 +104,6 @@ class TooltipEngine {
             const hasDamageOrType = classList.includes("damage") || classList.includes("type");
             const attrVal = el.getAttribute("data-val") || el.getAttribute("val") || el.getAttribute("data-num");
 
-            // dmg.damage, dmg.type 이거나 수치(data-val)가 있는 경우
             if (hasDamageOrType || matchedType || attrVal) {
                 const tagEl = document.createElement("span");
                 tagEl.classList.add("tag");
@@ -118,9 +114,10 @@ class TooltipEngine {
                     tagEl.classList.add("type");
                 }
 
-                // ★ 속성이 지정되지 않았다면 기본값으로 'untype' 부여
+                // 속성이 명시되지 않은 경우 untype을 주되, 기본값 플래그 부여
                 if (!matchedType) {
                     matchedType = "untype";
+                    tagEl.dataset.defaultUntype = "true";
                 }
                 tagEl.classList.add(matchedType);
 
@@ -439,12 +436,27 @@ class TooltipEngine {
         ];
         const foundElem = customClasses.find(c => damageTypes.includes(c));
 
+        // ★ HTML에 untype/untyped가 명시적으로 적혀 있었는지 확인
+        const isExplicitUntype = (target.classList.contains("untype") || target.classList.contains("untyped")) &&
+            target.dataset.defaultUntype !== "true";
+
         let key = "";
 
         if (foundElem) {
             subType = "damage";
             key = foundElem === "untyped" ? "untype" : foundElem;
+        } else if (classList.includes("damage") || classList.includes("type")) {
+            subType = "damage";
+            key = "untype";
+            target.classList.add("untype");
+        } else if (customClasses.length >= 2) {
+            subType = customClasses[0];
+            key = customClasses[1];
+        } else if (customClasses.length === 1) {
+            const single = customClasses[0];
+            key = single;
         }
+
         // ★ tag.damage, tag.type 등 속성 클래스가 없는 경우 untype으로 폴백
         else if (classList.includes("damage") || classList.includes("type")) {
             subType = "damage";
@@ -474,12 +486,21 @@ class TooltipEngine {
             }
         }
 
-        // ★ terms.yaml에 untype 정의가 없더라도 안전하게 동작하는 기본값
-        if (!item && (key === "untype" || key === "untyped")) {
+        // ★ untype으로 직접 적지 않은 경우 -> 무조건 "피해"로 고정
+        if (!isExplicitUntype && (key === "untype" || key === "untyped")) {
             item = {
                 ko: "피해",
                 en: "Damage",
-                desc: "속성이 없는 일반 물리 및 기본 피해입니다.",
+                desc: (item && item.desc) || "속성이 없는 일반 기본 피해입니다.",
+                color: (item && item.color) || "var(--color-untype, #57534e)"
+            };
+        }
+        // ★ untype을 직접 명시했으나 terms.yaml에 정의가 없는 경우의 폴백
+        else if (!item && (key === "untype" || key === "untyped")) {
+            item = {
+                ko: "무속성",
+                en: "Untyped",
+                desc: "속성이 없는 피해입니다.",
                 color: "var(--color-untype, #57534e)"
             };
         }

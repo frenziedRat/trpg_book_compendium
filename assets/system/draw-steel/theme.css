@@ -16,6 +16,7 @@
     --color-poison:      #15803d;
     --color-psychic:     #9333ea;
     --color-sonic:       #4b5563;
+    --color-untype:      #57534e;
 
     --color-bleeding:    #b3121f;
     --color-dazed:       #a16207;
@@ -62,6 +63,7 @@
 .dmg-poison      { color: var(--color-poison); }
 .dmg-psychic     { color: var(--color-psychic); }
 .dmg-sonic       { color: var(--color-sonic); }
+.dmg-untype      { color: var(--color-untype); }
 
 /* 본문 배지(.tag)와 툴팁(#global-tooltip) 양쪽에 동일 색상 적용 */
 :is(.tag, #global-tooltip).acid        { --tag-bg: var(--color-acid); --tt-accent: var(--color-acid); }
@@ -73,6 +75,7 @@
 :is(.tag, #global-tooltip).poison      { --tag-bg: var(--color-poison); --tt-accent: var(--color-poison); }
 :is(.tag, #global-tooltip).psychic     { --tag-bg: var(--color-psychic); --tt-accent: var(--color-psychic); }
 :is(.tag, #global-tooltip).sonic       { --tag-bg: var(--color-sonic); --tt-accent: var(--color-sonic); }
+:is(.tag, #global-tooltip).untype     { --tag-bg: var(--color-untype); --tt-accent: var(--color-untype)}
 
 :is(.tag, #global-tooltip).bleeding    { --tag-bg: var(--color-bleeding); --tt-accent: var(--color-bleeding); }
 :is(.tag, #global-tooltip).dazed       { --tag-bg: var(--color-dazed); --tt-accent: var(--color-dazed); }
