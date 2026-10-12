@@ -13,6 +13,7 @@
             closeAria: "목차 닫기",                    // 닫기 버튼 접근성 라벨
             closeIcon: "&times;",                      // 닫기 버튼 기호 (×)
             currentBadge: "현재",                    // 현재 열람 중인 문서 뱃지 문구
+            draftBadge: "작성중",                      // 작성중 문구.
             groupExpandIcon: "＋",                     // 하위 목차 접혀있을 때 기호
             groupCollapseIcon: "－",                   // 하위 목차 펼쳐졌을 때 기호
             homeSubLabel: "MAIN INDEX",                // 홈 버튼 상단 영문 라벨
@@ -60,7 +61,8 @@
         const childrenOf = (item) => (item && Array.isArray(item.children) ? item.children : []);
         const flat = [];
         const walk = (items) => items.forEach((item) => {
-            if (item.path) flat.push(item);
+            // ★ draft가 true인 문서는 하단 이전/다음 페이지 목록에서 완전히 제외
+            if (item.path && !item.draft) flat.push(item);
             walk(childrenOf(item));
         });
         walk(manifest);
@@ -201,16 +203,21 @@
             const holdsCur = kids.some(containsCurrent);
             const hasKids = kids.length > 0;
             const hasPath = !!item.path;
+            const isDraft = !!item.draft; // ★ draft 플래그 확인
 
             const box = document.createElement(depth === 0 ? "div" : "li");
             box.className = depth === 0 ? "drawer-doc-group" : "drawer-sub-item";
             if (cur) box.classList.add("current");
             if (holdsCur) box.classList.add("has-current");
+            if (isDraft) box.classList.add("is-draft");
 
-            // 단일 통합 링크 생성
             const link = document.createElement("a");
             link.className = depth === 0 ? "drawer-doc-title" : "drawer-sub-title";
-            link.href = hasPath ? resolveTargetUrl(item.path) : "#";
+            link.href = (hasPath && !isDraft) ? resolveTargetUrl(item.path) : "#";
+            if (isDraft) {
+                link.classList.add("is-draft");
+                link.setAttribute("aria-disabled", "true");
+            }
 
             const open = cur || holdsCur || item.open === true;
             let kidsUl = null;
@@ -222,14 +229,13 @@
                 kidsUl.style.display = open ? "" : "none";
             }
 
-            // 하위 목록이 있는 경우 기호(＋ / －) 생성
+            // 하위 목록 기호 (＋ / －)
             let toggleSpan = null;
             if (hasKids) {
                 toggleSpan = document.createElement("span");
                 toggleSpan.className = "toggle-icon";
                 toggleSpan.textContent = open ? PAGER_UI_TEXT.drawer.groupCollapseIcon : PAGER_UI_TEXT.drawer.groupExpandIcon;
 
-                // 기호 아이콘을 직접 눌렀을 때는 언제든 접기/펼치기만 동작하도록 분기
                 toggleSpan.onclick = (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -247,17 +253,28 @@
             titleSpan.textContent = item.title;
             link.appendChild(titleSpan);
 
-            // 열람 중 뱃지
+            // 열람 중 뱃지 or 작성 중 뱃지 부착
             if (cur) {
                 const badge = document.createElement("span");
                 badge.className = "current-badge";
                 badge.textContent = PAGER_UI_TEXT.drawer.currentBadge;
                 link.appendChild(badge);
+            } else if (isDraft) {
+                // ★ [작성중] 뱃지
+                const draftBadge = document.createElement("span");
+                draftBadge.className = "draft-badge";
+                draftBadge.textContent = PAGER_UI_TEXT.drawer.draftBadge;
+                link.appendChild(draftBadge);
             }
 
-            // ★ 스마트 클릭 핸들러 (접혀있으면 펼치기, 펼쳐져있으면 이동)
+            // 클릭 이벤트 처리
             link.onclick = (e) => {
-                // 1. 현재 열람 중인 페이지라면 최상단 스크롤 후 드로어 닫기
+                // ★ draft 항목은 클릭 시 이동 차단
+                if (isDraft && !hasKids) {
+                    e.preventDefault();
+                    return;
+                }
+
                 if (cur) {
                     e.preventDefault();
                     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -265,11 +282,8 @@
                     return;
                 }
 
-                // 2. 하위 목록이 있는 경우
                 if (hasKids && kidsUl) {
                     const isCurrentlyOpen = kidsUl.style.display !== "none";
-
-                    // [접혀 있는 상태] -> 이동하지 않고 하위 목록 펼치기
                     if (!isCurrentlyOpen) {
                         e.preventDefault();
                         kidsUl.style.display = "";
@@ -277,12 +291,9 @@
                         return;
                     }
 
-                    // [이미 펼쳐져 있는 상태]
-                    if (hasPath) {
-                        // path가 있으면 페이지 정상 이동 (기본 href 동작 수행)
+                    if (hasPath && !isDraft) {
                         closeDrawer();
                     } else {
-                        // path가 없는 순수 그룹이면 다시 접기
                         e.preventDefault();
                         kidsUl.style.display = "none";
                         if (toggleSpan) toggleSpan.textContent = PAGER_UI_TEXT.drawer.groupCollapseIcon;
@@ -290,15 +301,13 @@
                     return;
                 }
 
-                // 3. 단일 문서 페이지
-                if (hasPath) {
+                if (hasPath && !isDraft) {
                     closeDrawer();
                 }
             };
 
             box.appendChild(link);
 
-            // Rule 문서일 때만 내부 h2 목록 표시
             if (cur && isRuleDocument(item)) {
                 const h2List = buildRuleH2List();
                 if (h2List) box.appendChild(h2List);

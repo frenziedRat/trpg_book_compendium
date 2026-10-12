@@ -2,6 +2,12 @@
    Draw Steel - Pager & Drawer Navigation Style (Refined)
 ======================================================== */
 
+:root {
+    /* pager 전용 폰트 기본값 안전망
+       (common_book.css의 --font-head / --font-ui를 우선 적용하고, 미로드 시 기본 폰트로 폴백) */
+    --pager-font: var(--font-head, var(--font-ui, "Barlow Condensed", "Noto Sans KR", sans-serif));
+}
+
 /* 1. 드로어 열기 플로팅 버튼 */
 .drawer-toggle-btn {
     position: fixed;
@@ -423,4 +429,42 @@
     letter-spacing: 0.05em;
     white-space: nowrap;
     padding: 0 0.5rem;
+}
+
+/* ----------------------------------------------------
+   작성 중(Draft) 항목 스타일
+---------------------------------------------------- */
+.drawer-doc-title.is-draft,
+.drawer-sub-title.is-draft {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+}
+
+.drawer-doc-title.is-draft:hover,
+.drawer-sub-title.is-draft:hover {
+    background: transparent;
+    border-left-color: transparent;
+    padding-left: 1.4rem; /* 서브 항목은 2.2rem */
+    color: var(--paper-2, #dfdacd);
+}
+
+.drawer-sub-title.is-draft:hover {
+    padding-left: 2.2rem;
+}
+
+/* [작성중] 뱃지 스타일 */
+.draft-badge {
+    margin-left: auto;
+    font-family: var(--font-head), sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.12rem 0.4rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--neutral-300, #a7aeb6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    text-transform: uppercase;
+    flex-shrink: 0;
 }
