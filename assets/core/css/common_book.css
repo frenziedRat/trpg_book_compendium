@@ -1016,14 +1016,16 @@ html { scroll-behavior: smooth; }
 .tip {
     position: relative;
     cursor: help;
-    background: linear-gradient(transparent 70%, rgba(var(--tip-rgb, 217, 130, 43), .32) 70%);
+    background: linear-gradient(
+            transparent 80%, /* 높이 */
+            color-mix(in srgb, var(--tip-color, #d9822b) 32%, transparent) 80%); /* 전자: 형광펜 불투명도, 후자: 시작 위치)
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;      /* 줄바꿈되어도 형광펜이 줄마다 끊기지 않게 */
     transition: background .15s;
 }
 .tip:hover,
 .tip:focus-visible {
-    background: linear-gradient(transparent 50%, rgba(var(--tip-rgb, 217, 130, 43), .6) 50%);
+    background: linear-gradient(transparent 0%, color-mix(in srgb, var(--tip-color, #d9822b) 15%, transparent) 0%);
 }
 
 /* ---------- 공용 툴팁 ----------
@@ -1316,24 +1318,4 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
     #lang-toggle-btn {
         display: none !important;
     }
-}
-
-/* [한] 모드: 기본 상태 (tag-ko 만 출력) */
-.tag:empty::before {
-    content: var(--tag-ko, "");
-}
-
-/* ========================================================
-   1. 태그(.tag) & 팁(.tip) 공통 텍스트 및 다국어 시스템
-   ======================================================== */
-
-/* [한] 기본 모드: 빈 태그일 때 tag-ko 출력 */
-:is(.tag, .tip, .kw, .action-cost):empty::before {
-    content: var(--tag-ko, "");
-}
-
-/* [한/영] 모드: body.show-tips 활성화 시 빈 태그에 tag-ko + tag-en 병기 */
-body.show-tips :is(.tag, .tip, .kw, .action-cost):empty::before,
-.page.show-tips :is(.tag, .tip, .kw, .action-cost):empty::before {
-    content: var(--tag-ko, "") " " var(--tag-en, "");
 }
