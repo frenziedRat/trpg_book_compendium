@@ -8,7 +8,7 @@ class TooltipEngine {
         this.activeTarget = null;
         this.isTouch = false;
 
-        this.init();
+        this.init().catch(err => console.error("[Tooltip] Init failed:", err));
     }
 
     createTooltipElement() {
@@ -42,41 +42,6 @@ class TooltipEngine {
         return "draw_steel";
     }
 
-    async init() {
-        this.createTooltipElement();
-
-        const ruleName = this.detectRuleSystem();
-        const yamlPath = `../../../assets/system/${ruleName}/terms.yaml`;
-
-        try {
-            const res = await fetch(yamlPath);
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-            const yamlText = await res.text();
-
-            if (typeof jsyaml !== "undefined") {
-                this.termsData = jsyaml.load(yamlText);
-                console.log(`[Tooltip] '${ruleName}.yaml' 로드 성공`);
-
-                this.renderDmgTags();
-                this.renderEmptyTags();
-            } else {
-                console.warn("[Tooltip] js-yaml 라이브러리가 로드되지 않았습니다.");
-                this.termsData = {};
-                this.renderDmgTags();
-                this.renderEmptyTags();
-            }
-        } catch (err) {
-            console.warn(`[Tooltip] ${yamlPath} 로드 실패:`, err);
-            this.termsData = {};
-            this.renderDmgTags();
-            this.renderEmptyTags();
-        }
-
-        this.renderPotencyTags();
-        this.bindEvents();
-    }
-
     // ★ YAML 데이터 조회 헬퍼
     findTerm(category, key) {
         if (!this.termsData || !key) return null;
@@ -101,6 +66,49 @@ class TooltipEngine {
             return Object.keys(this.termsData.damage);
         }
         return ["acid", "cold", "corruption", "fire", "holy", "lightning", "poison", "psychic", "sonic", "untype"];
+    }
+
+    async init() {
+        this.createTooltipElement();
+
+        const ruleName = this.detectRuleSystem();
+        const yamlPath = `../../../assets/system/${ruleName}/terms.yaml`;
+
+        try {
+            const res = await fetch(yamlPath);
+            if (!res.ok) {
+                console.warn(`[Tooltip] ${yamlPath} 로드 실패: HTTP ${res.status}`);
+                this.termsData = {};
+                this.renderDmgTags();
+                this.renderEmptyTags();
+                this.renderPotencyTags();
+                this.bindEvents();
+                return;
+            }
+
+            const yamlText = await res.text();
+
+            if (typeof window.jsyaml !== "undefined") {
+                this.termsData = window.jsyaml.load(yamlText);
+                console.log(`[Tooltip] '${ruleName}.yaml' 로드 성공`);
+
+                this.renderDmgTags();
+                this.renderEmptyTags();
+            } else {
+                console.warn("[Tooltip] js-yaml 라이브러리가 로드되지 않았습니다.");
+                this.termsData = {};
+                this.renderDmgTags();
+                this.renderEmptyTags();
+            }
+        } catch (err) {
+            console.warn(`[Tooltip] ${yamlPath} 로드 실패:`, err);
+            this.termsData = {};
+            this.renderDmgTags();
+            this.renderEmptyTags();
+        }
+
+        this.renderPotencyTags();
+        this.bindEvents();
     }
 
     // ★ .dmg 컨테이너의 속성/수치를 감지하여 내부에 .tag 요소를 자동 생성
@@ -360,7 +368,7 @@ class TooltipEngine {
             return { ko: item.ko || raw, en: item.en || raw, cls: cls };
         };
 
-        document.querySelectorAll("potency, .potency[stat]").forEach(el => {
+        document.querySelectorAll(".potency[stat]").forEach(el => {
             const rawStat = (el.getAttribute("stat") || "").trim();
             const rawDc = (el.getAttribute("dc") || el.getAttribute("grade") || "").trim();
 

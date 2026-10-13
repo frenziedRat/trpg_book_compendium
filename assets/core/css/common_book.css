@@ -757,9 +757,9 @@ article.ability {
     box-sizing: border-box;
 }
 /* 1. 상단: 3열 균등 그리드 (부등호 정중앙 배치) */
-.tiers :is(.potency-col, .potency-wrap) :is(potency, .potency) {
+.tiers :is(.potency-col, .potency-wrap) .potency {
     display: grid !important;
-    grid-template-columns: 1fr auto 1fr !important; /* 1열과 3열이 동일 너비를 차지하여 가운데 열이 정중앙에 위치 */
+    grid-template-columns: 1fr auto 1fr !important;
     align-items: center;
     width: 100%;
     padding: 0.1em 0.2em !important;
@@ -770,18 +770,18 @@ article.ability {
     box-sizing: border-box;
 }
 
-:is(potency, .potency)::before,
-:is(potency, .potency)::after {
+.potency::before,
+.potency::after {
     display: none !important;
 }
 
 /* [1열 - 좌측]: 세로로 쌓이는 능력치 목록 */
-:is(potency, .potency) .stat {
+.potency .stat {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-self: start;
-    font-family: var(--font-head), var(--font-ui), sans-serif;
+    font-family: var(--font-head), sans-serif;
     font-size: 0.95em;
     font-weight: 800;
     line-height: 1.15;
@@ -790,13 +790,13 @@ article.ability {
     text-align: left;
 }
 
-:is(potency, .potency) .stat .stat-item {
+.potency .stat .stat-item {
     display: block;
     white-space: nowrap;
 }
 
 /* 상단 우측: < 등급 (연산자 및 등급 글자) */
-:is(potency, .potency) .dc-group {
+.potency .dc-group {
     display: inline-flex;
     align-items: center;
     gap: 0.35em;
@@ -805,7 +805,7 @@ article.ability {
 }
 
 /* [2열 - 중앙]: 정중앙 부등호 (<) */
-:is(potency, .potency) .op {
+.potency .op {
     justify-self: center;
     font-family: var(--font-head), sans-serif;
     font-size: 1.45em;
@@ -816,7 +816,7 @@ article.ability {
 }
 
 /* [3열 - 우측]: 등급 (약 / 중 / 강) */
-:is(potency, .potency) .grade {
+.potency .grade {
     justify-self: center;
     font-family: var(--font-head), sans-serif;
     font-size: 1.35em;
@@ -827,18 +827,18 @@ article.ability {
 
 /* 2. 하단: 흰색 박스 (밀치기, 넘어뜨림 등) */
 .tiers :is(.potency-col, .potency-wrap) .potency-box,
-.tiers :is(.potency-col, .potency-wrap) > :not(potency):not(.potency) {
+.tiers :is(.potency-col, .potency-wrap) > :not(.potency) {
     display: flex !important;
-    flex-direction: column !important;     /* 감속과 (극복 해소)를 세로로 정렬 */
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     width: 100%;
-    background: #ffffff !important;       /* ★ 흰 바탕 */
-    color: #14161a !important;            /* 검은색 글자 */
+    background: #ffffff !important;
+    color: #14161a !important;
     border: none !important;
     border-radius: 2px;
     padding: 0.25em 0.4em;
-    font-family: var(--font-head), var(--font-ui), sans-serif;
+    font-family: var(--font-head), sans-serif;
     font-size: 0.95em;
     font-weight: 800;
     line-height: 1.25;
@@ -849,9 +849,10 @@ article.ability {
     cursor: help;
 }
 
-.tiers :is(.potency-col, .potency-wrap) > :not(potency):not(.potency):hover {
+.tiers :is(.potency-col, .potency-wrap) > :not(.potency):hover {
     background: #f0f0f0 !important;
 }
+
 .effect {
     margin: .2em 0;
 }
@@ -1019,7 +1020,7 @@ table.advancement-table .feat-tag {
     text-decoration: none;
     border-left: 6px solid var(--accent, #b3121f);
     clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut, 10px)) 100%, 0 100%);
-    font-family: var(--font-head, sans-serif);
+    font-family: var(--font-head), sans-serif;
     text-transform: uppercase;
     transition: background 0.15s ease, transform 0.15s ease, border-left-color 0.15s ease;
     box-sizing: border-box;
@@ -1077,7 +1078,7 @@ table.advancement-table .feat-tag {
     position: absolute;
     top: 0.6rem;
     right: 0.8rem;
-    font-family: var(--font-head, sans-serif);
+    font-family: var(--font-head), sans-serif;
     font-size: 0.68rem;
     font-weight: 700;
     color: var(--neutral-300, #a7aeb6);
@@ -1179,28 +1180,6 @@ table.advancement-table .feat-tag {
     padding: var(--tag-pad);
 }
 
-/* ========================================================
-   분할 육각형 배지 (.has-split-val)
-   - 외곽: 두 조각이 합쳐져 완벽한 하나의 육각형 배지 형성
-   - 왼쪽/오른쪽: 한쪽은 흰 바탕+속성 테두리, 반대쪽은 속성색 채움
-======================================================== */
-:is(.tag, .tip).has-split-val {
-    --hex-tip: 7px;
-    display: inline-flex !important;
-    align-items: stretch;
-    vertical-align: baseline;
-    padding: 0 !important;
-    margin: 0 0.2em;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    white-space: nowrap;
-}
-
-:is(.tag, .tip).has-split-val::before,
-:is(.tag, .tip).has-split-val::after {
-    display: none !important;
-}
 
 /* --------------------------------------------------------
    A. 수치 영역 (.tag-part-val): 흰 바탕 + 속성색 테두리 + 검은 글자
@@ -1214,7 +1193,7 @@ table.advancement-table .feat-tag {
     color: var(--tag-bg, var(--tip-color, #0284c7));
     font-family: var(--font-head), var(--font-ui), sans-serif;
     font-size: 1.05em;
-    font-weight: 800;
+    font-weight: 450;
     line-height: 1.15;
     box-sizing: border-box;
 }
@@ -1234,10 +1213,10 @@ table.advancement-table .feat-tag {
 .tag-part-val.left-arrow::after {
     content: "";
     position: absolute;
-    inset: 2px 0 2px 2px; /* 상, 우, 하, 좌 */
+    inset: 2px 0 2px 2px;
     z-index: -1;
     background: #ffffff;
-    clip-path: polygon(calc(var(--hex-tip) - 0.5px) 0, 100% 0, 100% 100%, calc(var(--hex-tip) - 0.5px) 100%, 0 50%);
+    clip-path: polygon(calc(var(--hex-tip) - 1px) 0, 100% 0, 100% 100%, calc(var(--hex-tip) - 1px) 100%, 0 50%);
 }
 
 /* A-2. 오른쪽 배치 (> 모양 화살표) - 4번 immunity/weakness */
@@ -1255,10 +1234,10 @@ table.advancement-table .feat-tag {
 .tag-part-val.right-arrow::after {
     content: "";
     position: absolute;
-    inset: 2px 2px 2px 0; /* 상, 우, 하, 좌 */
+    inset: 2px 2px 2px 0;
     z-index: -1;
     background: #ffffff;
-    clip-path: polygon(0 0, calc(100% - var(--hex-tip) + 0.5px) 0, 100% 50%, calc(100% - var(--hex-tip) + 0.5px) 100%, 0 100%);
+    clip-path: polygon(0 0, calc(100% - var(--hex-tip) + 1px) 0, 100% 50%, calc(100% - var(--hex-tip) + 1px) 100%, 0 100%);
 }
 
 /* --------------------------------------------------------
@@ -1301,7 +1280,7 @@ table.advancement-table .feat-tag {
     inset: 2px 0 2px 2px;
     z-index: -1;
     background: #ffffff;
-    clip-path: polygon(calc(var(--hex-tip) - 0.5px) 0, 100% 0, 100% 100%, calc(var(--hex-tip) - 0.5px) 100%, 0 50%);
+    clip-path: polygon(calc(var(--hex-tip) - 1px) 0, 100% 0, 100% 100%, calc(var(--hex-tip) - 1px) 100%, 0 50%);
 }
 
 /* 우측 라벨 (| 모양 >) */
@@ -1346,7 +1325,7 @@ table.advancement-table .feat-tag {
     inset: 2px 2px 2px 0;
     z-index: -1;
     background: #ffffff;
-    clip-path: polygon(0 0, calc(100% - var(--hex-tip) + 0.5px) 0, 100% 50%, calc(100% - var(--hex-tip) + 0.5px) 100%, 0 100%);
+    clip-path: polygon(0 0, calc(100% - var(--hex-tip) + 1px) 0, 100% 50%, calc(100% - var(--hex-tip) + 1px) 100%, 0 100%);
 }
 
 /* ========================================================
@@ -1403,13 +1382,14 @@ table.advancement-table .feat-tag {
     background: var(--tag-bg, var(--tip-color, #0284c7));
     clip-path: polygon(var(--hex-tip) 0, calc(100% - var(--hex-tip)) 0, 100% 100%, 0 100%) !important;
 }
+/* [상단 수치 조각: 사다리꼴] */
 :is(.tag, .tip).has-split-val.is-long > .tag-part-val:first-child::after {
     content: "";
     position: absolute;
-    inset: 2px 2px 1.5px 2px !important;  /* 하단 경계에 1.5px 속성 색상선 유지 */
+    inset: 2px 2px 1px 2px !important;  /* 1.5px -> 1px 로 조정 */
     z-index: -1;
     background: #ffffff;
-    clip-path: polygon(calc(var(--hex-tip) - 0.5px) 0, calc(100% - var(--hex-tip) + 0.5px) 0, 100% 100%, 0 100%) !important;
+    clip-path: polygon(calc(var(--hex-tip) - 1px) 0, calc(100% - var(--hex-tip) + 1px) 0, 100% 100%, 0 100%) !important;
 }
 
 /* [하단 라벨 조각: 역사다리꼴] */
@@ -1430,13 +1410,14 @@ table.advancement-table .feat-tag {
 }
 
 /* 하단이 흰색 수치(.tag-part-val)일 때 (4번 면역/취약 대비) */
+/* [하단 흰색 수치 조각: 역사다리꼴] */
 :is(.tag, .tip).has-split-val.is-long > .tag-part-val:last-child::after {
     content: "";
     position: absolute;
-    inset: 1.5px 2px 2px 2px !important;
+    inset: 1px 2px 2px 2px !important;  /* 1.5px -> 1px 로 조정 */
     z-index: -1;
     background: #ffffff;
-    clip-path: polygon(0 0, 100% 0, calc(100% - var(--hex-tip) + 0.5px) 100%, calc(var(--hex-tip) - 0.5px) 100%) !important;
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--hex-tip) + 1px) 100%, calc(var(--hex-tip) - 1px) 100%) !important;
 }
 
 /* 상태 이상 태그 */
@@ -1578,7 +1559,7 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
 /* ========================================================
    위력 전용 커스텀 태그 (<potency>)
 ======================================================== */
-potency {
+.potency {
     display: inline-flex;
     align-items: center;
     gap: 0.3em;
@@ -1588,7 +1569,7 @@ potency {
     border: 1px solid var(--neutral-600, #4a535e);
     border-left: 3px solid var(--highlight, #d9822b); /* 좌측 오렌지 바 */
     border-radius: 3px;
-    font-family: var(--font-head, sans-serif);
+    font-family: var(--font-head), sans-serif;
     font-size: 0.9em;
     font-weight: 700;
     line-height: 1.15;
@@ -1599,40 +1580,40 @@ potency {
 }
 
 /* 판정 티어표(.tiers) 내부 상속 및 베이스라인 정렬 */
-.tiers potency {
+.tiers .potency {
     font-size: 0.88em;
     margin: 0 0.25em;
     vertical-align: baseline;
 }
 
 /* 1. 능력치 명칭 */
-potency .stat {
+.potency .stat {
     font-weight: 800;
     color: var(--paper, #ebe7dd);
     letter-spacing: 0.02em;
 }
 
 /* 2. 연산자 (<) */
-potency .op {
+.potency .op {
     color: var(--highlight, #d9822b);
     font-weight: 900;
-    font-size: 0.88em;
+    font-size: 2em;
 }
 
 /* 3. 등급 (Grade) */
-potency .grade {
+.potency .grade {
     font-weight: 800;
     color: #fff;
 }
 
 /* 등급별 포인트 색상 */
-potency .grade.strong {
+.potency .grade.strong {
     color: var(--accent, #b3121f);      /* 강: 붉은색 */
 }
-potency .grade.medium {
+.potency .grade.medium {
     color: var(--highlight, #d9822b);   /* 중: 오렌지색 */
 }
-potency .grade.weak {
+.potency .grade.weak {
     color: var(--neutral-300, #a7aeb6); /* 약: 그레이 */
 }
 
