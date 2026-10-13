@@ -1795,6 +1795,38 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
     outline-offset: -2px;
 }
 
+/* ---------- 목차 작성 중(Draft) 비활성화 스타일 ---------- */
+.toc-link.is-draft,
+.toc-group-btn.is-draft {
+    opacity: 0.45;
+    cursor: not-allowed !important;
+    filter: grayscale(0.7);
+    pointer-events: none; /* 클릭 및 호버 효과 차단 */
+}
+
+.toc-link.is-draft:hover,
+.toc-group-btn.is-draft:hover {
+    background: none !important;
+    box-shadow: none !important;
+    color: var(--neutral-800) !important;
+}
+
+/* 목차 작성중 뱃지 칩 */
+.toc-draft-badge {
+    font-family: var(--font-head), sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--neutral-600);
+    background: rgba(var(--ink-rgb, 22, 24, 28), 0.08);
+    border: 1px solid var(--neutral-300);
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
 /* 묶음 버튼의 화살표 (펼치면 아래로 돌아감) */
 .toc-caret {
     flex: none;

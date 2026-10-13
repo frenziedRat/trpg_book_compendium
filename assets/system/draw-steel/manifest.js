@@ -37,7 +37,7 @@ window.SITE_MANIFEST = [
             { title: "용기사 Dragon Knight", path: "draw-steel/data/ancestry/dragon-knight.html" },
             { title: "인간 Human", path: "draw-steel/data/ancestry/human.html" },
             { title: "폴더 Polder", path: "draw-steel/data/ancestry/polder.html" },
-            { title: "하칸 Hakkan", path: "draw-steel/data/ancestry/hakkan.html" },
+            { title: "하칸 Hakkan", path: "draw-steel/data/ancestry/hakkan.html"},
         ]
     },
     {
