@@ -826,24 +826,26 @@ article.ability {
 }
 
 /* 2. 하단: 흰색 박스 (밀치기, 넘어뜨림 등) */
+.tiers :is(.potency-col, .potency-wrap) .potency-box,
 .tiers :is(.potency-col, .potency-wrap) > :not(potency):not(.potency) {
     display: flex !important;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column !important;     /* 감속과 (극복 해소)를 세로로 정렬 */
+    align-items: center !important;
+    justify-content: center !important;
     width: 100%;
-    background: #ffffff !important;
-    color: #14161a !important;
+    background: #ffffff !important;       /* ★ 흰 바탕 */
+    color: #14161a !important;            /* 검은색 글자 */
     border: none !important;
     border-radius: 2px;
-    padding: 0.25em 0.5em;
+    padding: 0.25em 0.4em;
     font-family: var(--font-head), var(--font-ui), sans-serif;
     font-size: 0.95em;
     font-weight: 800;
-    line-height: 1.2;
+    line-height: 1.25;
     text-align: center;
     box-sizing: border-box;
-    text-decoration: none !important;
-    box-shadow: none !important;
+    gap: 0.15em;
+    word-break: keep-all;
     cursor: help;
 }
 

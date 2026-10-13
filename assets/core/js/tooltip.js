@@ -2,7 +2,6 @@
  * Draw Steel Web Rulebook - Global Tooltip & Tag Engine
  */
 
-
 class TooltipEngine {
     constructor() {
         this.termsData = null;
@@ -29,18 +28,15 @@ class TooltipEngine {
         document.body.appendChild(this.el);
     }
 
-    // tooltip.js에서 룰 감지 및 YAML 경로 조립
     detectRuleSystem() {
-        // <html data-rule="..."> 우선 확인
         if (document.documentElement.dataset.rule) {
             return document.documentElement.dataset.rule;
         }
 
-        // <link href=".../assets/rules/draw_steel/theme.css"> 경로에서 룰 이름 추출
         const ruleLink = document.querySelector('link[href*="/assets/system/"]');
         if (ruleLink) {
             const match = ruleLink.getAttribute("href").match(/\/assets\/system\/([^\/]+)\//);
-            if (match) return match[1]; // "draw_steel"
+            if (match) return match[1];
         }
 
         return "draw_steel";
@@ -62,9 +58,7 @@ class TooltipEngine {
                 this.termsData = jsyaml.load(yamlText);
                 console.log(`[Tooltip] '${ruleName}.yaml' 로드 성공`);
 
-                // ★ 1. .dmg 컨테이너에서 .tag 요소 자동 조립
                 this.renderDmgTags();
-                // ★ 2. 조립된 태그 및 기존 빈 태그 일괄 렌더링
                 this.renderEmptyTags();
             } else {
                 console.warn("[Tooltip] js-yaml 라이브러리가 로드되지 않았습니다.");
@@ -83,14 +77,36 @@ class TooltipEngine {
         this.bindEvents();
     }
 
+    // ★ YAML 데이터 조회 헬퍼
+    findTerm(category, key) {
+        if (!this.termsData || !key) return null;
+
+        // 1. 지정된 카테고리 내부에서 탐색
+        if (category && this.termsData[category] && this.termsData[category][key]) {
+            return this.termsData[category][key];
+        }
+
+        // 2. 전체 카테고리 순회 탐색
+        for (const cat in this.termsData) {
+            if (this.termsData[cat] && this.termsData[cat][key]) {
+                return this.termsData[cat][key];
+            }
+        }
+        return null;
+    }
+
+    // ★ YAML에서 정의된 피해 속성 목록 동적 추출
+    getDamageTypes() {
+        if (this.termsData && this.termsData.damage) {
+            return Object.keys(this.termsData.damage);
+        }
+        return ["acid", "cold", "corruption", "fire", "holy", "lightning", "poison", "psychic", "sonic", "untype"];
+    }
+
     // ★ .dmg 컨테이너의 속성/수치를 감지하여 내부에 .tag 요소를 자동 생성
     renderDmgTags() {
         const dmgContainers = document.querySelectorAll(".dmg");
-
-        const damageTypes = [
-            "acid", "cold", "corruption", "fire", "holy",
-            "lightning", "poison", "psychic", "sonic", "untype", "untyped"
-        ];
+        const damageTypes = this.getDamageTypes();
 
         dmgContainers.forEach(el => {
             if (el.dataset.dmgRendered === "true") return;
@@ -122,13 +138,13 @@ class TooltipEngine {
                     tagEl.classList.add("type");
                 }
 
+                // 속성이 지정되지 않았을 때의 기본값
                 if (!matchedType) {
                     matchedType = "untype";
                     tagEl.dataset.defaultUntype = "true";
                 }
                 tagEl.classList.add(matchedType);
 
-                // data-val에서 "중 하나" 제거 후 주입
                 if (attrVal) {
                     tagEl.setAttribute("data-val", attrVal.replace(/\s*중\s*하나/g, "").trim());
                 }
@@ -147,6 +163,7 @@ class TooltipEngine {
         if (!this.termsData) return;
 
         const targets = document.querySelectorAll(".tag, .tip, .kw, .action-cost");
+        const damageTypes = this.getDamageTypes();
 
         targets.forEach(el => {
             if (el.dataset.rendered === "true") return;
@@ -158,7 +175,6 @@ class TooltipEngine {
             const isEmpty = rawText === "";
             if (!isEmpty && !attrVal && !isNumericOnly) return;
 
-            // ★ 수치에서 "중 하나" 완전히 제거
             let val = attrVal || (isNumericOnly ? rawText : "");
             if (val) {
                 val = val.replace(/\s*중\s*하나/g, "").trim();
@@ -177,26 +193,56 @@ class TooltipEngine {
                 let displayText = data.ko.replace(/\s*중\s*하나/g, "").trim();
                 let enDisplayText = (data.en || displayText).replace(/\s*or\s*one/gi, "").trim();
 
+                // ★ 면역/취약 텍스트 및 색상 조립 (.tag와 .tip 모두 적용)
                 if (isImmunityOrWeakness) {
-                    const elemKo = (data.subType === "damage" || data.category === "damage") ? data.ko : "";
-                    const elemEn = (data.subType === "damage" || data.category === "damage") ? (data.en || data.ko) : "";
+                    const specificType = damageTypes.find(t => t !== "untype" && el.classList.contains(t));
+                    const ruleKey = isImmunity ? "immunity" : "weakness";
+                    const ruleTerm = this.findTerm("rule", ruleKey);
+                    const ruleKo = ruleTerm ? ruleTerm.ko : (isImmunity ? "면역" : "취약");
+                    const ruleEn = isImmunity ? "Immunity" : "Weakness";
 
-                    if (isImmunity) {
-                        displayText = elemKo ? `${elemKo} 면역` : "면역";
-                        enDisplayText = elemEn ? `${elemEn} Immunity` : "Immunity";
-                    } else if (isWeakness) {
-                        displayText = elemKo ? `${elemKo} 취약` : "취약";
-                        enDisplayText = elemEn ? `${elemEn} Weakness` : "Weakness";
+                    // 1. 특정 속성이 있는 경우 (예: 냉기 면역, 산성 취약)
+                    if (specificType) {
+                        const elemTerm = this.findTerm("damage", specificType);
+                        const elemKo = elemTerm ? elemTerm.ko : specificType;
+                        const elemEn = elemTerm ? elemTerm.en : specificType;
+
+                        displayText = `${elemKo} ${ruleKo}`;
+                        enDisplayText = `${elemEn} ${ruleEn}`;
                     }
-                } else if (isDamage && !el.classList.contains("type")) {
-                    if (!displayText.endsWith("피해")) {
-                        displayText = `${displayText} 피해`;
+                    // 2. 순수 본문 설명용 팁 (<span class="tip rule immunity"></span> 처럼 수치 없는 일반 룰 팁)
+                    else if (el.classList.contains("rule") && !el.classList.contains("damage") && !val) {
+                        displayText = ruleKo;
+                        enDisplayText = (ruleTerm && ruleTerm.en) ? ruleTerm.en : ruleKey;
                     }
-                    if (!enDisplayText.toLowerCase().includes("damage")) {
-                        enDisplayText = `${enDisplayText} Damage`;
+                    // 3. 그 외 (.tag, .tip, 수치가 있거나 damage/type이 포함된 경우): "피해" 접두사 및 untype 부여
+                    else {
+                        displayText = `피해 ${ruleKo}`;
+                        enDisplayText = (ruleTerm && ruleTerm.en) ? ruleTerm.en : `Damage ${ruleEn}`;
+
+                        const untypeTerm = this.findTerm("damage", "untype");
+                        data.color = (untypeTerm && untypeTerm.color) ? untypeTerm.color : "var(--color-untype, #57534e)";
+                        el.classList.add("untype");
+                    }
+                }
+                else if (isDamage) {
+                    const isExplicitUntype = (el.classList.contains("untype") || el.classList.contains("untyped")) &&
+                        el.dataset.defaultUntype !== "true";
+
+                    if (!isExplicitUntype && (data.key === "untype" || data.key === "untyped")) {
+                        displayText = data.badgeText || "피해";
+                        enDisplayText = "Damage";
+                    } else if (!el.classList.contains("type")) {
+                        if (!displayText.endsWith("피해")) {
+                            displayText = `${displayText} 피해`;
+                        }
+                        if (!enDisplayText.toLowerCase().includes("damage")) {
+                            enDisplayText = `${enDisplayText} Damage`;
+                        }
                     }
                 }
 
+                // 색상 변수 주입 (tip 밑줄 색상 포함)
                 if (data.color) {
                     el.style.setProperty("--tag-bg", data.color);
                     el.style.setProperty("--tip-color", data.color);
@@ -205,6 +251,7 @@ class TooltipEngine {
 
                 const isLongVal = el.classList.contains("wrap") || val.length >= 10 || val.includes(",");
 
+                // 3번: tag damage + val
                 if (isDamageTag && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
@@ -217,6 +264,7 @@ class TooltipEngine {
                     el.dataset.baseKo = koHtml;
                     el.dataset.baseEn = enHtml;
                 }
+                // 4번: immunity, weakness + val (tag, tip 모두 반대 배치 적용)
                 else if (isImmunityOrWeakness && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
@@ -229,6 +277,7 @@ class TooltipEngine {
                     el.dataset.baseKo = koHtml;
                     el.dataset.baseEn = enHtml;
                 }
+                // 일반 수치 표기
                 else if (val) {
                     el.classList.add("has-val");
                     el.textContent = `${displayText}\u00A0${val}`;
@@ -237,6 +286,7 @@ class TooltipEngine {
                     el.dataset.baseKo = `${displayText} ${val}`;
                     el.dataset.baseEn = `${enDisplayText} ${val}`;
                 }
+                // 수치 없는 단일 태그/팁
                 else {
                     el.textContent = displayText;
 
@@ -250,8 +300,7 @@ class TooltipEngine {
         });
     }
 
-    // ★ <potency stat="..." dc="..."> 커스텀 태그 자동 조립
-    // ★ <potency> 엔진: terms.yaml의 stat / rule 데이터 연동
+    // ★ <potency> 태그 자동 조립 (terms.yaml의 stat / rule 데이터 연동)
     renderPotencyTags() {
         if (!this.termsData) return;
 
@@ -314,22 +363,33 @@ class TooltipEngine {
                 enNames.push(info.en || tok);
             });
 
-            // ★ "중 하나" 없이 순수 능력치만 줄바꿈 태그로 감쌈
             const statItemsHtml = koNames.map(name => `<span class="stat-item">${name}</span>`).join("");
             const gradeInfo = resolveGrade(rawDc);
 
             el.innerHTML = `
                 <span class="stat">${statItemsHtml}</span>
-                <span class="dc-group">
-                    <span class="op">&lt;</span>
-                    <span class="grade ${gradeInfo.cls}">${gradeInfo.ko}</span>
-                </span>
+                <span class="op">&lt;</span>
+                <span class="grade ${gradeInfo.cls}">${gradeInfo.ko}</span>
             `.trim();
 
-            // 다국어 전환 지원
             el.dataset.langTarget = "true";
             el.dataset.baseKo = `${koNames.join(", ")} < ${gradeInfo.ko}`;
             el.dataset.baseEn = `${enNames.join(", ")} < ${gradeInfo.en}`;
+
+            // potency 뒤쪽 상태이상 태그와 문구를 흰색 박스로 래핑
+            const col = el.closest(".potency-col, .potency-wrap");
+            if (col && !col.querySelector(".potency-box")) {
+                const box = document.createElement("div");
+                box.className = "potency-box";
+
+                while (el.nextSibling) {
+                    box.appendChild(el.nextSibling);
+                }
+
+                if (box.textContent.trim() !== "") {
+                    col.appendChild(box);
+                }
+            }
         });
     }
 
@@ -381,10 +441,6 @@ class TooltipEngine {
         const classList = Array.from(target.classList);
         let category = "generic";
         let subType = "";
-        let color = "";
-        let ko = target.textContent.trim();
-        let en = target.getAttribute("term-en") || "";
-        let desc = target.getAttribute("tool-tip") || target.getAttribute("tag-text") || "";
 
         // 1. 기본 카테고리 식별
         const baseCategories = ["tag", "tip", "kw", "action-cost", "trait"];
@@ -398,29 +454,35 @@ class TooltipEngine {
         if (category === "kw") subType = "kw";
         if (category === "trait") subType = "trait";
 
-        // 2. 예약어 제외 클래스 필터링
+        // 2. 예약어 제외 커스텀 클래스 추출
         const systemReserved = [
             "tag", "tip", "kw", "trait", "badge", "action-cost", "type",
             "visible", "inner", "name", "price", "signature", "has-val", "has-split-val", "is-long"
         ];
         const customClasses = classList.filter(c => !systemReserved.includes(c) && !c.startsWith("tt-"));
 
-        // 3. 피해 속성 추출
-        const damageTypes = [
-            "acid", "cold", "corruption", "fire", "holy",
-            "lightning", "poison", "psychic", "sonic", "untype", "untyped"
-        ];
-        const foundElem = customClasses.find(c => damageTypes.includes(c));
+        // 3. YAML 기반 피해 타입 목록 동적 조회
+        const damageTypes = this.getDamageTypes();
+        const foundType = customClasses.find(c => damageTypes.includes(c));
 
-        // ★ HTML에 untype/untyped가 명시적으로 적혀 있었는지 확인
-        const isExplicitUntype = (target.classList.contains("untype") || target.classList.contains("untyped")) &&
-            target.dataset.defaultUntype !== "true";
+        const isImmunity = classList.includes("immunity") || target.getAttribute("term-en") === "immunity";
+        const isWeakness = classList.includes("weakness") || target.getAttribute("term-en") === "weakness";
+        const isImmunityOrWeakness = isImmunity || isWeakness;
 
         let key = "";
 
-        if (foundElem) {
+        // ★ tag, tip 구분 없이 면역/취약 및 피해 타입을 최우선 감지
+        if (isImmunityOrWeakness) {
+            if (foundType && foundType !== "untype") {
+                subType = "damage";
+                key = foundType;
+            } else {
+                subType = "rule";
+                key = isImmunity ? "immunity" : "weakness";
+            }
+        } else if (foundType) {
             subType = "damage";
-            key = foundElem === "untyped" ? "untype" : foundElem;
+            key = foundType === "untyped" ? "untype" : foundType;
         } else if (classList.includes("damage") || classList.includes("type")) {
             subType = "damage";
             key = "untype";
@@ -430,66 +492,42 @@ class TooltipEngine {
             key = customClasses[1];
         } else if (customClasses.length === 1) {
             const single = customClasses[0];
-            key = single;
-        }
-
-        // ★ tag.damage, tag.type 등 속성 클래스가 없는 경우 untype으로 폴백
-        else if (classList.includes("damage") || classList.includes("type")) {
-            subType = "damage";
-            key = "untype";
-            target.classList.add("untype");
-        } else if (customClasses.length >= 2) {
-            subType = customClasses[0];
-            key = customClasses[1];
-        } else if (customClasses.length === 1) {
-            const single = customClasses[0];
-            key = single;
-        }
-
-        // 4. YAML 데이터 매칭
-        let item = null;
-        if (this.termsData) {
-            if (subType && key && this.termsData[subType] && this.termsData[subType][key]) {
-                item = this.termsData[subType][key];
-            } else if (key) {
-                for (const cat in this.termsData) {
-                    if (this.termsData[cat] && this.termsData[cat][key]) {
-                        item = this.termsData[cat][key];
-                        if (!subType) subType = cat;
-                        break;
-                    }
-                }
+            const attrKey = target.getAttribute("term-en") || target.getAttribute("id") || "";
+            if (attrKey) {
+                subType = single;
+                key = attrKey;
+            } else {
+                key = single;
             }
         }
 
-        // ★ untype으로 직접 적지 않은 경우 -> 무조건 "피해"로 고정
-        if (!isExplicitUntype && (key === "untype" || key === "untyped")) {
-            item = {
-                ko: "피해",
-                en: "Damage",
-                desc: (item && item.desc) || "속성이 없는 일반 기본 피해입니다.",
-                color: (item && item.color) || "var(--color-untype, #57534e)"
-            };
-        }
-        // ★ untype을 직접 명시했으나 terms.yaml에 정의가 없는 경우의 폴백
-        else if (!item && (key === "untype" || key === "untyped")) {
-            item = {
-                ko: "무속성",
-                en: "Untyped",
-                desc: "속성이 없는 피해입니다.",
-                color: "var(--color-untype, #57534e)"
-            };
+        // 4. terms.yaml에서 데이터 조회
+        let item = this.findTerm(subType, key);
+        if (!item && key) {
+            item = this.findTerm(null, key);
         }
 
-        // 데이터 반영
+        let ko = target.textContent.trim();
+        let en = target.getAttribute("term-en") || "";
+        let desc = target.getAttribute("tool-tip") || target.getAttribute("tag-text") || "";
+        let color = "";
+
         if (item) {
             ko = item.ko || ko;
             en = item.en || en;
             desc = desc || item.desc || "";
-            color = item.color || "";
+            color = item.color || `var(--color-${key})`;
+        } else if (key) {
+            color = `var(--color-${key})`;
         }
 
-        // 5. 뱃지 문구 매핑 (새로운 카테고리가 들어오면 여기에 추가 가능)
+        // 속성 없는 면역/취약 또는 untype일 때 기본 untype 색상 적용
+        if (key === "untype" || (isImmunityOrWeakness && !foundType)) {
+            const untypeTerm = this.findTerm("damage", "untype");
+            color = (untypeTerm && untypeTerm.color) ? untypeTerm.color : "var(--color-untype, #57534e)";
+        }
+
+        // 5. 뱃지 문구 매핑
         const badgeMap = {
             damage: "피해",
             condition: "상태 이상",
@@ -502,13 +540,12 @@ class TooltipEngine {
             trait: "특성",
             roll: "판정",
             test: "시도",
-            effect: "효과",       // ★ effect 추가
+            effect: "효과",
             area: "범위",
             item: "아이템",
             lore: "설정"
         };
 
-        // 매핑 목록에 없으면 서브타입 영문 대문자(예: "EFFECT", "AURA")로 폴백
         const badgeText = badgeMap[subType] || badgeMap[category] || (subType ? subType.toUpperCase() : category.toUpperCase());
 
         return { category, subType, key, ko, en, desc, color, badgeText };
@@ -522,13 +559,11 @@ class TooltipEngine {
 
         this.activeTarget = target;
 
-        // 스타일 클래스 및 Accent 컬러 지정
         this.el.className = "";
         this.el.classList.add(`tt-${data.category}`);
         if (data.subType) this.el.classList.add(`tt-${data.subType}`);
-        if (data.key) this.el.classList.add(data.key); // 예: 'acid', 'dazed' 클래스 추가 -> CSS 변수 자동 상속
+        if (data.key) this.el.classList.add(data.key);
 
-        // ★ [여기 추가] 호버된 .tip 요소의 --tip-color를 읽어 툴팁(#global-tooltip)에 주입
         const computedStyle = window.getComputedStyle(target);
         const tipColor = computedStyle.getPropertyValue("--tip-color").trim();
         if (tipColor) {
@@ -549,17 +584,14 @@ class TooltipEngine {
 
         badgeEl.textContent = data.badgeText;
 
-        // ★ [수정] 모드와 상관없이 항상 "ko en" 형태로 조합
         let titleText = data.ko || data.en || "";
         if (data.ko && data.en && data.ko !== data.en) {
-            // 본문에 이미 영문이 포함된 경우(예: "달변 Silver Tongue") 중복 방지
             if (!data.ko.toLowerCase().includes(data.en.toLowerCase())) {
                 titleText = `${data.ko} ${data.en}`;
             }
         }
         titleEl.textContent = titleText;
 
-        // 설명(desc) 표시
         if (data.desc) {
             descEl.textContent = data.desc;
             descEl.style.display = "block";
@@ -601,7 +633,6 @@ class TooltipEngine {
     hide() {
         if (this.el) {
             this.el.classList.remove("visible");
-            // ★ [여기 추가] 툴팁이 닫힐 때 주입했던 임시 색상 변수 제거
             this.el.style.removeProperty("--active-tip-color");
         }
         this.activeTarget = null;
