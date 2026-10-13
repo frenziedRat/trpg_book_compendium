@@ -193,7 +193,7 @@ class TooltipEngine {
                 let displayText = data.ko.replace(/\s*중\s*하나/g, "").trim();
                 let enDisplayText = (data.en || displayText).replace(/\s*or\s*one/gi, "").trim();
 
-                // ★ 면역/취약 텍스트 및 색상 조립 (.tag와 .tip 모두 적용)
+                // 면역 및 취약 텍스트/색상 조립
                 if (isImmunityOrWeakness) {
                     const specificType = damageTypes.find(t => t !== "untype" && el.classList.contains(t));
                     const ruleKey = isImmunity ? "immunity" : "weakness";
@@ -201,7 +201,6 @@ class TooltipEngine {
                     const ruleKo = ruleTerm ? ruleTerm.ko : (isImmunity ? "면역" : "취약");
                     const ruleEn = isImmunity ? "Immunity" : "Weakness";
 
-                    // 1. 특정 속성이 있는 경우 (예: 냉기 면역, 산성 취약)
                     if (specificType) {
                         const elemTerm = this.findTerm("damage", specificType);
                         const elemKo = elemTerm ? elemTerm.ko : specificType;
@@ -209,20 +208,16 @@ class TooltipEngine {
 
                         displayText = `${elemKo} ${ruleKo}`;
                         enDisplayText = `${elemEn} ${ruleEn}`;
-                    }
-                    // 2. 순수 본문 설명용 팁 (<span class="tip rule immunity"></span> 처럼 수치 없는 일반 룰 팁)
-                    else if (el.classList.contains("rule") && !el.classList.contains("damage") && !val) {
-                        displayText = ruleKo;
-                        enDisplayText = (ruleTerm && ruleTerm.en) ? ruleTerm.en : ruleKey;
-                    }
-                    // 3. 그 외 (.tag, .tip, 수치가 있거나 damage/type이 포함된 경우): "피해" 접두사 및 untype 부여
-                    else {
+                    } else if (el.classList.contains("tag") || val) {
                         displayText = `피해 ${ruleKo}`;
                         enDisplayText = (ruleTerm && ruleTerm.en) ? ruleTerm.en : `Damage ${ruleEn}`;
 
                         const untypeTerm = this.findTerm("damage", "untype");
                         data.color = (untypeTerm && untypeTerm.color) ? untypeTerm.color : "var(--color-untype, #57534e)";
                         el.classList.add("untype");
+                    } else {
+                        displayText = ruleKo;
+                        enDisplayText = (ruleTerm && ruleTerm.en) ? ruleTerm.en : ruleKey;
                     }
                 }
                 else if (isDamage) {
@@ -242,7 +237,7 @@ class TooltipEngine {
                     }
                 }
 
-                // 색상 변수 주입 (tip 밑줄 색상 포함)
+                // 색상 변수 주입
                 if (data.color) {
                     el.style.setProperty("--tag-bg", data.color);
                     el.style.setProperty("--tip-color", data.color);
@@ -251,33 +246,49 @@ class TooltipEngine {
 
                 const isLongVal = el.classList.contains("wrap") || val.length >= 10 || val.includes(",");
 
-                // 3번: tag damage + val
+                // tag로 묶인 damage, immunity, weakness 여부 판별
+                const isExcludedTag = isDamageTag || (el.classList.contains("tag") && isImmunityOrWeakness);
+
+                // ★ 3번: tag damage + val
                 if (isDamageTag && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
 
-                    const koHtml = `<span class="tag-part-val left-arrow">${val}</span><span class="tag-part-label right-arrow">${displayText}</span>`;
-                    const enHtml = `<span class="tag-part-val left-arrow">${val}</span><span class="tag-part-label right-arrow">${enDisplayText}</span>`;
-                    el.innerHTML = koHtml;
+                    el.innerHTML = `<span class="tag-part-val left-arrow">${val}</span><span class="tag-part-label right-arrow">${displayText}</span>`;
 
-                    el.dataset.langTarget = "true";
-                    el.dataset.baseKo = koHtml;
-                    el.dataset.baseEn = enHtml;
+                    // tag damage는 언어 토글 대상에서 제외하여 한글 배지 고정 및 태그 코드 노출 방지
+                    delete el.dataset.langTarget;
+                    delete el.dataset.baseKo;
+                    delete el.dataset.baseEn;
                 }
-                // 4번: immunity, weakness + val (tag, tip 모두 반대 배치 적용)
+                // ★ 4번: immunity, weakness + val
                 else if (isImmunityOrWeakness && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
 
-                    const koHtml = `<span class="tag-part-label left-arrow">${displayText}</span><span class="tag-part-val right-arrow">${val}</span>`;
-                    const enHtml = `<span class="tag-part-label left-arrow">${enDisplayText}</span><span class="tag-part-val right-arrow">${val}</span>`;
-                    el.innerHTML = koHtml;
+                    el.innerHTML = `<span class="tag-part-label left-arrow">${displayText}</span><span class="tag-part-val right-arrow">${val}</span>`;
 
-                    el.dataset.langTarget = "true";
-                    el.dataset.baseKo = koHtml;
-                    el.dataset.baseEn = enHtml;
+                    // tag인 경우 한영 혼용 모드에서 영문 추가 방지
+                    if (el.classList.contains("tag")) {
+                        delete el.dataset.langTarget;
+                        delete el.dataset.baseKo;
+                        delete el.dataset.baseEn;
+                    } else {
+                        el.dataset.langTarget = "true";
+                        el.dataset.baseKo = displayText;
+                        el.dataset.baseEn = enDisplayText;
+                    }
                 }
-                // 일반 수치 표기
+                // ★ 수치 없는 단일 tag (tag damage, tag immunity, tag weakness)
+                else if (isExcludedTag) {
+                    el.textContent = displayText;
+
+                    // tag는 한영 혼용 시 문장 늘어남을 방지하기 위해 제외
+                    delete el.dataset.langTarget;
+                    delete el.dataset.baseKo;
+                    delete el.dataset.baseEn;
+                }
+                // 그 외 일반 수치 표기 (effect push 등)
                 else if (val) {
                     el.classList.add("has-val");
                     el.textContent = `${displayText}\u00A0${val}`;
@@ -286,7 +297,7 @@ class TooltipEngine {
                     el.dataset.baseKo = `${displayText} ${val}`;
                     el.dataset.baseEn = `${enDisplayText} ${val}`;
                 }
-                // 수치 없는 단일 태그/팁
+                // 일반 텍스트 tip / kw 등
                 else {
                     el.textContent = displayText;
 
