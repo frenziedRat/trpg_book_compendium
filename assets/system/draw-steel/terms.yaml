@@ -93,30 +93,45 @@ kw:
 
 # rule
 rule:
+  aoe:
+    en: Area of Effect
+    ko: 효과 지역
   bane:
     en: Bane
     ko: 불리함
+  bane2:
+    en: Double Bane
+    ko: 이중 불리함
   concealment:
     en: Concealment
     ko: 은폐
   cover:
     en: Cover
     ko: 엄폐
+  crit:
+    en: Critical Hit
+    ko: 치명타
   difficulty-terrain:
     en: Difficulty Terrain
     ko: 험지
   edge:
     en: Edge
     ko: 유리함
+  edge2:
+    en: Double Edge
+    ko: 이중 유리함
   shift:
     en: Shift
     ko: 잰걸음
+  strike:
+    en: Strike
+    ko: 타격
   immunity:
     en: Damage Immunity
-    ko: 피해 저항
+    ko: 저항
   weakness:
     en: Damage Weakness
-    ko: 피해 취약
+    ko: 취약
   weak:
     en: Weak
     ko: 약
@@ -173,6 +188,15 @@ resource:
   recovery:
     ko: 회복력
     en: Recovery
+  victory:
+    en: Victory
+    ko: 업적
+  experience:
+    en: Experience
+    ko: 경험치
+  hero-token:
+    en: Hero Token
+    ko: 영웅패
 
 roll:
   ability:
@@ -187,6 +211,9 @@ roll:
   power:
     en: Power Roll
     ko: 위력 판정
+  test:
+    en: Test
+    ko: 시도
 
 test:
   might:
@@ -200,6 +227,9 @@ action:
   free-triggered:
     en: Free Triggered Action
     ko: 자유 발동 행동
+  free-maneuver:
+    en: Free Maneuver
+    ko: 자유 동작
   maneuver:
     en: Maneuver
     ko: 동작
@@ -223,3 +253,6 @@ effect:
   slide:
     en: Slide
     ko: 옮기기
+shift:
+  en: Shift
+  ko: 잰걸음

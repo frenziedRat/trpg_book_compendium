@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page" id="human">
+        <header>
+            <h1>인간 Human</h1>
+            <p></p>
+        </header>
+        <article>
+            <header>
+                <h2>고유 특성</h2>
+            </header>
+            <article class="feature" id="detect-the-supernatural">
+                <header class="ability-head">
+                    <span class="name">초자연 탐지 Detect the Supernatural</span>
+                    <span class="badge price signature">주력</span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect"><span class="tag action maneuver"></span>으로 초자연적 개체와 현상을 탐지할 수 있습니다.</p>
+                    <p>내 다음 차례 끝까지, 효과선에 닿지 않더라도 5칸 이내에 있는 모든 초자연적 물체, 언데드, 구조물, 기타 다른 세계 출신 개체의 위치를 전부 파악합니다. 또한 탐지한 대상이 물품인지 개체인지 구분하고, 개체라면 어떤 종류인지도 알아냅니다.</p>
+                </div>
+            </article>
+        </article>
+        <article>
+            <h2>구입 특성</h2>
+            <p><strong>3</strong>점으로 아래 특성을 구매하세요.</p>
+            <div class="cols">
+                <article class="feature" id="cant-take-hold">
+                    <header class="ability-head">
+                        <span class="name">자유로운 몸놀림 Can't take hold</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">자연계와 관계 덕분에 특정 초자연 효과를 잘 견딥니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">마법과 초자연 능력으로 만든 임시 <span class="tip rule difficulty-terrain"></span>를 무시합니다.</p>
+                        <p>또한, 마법이나 초능력으로 강제 이동 당할 때, 이동 거리를 1 줄일 수 있습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="determination">
+                    <header class="ability-head">
+                        <span class="name">투지 Determination</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">고통과 시련을 견디는 내성이 고난을 견디는 힘이 되어줍니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag condition slowed"></span>, <span class="tag condition frightened"></span>, <span class="tag condition weakened"></span> 상태 중 하나 이상을 겪을 때, <span class="tag action maneuver"></span>으로 즉시 하나를 해소할 수 있습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="perseverance-human">
+                    <header class="ability-head">
+                        <span class="name">끈기 Perseverance</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">사전에 포기란 없습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip skill" term-en="Endurance">지구력</span> 쓰는 시도에 <span class="tip rule edge"></span>을 받습니다.</p>
+                        <p class="effect">추가로, <span class="tag condition slowed"></span>일 때 속력이 2가 아닌 3으로 줄어듭니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="resist-the-unnatural">
+                    <header class="ability-head">
+                        <span class="name">특수 피해 저항력 Resist the Unnatural</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">본능적 탄성으로 특수한 부상을 견뎌냅니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">유형이 있는 피해를 받을 때, <span class="tag action triggered"></span>으로 피해를 반으로 줄일 수 있습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="staying-power">
+                    <header class="ability-head">
+                        <span class="name">유지력 Staying Power</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">인간은 다른 종족보다 더 오래 싸우고, 달리며, 꺠어 있을 수 있습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip resource recovery"></span>이 2개 늘어납니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</div>
+</body>

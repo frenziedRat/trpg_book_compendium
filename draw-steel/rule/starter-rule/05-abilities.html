@@ -3,10 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draw Steel - Abilities</title>
-    <link rel="stylesheet" href="../../assets/css/common_book.css">
-    <link rel="stylesheet" href="../../assets/css/draw_steel.css">
-    <link rel="stylesheet" href="../../assets/css/pager.css">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
 </head>
 <body>
     <div class="book">
@@ -17,7 +29,7 @@
                 <p>능력은 특별한 형식에 맞춰 표기합니다. 우선은 능력을 설명하고, 규칙 사항을 요약한 후, 끝으로는 위력 판정(있다면)과 효과를 명시합니다.</p>
                 <blockquote class="sidebar">
                     <h4>전투에서 능력</h4>
-                    <p>이 책에 실린 모든 능력은 주요 행동 main action, 동작 maneuver, 발동 행동 triggered action, 기타 차례의 일부로 쓰입니다. 따라서, 이런 능력은 전투처럼 라운드 단위로 진행되는 긴박한 상황에서만 쓸 수 있습니다. 쓰는데 1분 이상이 걸리는 능력은 전투에서 쓸 수 없습니다.</p>
+                    <p>이 책에 실린 모든 능력은 <span class="tip action main"></span>, <span class="tip action maneuver"></span>, <span class="tip action triggered"></span>, 기타 차례의 일부로 쓰입니다. 따라서, 이런 능력은 전투처럼 라운드 단위로 진행되는 긴박한 상황에서만 쓸 수 있습니다. 쓰는데 1분 이상이 걸리는 능력은 전투에서 쓸 수 없습니다.</p>
                 </blockquote>
             </header>
             <div class="cols">
@@ -59,7 +71,7 @@
             <div class="cols">
                 <article>
                     <h3 id="kw-area">광역 Area</h3>
-                    <p>효과 지역 area of effect을 만드는 능력입니다. 대다수는 지역 내 대상에게 피해를 입히지만, 특정 대상을 노리는 타격 strike과는 다릅니다. ("모든 게 다 타격은 아닙니다!" 사이드바 및 아래 타격과 광역 능력 참조).</p>
+                    <p><span class="tip rule aoe"></span>을 만드는 능력입니다. 대다수는 지역 내 대상에게 피해를 입히지만, 특정 대상을 노리는 <span class="tip rule strike"></span>과는 다릅니다. ("모든 게 다 타격은 아닙니다!" 사이드바 및 아래 타격과 광역 능력 참조).</p>
                 </article>
                 <article>
                     <h3 id="kw-charge">돌격 Charge</h3>
@@ -98,13 +110,12 @@
             <hr class="divider">
             <h2 id="action-type">행동 유형</h2>
             <div class="cols">
-
                 <article>
-                    <p>능력마다 묘사글 아래 첫번째 줄 우측에 필요한 활동 유형이 적힙니다. 대다수는 주요 능력 main action, 동작 maneuver, 발동 행동 triggered action, 자유 동작 free maneuver, 자유 발동 행동 free triggered action 가운데 하나를 씁니다(각각은 10장: 전투에서 "차례 진행"에서 설명합니다). 가령, "주요 행동"으로 적혀 있다면, 주요 행동을 소모해야 그 능력을 쓸 수 있습니다.</p>
+                    <p>능력마다 묘사글 아래 첫번째 줄 우측에 필요한 활동 유형이 적힙니다. 대다수는 <span class="tip action main"></span>, <span class="tip action maneuver"></span>, <span class="tip action triggered"></span>, <span class="tip action free-maneuver"></span>, <span class="tip action free-triggered"></span> 가운데 하나를 씁니다(각각은 10장: 전투에서 "차례 진행"에서 설명합니다). 가령, "주요 행동"으로 적혀 있다면, 주요 행동을 소모해야 그 능력을 쓸 수 있습니다.</p>
                 </article>
                 <article>
                     <h3 id="trigger">발동 Trigger</h3>
-                    <p>발동 행동이나 자유 발동 행동으로 쓰는 능력에는 따로 "발동" 항목이 추가됩니다. 가령, 전술가의 Parry 능력의 발동 조건은 "개체가 대상에게 피해를 입힐 때" 입니다. 위 능력은 특정 조건에 맞는 사건이 벌어질 때만 쓸 수 있습니다.</p>
+                    <p><span class="tip action triggered"></span>이나 <span class="tip action free-triggered"></span>으로 쓰는 능력에는 따로 "발동" 항목이 추가됩니다. 가령, 전술가의 Parry 능력의 발동 조건은 "개체가 대상에게 피해를 입힐 때" 입니다. 위 능력은 특정 조건에 맞는 사건이 벌어질 때만 쓸 수 있습니다.</p>
                 </article>
 
             </div>
@@ -112,7 +123,7 @@
         <section class="page">
             <header>
                 <h2 id="distance">거리 Distance</h2>
-                <p>능력의 "거리" 항목은 <img src="../../assets/svg/distance.svg" alt="distance" class="svg-icon">거리로 표기하며, 능력이 개체나 물체에 영향을 미칠 수 있는 거리를 뜻합니다.</p>
+                <p>능력의 "거리" 항목은 <img src="../../../assets/core/svg/distance.svg" alt="distance" class="svg-icon">거리로 표기하며, 능력이 개체나 물체에 영향을 미칠 수 있는 거리를 뜻합니다.</p>
             </header>
             <div class="cols">
                 <article>
@@ -174,7 +185,7 @@
         <section class="page">
             <header>
                 <h2 id="target">대상 Target</h2>
-                <p>"대상" 항목은 <img src="../../assets/svg/target.svg" alt="target" class="svg-icon"> 기호로 표기하며, 대상으로 삼을 수 있는 개체나 물체의 개수 입니다. 이 항목보다 적은 수를 택해도 됩니다.</p>
+                <p>"대상" 항목은 <img src="../../../assets/core/svg/target.svg" alt="target" class="svg-icon"> 기호로 표기하며, 대상으로 삼을 수 있는 개체나 물체의 개수 입니다. 이 항목보다 적은 수를 택해도 됩니다.</p>
             </header>
             <div class="cols">
                 <article>
@@ -215,8 +226,8 @@
             </header>
             <div class="cols">
                 <article>
-                    <p>위력 판정 power roll을 쓰는 능력은 위력 판정 항목에 적용되는 능력치가 명시되어 있습니다(1장: 기본의 위력 판정).</p>
-                    <p>시도 test와 달리, 위력 판정은 할 때마다 유용한 효과를 냅니다. 위력 판정으로 거둔 성과는 피해량과 효과 등을 결정합니다. 가령, 광전사의 Brutal Slam은 인접한 개체(1칸 이내) 하나에게 근접 타격을 하고, 다음 효과를 따릅니다:</p>
+                    <p><span class="tip roll power"></span>을 쓰는 능력은 위력 판정 항목에 적용되는 능력치가 명시되어 있습니다(1장: 기본의 위력 판정).</p>
+                    <p><span class="tip roll test"></span>와 달리, 위력 판정은 할 때마다 유용한 효과를 냅니다. 위력 판정으로 거둔 성과는 피해량과 효과 등을 결정합니다. 가령, 광전사의 Brutal Slam은 인접한 개체(1칸 이내) 하나에게 근접 타격을 하고, 다음 효과를 따릅니다:</p>
                     <ul>
                         <li><strong>1단계 (11이하)</strong>: 3 + 근력 점수 만큼 피해를 주고, 대상을 1칸 밀쳐냅니다.</li>
                         <li><strong>2단계 (12~16)</strong>: 6 + 근력 점수 만큼 피해를 주고, 대상을 2칸 밀쳐냅니다.</li>
@@ -228,23 +239,31 @@
                     <p>어떤 피해 능력은 숫자 + <span class="trait badge">근</span>, <span class="trait badge">민</span>, <span class="trait badge">지</span>, <span class="trait badge">관</span>, <span class="trait badge">매</span>로 표기합니다. 이 글자는 피해에 더하는 능력치 점수(근력, 민첩, 지능, 직관, 매력)입니다. 가장 높은 능력치 점수를 위력 판정에 더하기도 합니다.</p>
                     <p>광전사의 Brutal Slam로 다시 예를 들면, 위력 판정에 근력을 쓰고, 위력 판정의 단계별 성과가 주는 피해량을 다음으로 표기합니다.</p>
                     <div class="ability-body">
-                        <div class="roll">
-                            <ul class="tiers">
-                                <li><b>≤11</b><span class="outcome">피해 3 + 근력</span></li>
-                                <li><b>12–16</b><span class="outcome">피해 6 + 근력</span></li>
-                                <li><b>17+</b><span class="outcome">피해 9 + 근력</span></li>
-                            </ul>
-                        </div>
+                        <ul class="tiers">
+                            <li class="outcome"><b>≤11</b>
+                                <span class="dmg damage" data-val="3 + 근력"></span>
+                            </li>
+                            <li class="outcome"><b>12–16</b>
+                                <span class="dmg damage" data-val="6 + 근력"></span>
+                            </li>
+                            <li class="outcome"><b>17+</b>
+                                <span class="dmg damage" data-val="9 + 근력"></span>
+                            </li>
+                        </ul>
                     </div>
                     <p>근력이 2라면, 피해량은 이렇게 정리되겠죠:</p>
                     <div class="ability-body">
-                        <div class="roll">
-                            <ul class="tiers">
-                                <li><b>≤11</b><span class="outcome">피해 5</span></li>
-                                <li><b>12–16</b><span class="outcome">피해 8</span></li>
-                                <li><b>17+</b><span class="outcome">피해 11</span></li>
-                            </ul>
-                        </div>
+                        <ul class="tiers">
+                            <li class="outcome"><b>≤11</b>
+                                <span class="dmg damage" data-val="5"></span>
+                            </li>
+                            <li class="outcome"><b>12–16</b>
+                                <span class="dmg damage" data-val="8"></span>
+                            </li>
+                            <li class="outcome"><b>17+</b>
+                                <span class="dmg damage" data-val="11"></span>
+                            </li>
+                        </ul>
                     </div>
                     <p>단수 echelon가 오를 때마다 능력치가 증가하면서, 능력이 주는 피해량도 함께 늘어날 수 있습니다.</p>
                     <p>기본 타격 free strike을 비롯해 능력에 따라, 피해에 더할 능력치 점수를 직접 고르기도 합니다. "7 + 근력이나 민첩"으로 표기했다면, 피해량을 정할 때 근력이나 민첩을 더합니다.</p>
@@ -255,14 +274,23 @@
                     <p>타격과 광역 능력은 대상에게 피해와 추가 효과를 줄 수 있습니다. 피해와 효과의 위력은 능력 판정으로 정합니다.</p>
                     <p>플레이 중 빠른 진행과 가독성을 위해, 위력 판정의 성과 항목에 피해와 효과를 세미콜론으로 구분해두었고, 효과는 가급적 축약해 적었습니다. 별도 설명이 없다면, 위력 판정으로 결정된 효과는 항상 대상에게 적용합니다. 가령, 앞서 언급한 Brutal Slam 능력에 적힌 위력 판정 형식은 다음과 같습니다.</p>
                     <div class="ability-body">
-                        <div class="roll">
-                            <p class="power-roll stat">근력</p>
-                            <ul class="tiers">
-                                <li><b>≤11</b><span class="outcome">피해 3 + 근력; 밀치기 1</span></li>
-                                <li><b>12–16</b><span class="outcome">피해 6 + 근력; 밀치기 2</span></li>
-                                <li><b>17+</b><span class="outcome">피해 9 + 근력; 밀치기 4</span></li>
-                            </ul>
-                        </div>
+                        <ul class="tiers">
+                            <li class="outcome"><b>≤11</b>
+                                <span class="dmg damage" data-val="3 + 근력">
+                                    <span class="tip efect push" data-val="1"></span>
+                                </span>
+                            </li>
+                            <li class="outcome"><b>12–16</b>
+                                <span class="dmg damage" data-val="6 + 근력">
+                                    <span class="tip efect push" data-val="2"></span>
+                                </span>
+                            </li>
+                            <li class="outcome"><b>17+</b>
+                                <span class="dmg damage" data-val="9 + 근력">
+                                    <span class="tip efect push" data-val="4"></span>
+                                </span>
+                            </li>
+                        </ul>
                     </div>
                     <p>별도 설명이 없다면, 위력 판정으로 정한 피해를 모든 대상에게 적용 한 후에, 성과에 의한 효과를 적용합니다. 능력 판정으로 한 번에 여러 대상에게 피해를 주더라도, Muse of Fire처럼 효과를 능력 사용자나 진행자에게 줄 때는 대상 수와 무관하게 딱 한 번만 효과를 적용합니다. 대상마다 성과가 갈린다면, 효과를 받을 능력 사용자나 진행자가 자신이 받을 성과 단계를 결정합니다. 능력 하나가 여러 효과를 낼 때는 기재된 순서대로 해결합니다.</p>
                 </article>
@@ -298,12 +326,30 @@
                         <div class="roll">
                             <p class="power-roll stat">직관</p>
                             <ul class="tiers">
-                                <li><b>≤11</b><span class="outcome">피해 3 + 직관</span>
-                                    <span class="potency"><span class="trait badge">민첩 < 약</span> 넘어짐</span></li>
-                                <li><b>12–16</b><span class="outcome">피해 6 + 직관</span>
-                                    <span class="potency"><span class="trait badge">민첩 < 중</span> 넘어짐</span></li>
-                                <li><b>17+</b><span class="outcome">피해 9 + 직관</span>
-                                    <span class="potency"><span class="trait badge">민첩 < 강</span> 넘어지고, 못일어남(극복 해소)</span></li>
+                                <li class="outcome"><b>≤11</b>
+                                    <span class="dmg damage holy" data-val="3 + 직관">
+                                    </span>
+                                    <span class="potency-col">
+                                        <span class="potency" stat="agility" dc="weak"></span>
+                                        <span class="tag condition prone"></span>
+                                    </span>
+                                </li>
+                                <li class="outcome"><b>12–16</b>
+                                    <span class="dmg damage holy" data-val="6 + 직관">
+                                    </span>
+                                    <span class="potency-col">
+                                        <span class="potency" stat="agility" dc="average"></span>
+                                        <span class="tag condition prone"></span>
+                                    </span>
+                                </li>
+                                <li class="outcome"><b>17+</b>
+                                    <span class="dmg damage holy" data-val="9 + 직관">
+                                    </span>
+                                    <span class="potency-col">
+                                        <span class="potency" stat="agility" dc="strong"></span>
+                                        <span class="tag condition prone">넘어지고 </span> 못일어남 (극복 해소)
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -318,12 +364,30 @@
                         <div class="roll">
                             <p class="power-roll stat">직관</p>
                             <ul class="tiers">
-                                <li><b>≤11</b><span class="outcome">피해 5</span>
-                                    <span class="potency"><span class="trait badge">민첩 < 0</span> 넘어짐</span></li>
-                                <li><b>12–16</b><span class="outcome">피해 8</span>
-                                    <span class="potency"><span class="trait badge">민첩 < 1</span> 넘어짐</span></li>
-                                <li><b>17+</b><span class="outcome">피해 11</span>
-                                    <span class="potency"><span class="trait badge">민첩 < 2</span> 넘어지고, 못일어남(극복 해소)</span></li>
+                                <li class="outcome"><b>≤11</b>
+                                    <span class="dmg damage holy" data-val="5">
+                                    </span>
+                                    <span class="potency-col">
+                                        <span class="potency" stat="agility" dc="0"></span>
+                                        <span class="tag condition prone"></span>
+                                    </span>
+                                </li>
+                                <li class="outcome"><b>12–16</b>
+                                    <span class="dmg damage holy" data-val="8">
+                                    </span>
+                                    <span class="potency-col">
+                                        <span class="potency" stat="agility" dc="1"></span>
+                                        <span class="tag condition prone"></span>
+                                    </span>
+                                </li>
+                                <li class="outcome"><b>17+</b>
+                                    <span class="dmg damage holy" data-val="11">
+                                    </span>
+                                    <span class="potency-col">
+                                        <span class="potency" stat="agility" dc="2"></span>
+                                        <span class="tag condition prone">넘어지고 </span> 못일어남 (극복 해소)
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -435,10 +499,6 @@
                 </article>
             </div>
         </section>
-        <!-- 1. 페이지 목록 매니페스트를 먼저 로드 -->
-        <script src="../../assets/js/manifest.js"></script>
-        <!-- 2. 페이저/드로어 동작 스크립트 로드 -->
-        <script src="../../assets/js/pager.js"></script>
     </div>
 </body>
 </html>

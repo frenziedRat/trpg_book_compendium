@@ -3,10 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draw Steel - Test</title>
-    <link rel="stylesheet" href="../../assets/css/common_book.css">
-    <link rel="stylesheet" href="../../assets/css/draw_steel.css">
-    <link rel="stylesheet" href="../../assets/css/pager.css">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
 </head>
 <body>
     <div class="book">
@@ -78,9 +90,9 @@
                     <thead>
                         <tr>
                             <th class="center col-level">위력 판정</th>
-                            <th class="center col-level">쉬운 시도 성과</th>
-                            <th class="center col-level">보통 시도 성과</th>
-                            <th class="center col-level">어려운 시도 성과</th>
+                            <th class="center col-level">쉬운 성과</th>
+                            <th class="center col-level">보통 성과</th>
+                            <th class="center col-level">어려운 성과</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,7 +124,7 @@
                 </table>
                 <article>
                     <p>규칙상 시도 성공은 그냥 성공, 대가가 따르는 성공, 덤으로 성공 전부를 포함합니다. 규칙상 시도 실패도 그냥 실패, 대가가 따르는 실패를 전부 포함합니다.</p>
-                    <p>시도했을 때 결과가 마음에 들지 않는다면, <span class="tip tip-resource" tool-tip="Hero Token">영웅패 hero token</span>를 써서 재굴림할 수 있습니다. 이때는 반드시 새 굴림 결과를 따릅니다.</p>
+                    <p>시도했을 때 결과가 마음에 들지 않는다면, <span class="tag resource hero-token"></span>를 써서 재굴림할 수 있습니다. 이때는 반드시 새 굴림 결과를 따릅니다.</p>
                 </article>
                 <article>
                     <h4 id="easy-test">쉬운 시도</h4>
@@ -120,9 +132,15 @@
                     <div class="ability-body">
                         <div class="roll">
                             <ul class="tiers">
-                                <li><b>≤11</b><span class="outcome">성공하지만, 대가를 치룹니다.</span></li>
-                                <li><b>12–16</b><span class="outcome">성공합니다.</span></li>
-                                <li><b>17+</b><span class="outcome">성공하고 덤까지 얻습니다.</span></li>
+                                <li class="outcome"><b>≤11</b>
+                                    <span class="dmg">성공하지만, 대가를 치룹니다.</span>
+                                </li>
+                                <li class="outcome"><b>12–16</b>
+                                    <span class="dmg">성공합니다.</span>
+                                </li>
+                                <li class="outcome"><b>17+</b>
+                                    <span class="dmg">성공하고 덤까지 얻습니다.</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -133,9 +151,15 @@
                     <div class="ability-body">
                         <div class="roll">
                             <ul class="tiers">
-                                <li><b>≤11</b><span class="outcome">실패합니다.</span></li>
-                                <li><b>12–16</b><span class="outcome">성공하지만, 대가를 치룹니다.</span></li>
-                                <li><b>17+</b><span class="outcome">성공합니다.</span></li>
+                                <li class="outcome"><b>≤11</b>
+                                    <span class="dmg">실패합니다.</span>
+                                </li>
+                                <li class="outcome"><b>12–16</b>
+                                    <span class="dmg">성공하지만, 대가를 치룹니다.</span>
+                                </li>
+                                <li class="outcome"><b>17+</b>
+                                    <span class="dmg">성공합니다.</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -146,9 +170,15 @@
                     <div class="ability-body">
                         <div class="roll">
                             <ul class="tiers">
-                                <li><b>≤11</b><span class="outcome">실패하고, 대가도 치룹니다.</span></li>
-                                <li><b>12–16</b><span class="outcome">실패합니다.</span></li>
-                                <li><b>17+</b><span class="outcome">성공합니다.</span></li>
+                                <li class="outcome"><b>≤11</b>
+                                    <span class="dmg">실패하고, 대가도 치룹니다.</span>
+                                </li>
+                                <li class="outcome"><b>12–16</b>
+                                    <span class="dmg">실패합니다.</span>
+                                </li>
+                                <li class="outcome"><b>17+</b>
+                                    <span class="dmg">성공합니다.</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -288,10 +318,6 @@
                 </blockquote>
             </div>
         </section>
-        <!-- 1. 페이지 목록 매니페스트를 먼저 로드 -->
-        <script src="../../assets/js/manifest.js"></script>
-        <!-- 2. 페이저/드로어 동작 스크립트 로드 -->
-        <script src="../../assets/js/pager.js"></script>
     </div>
 </body>
 </html>

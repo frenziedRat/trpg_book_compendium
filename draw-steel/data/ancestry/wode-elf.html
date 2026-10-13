@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page" id="wode-elf">
+        <header>
+            <h1>야생 엘프 Wode Elf</h1>
+            <p></p>
+        </header>
+        <article>
+            <header>
+                <h2>고유 특성</h2>
+            </header>
+            <article class="feature" id="wode-elf-glamor">
+                <header class="ability-head">
+                    <span class="name">마성의 매력 High Elf Glamor</span>
+                    <span class="badge price signature">주력</span>
+                </header>
+                <p class="flavor-text">마법으로 자기 모습을 주변과 동화되도록 바꿉니다.</p>
+                <div class="ability-body">
+                    <p class="effect">숨어서 잠행하는 시도에 <span class="tip rule edge"></span>을 받고, 내가 숨었을 때 찾으려는 개체의 시도에 <span class="tip rule bane"></span>을 줍니다.</p>
+                </div>
+            </article>
+        </article>
+        <article>
+            <h2>구입 특성</h2>
+            <p><strong>3</strong>점으로 아래 특성을 구매하세요.</p>
+            <div class="cols">
+                <article class="feature" id="forest-walk">
+                    <header class="ability-head">
+                        <span class="name">숲 걷기 Forest Walk</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip effect shift"></span>으로도 <span class="tip rule difficulty-terrain"></span>에 들어가거나 안에서 이동할 수 있습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="quick-and-brutal">
+                    <header class="ability-head">
+                        <span class="name">빠르고 강한 Quick and Brutal</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip rule crit"></span>를 냈을 때 주요 행동 하나만 더하는 대신, <span class="tip action main"></span>과 <span class="tip action move"></span>을 하나씩 더 합니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="otherworldly-grace-wode-elf">
+                    <header class="ability-head">
+                        <span class="name">초월적 의지 Otherworldly Grace</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">몸도 마음도, 오래 담아두지 않습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip roll saving"></span> 시, 5이상이면 성공입니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="revisit-memory">
+                    <header class="ability-head">
+                        <span class="name">회상 Revisit Memory</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">과거 기억을 현재처럼 쉽게 떠올립니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">지식을 떠올리는 시도에 <span class="tip rule edge"></span>을 받습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="swift">
+                    <header class="ability-head">
+                        <span class="name">발빠름 Swift</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip stat speed"></span>이 6입니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="the-wode-defends">
+                    <header class="ability-head">
+                        <span class="name">숲 방어</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect">아래 주력 능력을 배웁니다.</p>
+                        <article class="ability">
+                            <header class="ability-head">
+                                <span class="name">The Wode Defends</span>
+                                <span class="badge cost signature">주력</span>
+                            </header>
+                            <p class="flavor-text">가시덩굴이 솟아나 적을 휘감습니다.</p>
+                            <div class="ability-meta">
+                                <div class="action-line">
+                                    <span class="action-cost main"></span>
+                                    <ul class="kw-list">
+                                        <li class="kw magic"></li>
+                                        <li class="kw ranged"></li>
+                                        <li class="kw strike"></li>
+                                    </ul>
+                                </div>
+                                <span class="distance">원거리 10</span>
+                                <span class="target">개체 1</span>
+                            </div>
+                            <div class="ability-body">
+                                <div class="roll">
+                                    <p class="power-roll stat">근력, 민첩 중 하나</p>
+                                    <ul class="tiers">
+                                        <li class="outcome"><b>≤11</b>
+                                            <span class="dmg damage psychic" data-val="2 + 근력, 민첩">
+                                            </span>
+                                            <span class="potency-col">
+                                                <span class="potency" stat="agility" dc="weak"></span>
+                                                <span class="tip condition slowed"></span> (극복 해소)
+                                            </span>
+                                        </li>
+                                        <li class="outcome"><b>12–16</b>
+                                            <span class="dmg damage psychic" data-val="3 + 근력, 민첩">
+                                            </span>
+                                            <span class="potency-col">
+                                                <span class="potency" stat="agility" dc="average"></span>
+                                                <span class="tip condition slowed"></span> (극복 해소)
+                                            </span>
+                                        </li>
+                                        <li class="outcome"><b>17+</b>
+                                            <span class="dmg damage psychic" data-val="5 + 근력, 민첩">
+                                            </span>
+                                            <span class="potency-col">
+                                                <span class="potency" stat="agility" dc="strong"></span>
+                                                <span class="tip condition restrained"></span> (극복 해소)
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</div>
+</body>

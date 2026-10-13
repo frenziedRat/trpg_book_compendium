@@ -4,9 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Draw Steel - Basic</title>
-    <link rel="stylesheet" href="../../assets/css/common_book.css">
-    <link rel="stylesheet" href="../../assets/css/pager.css">
-    <link rel="stylesheet" href="../../assets/css/draw_steel.css">
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
 </head>
 <body>
     <div class="book">
@@ -84,8 +96,8 @@
                 <div class="cols">
                     <article>
                         <h3 id="power-roll-type">위력 판정 유형</h3>
-                        <p>위력 판정은 둘로 나뉩니다. <strong>능력 판정 ability roll</strong>은 특정 능력으로 만든 효과의 위력을 알아볼 때 씁니다. 가령, <strong>광전사</strong>가 <strong>난폭한 타격</strong> 능력으로 적을 공격할 때, <strong>능력 판정</strong>으로 대상에게 가하는 <strong>피해</strong>와 <strong>밀쳐내는</strong> 거리를 정합니다. 자세한 건 능력에서 다룹니다.</p>
-                        <p><strong>시도 test</strong>는 능력을 쓰지 않고 세상에 영향을 끼치거나 상호작용할 때 굴리는 위력 판정입니다. <strong>전술가</strong>에게는 가파른 절벽을 오르는 능력이 없지만, 등반 활동을 <strong>시도</strong>할 수 있습니다. <strong>원소술사</strong>는 이교도를 위협하여 자동으로 물러나게 하는 능력은 없지만, 원한다면 그걸 <strong>시도</strong>할 수 있습니다. 자세한 건 <strong>시도</strong>에서 다룹니다.</p>
+                        <p>위력 판정은 둘로 나뉩니다. <span class="tip roll ability"></span>은 특정 능력으로 만든 효과의 위력을 알아볼 때 씁니다. 가령, <strong>광전사</strong>가 <strong>난폭한 타격</strong> 능력으로 적을 공격할 때, <strong>능력 판정</strong>으로 대상에게 가하는 <strong>피해</strong>와 <strong>밀쳐내는</strong> 거리를 정합니다. 자세한 건 능력에서 다룹니다.</p>
+                        <p><span class="tip roll test"></span>는 능력을 쓰지 않고 세상에 영향을 끼치거나 상호작용할 때 굴리는 위력 판정입니다. <strong>전술가</strong>에게는 가파른 절벽을 오르는 능력이 없지만, 등반 활동을 <strong>시도</strong>할 수 있습니다. <strong>원소술사</strong>는 이교도를 위협하여 자동으로 물러나게 하는 능력은 없지만, 원한다면 그걸 <strong>시도</strong>할 수 있습니다. 자세한 건 <strong>시도</strong>에서 다룹니다.</p>
                     </article>
                     <article>
                         <h3 id="making-power-roll">위력 판정하기</h3>
@@ -122,13 +134,13 @@
                     </article>
                     <article>
                         <h4 id="edge">유리함 Edge</h4>
-                        <p>위력 판정 시 유리한 상황에 놓인 걸 유리함으로 표현합니다. 가령, <strong>넘어진</strong> 개체에게 <strong>근접 타격</strong>한다면, <strong>타격</strong>하는 위력 판정에 유리함을 받습니다. 손이 끈적한 마법 장갑을 착용했다면, 등반하는 위력 판정에 유리함을 받을 겁니다!</p>
-                        <p>위력 판정에 유리함을 받으면, +2 <strong>보너스</strong>를 가합니다. 유리함을 둘 이상 받으면, <strong>이중 유리함 Double Edge</strong>이 적용됩니다. 이중 유리함일 때는 위력 판정에 숫자를 더하진 않고, 성과를 자동으로 한 단계 높입니다(최고 3단계).</p>
+                        <p>위력 판정 시 유리한 상황에 놓인 걸 유리함으로 표현합니다. 가령, <strong>넘어진</strong> 개체에게 <strong>근접 타격</strong>한다면, <strong>타격</strong>하는 위력 판정에 유리함을 받습니다. 손다이 끈적한 마법 장갑을 착용했다면, 등반하는 위력 판정에 유리함을 받을 겁니다!</p>
+                        <p>위력 판정에 유리함을 받으면, +2 <strong>보너스</strong>를 가합니다. 유리함을 둘 이상 받으면, <span class="tip rule edge2"></span>이 적용됩니다. 이중 유리함일 때는 위력 판정에 숫자를 더하진 않고, 성과를 자동으로 한 단계 높입니다(최고 3단계).</p>
                     </article>
                     <article>
                         <h4 id="bane">불리함 Bane</h4>
                         <p>위력 판정 시 불리한 상황에 놓인 걸 <strong>불리함</strong>으로 표현합니다. 가령, <strong>넘어진</strong> 상태에서 <strong>타격</strong>한다면, <strong>타격</strong>하는 위력 판정에 불리함을 받습니다. 폭풍우 치는 절벽은 표면이 더 미끄럽기 때문에, 등반하는 위력 판정에 불리함을 받을 겁니다.</p>
-                        <p>위력 판정에 불리함을 받으면, -2 <strong>페널티</strong>를 가합니다. 불리함을 둘 이상 받으면, <strong>이중 불리함 Double Bane</strong>이 적용됩니다. 이중 불리함일 때는 위력 판정에 숫자를 빼진 않고, 성과를 자동으로 한 단계 낮춥니다(최저 1단계).</p>
+                        <p>위력 판정에 불리함을 받으면, -2 <strong>페널티</strong>를 가합니다. 불리함을 둘 이상 받으면, <span class="tip rule bane2"></span>이 적용됩니다. 이중 불리함일 때는 위력 판정에 숫자를 빼진 않고, 성과를 자동으로 한 단계 낮춥니다(최저 1단계).</p>
                     </article>
                     <article>
                         <h4 id="both-edges-and-banes">유불리를 동시에 받을 때</h4>
@@ -173,16 +185,16 @@
                         <h3>영웅패 얻기</h3>
                         <p>게임 세션을 시작할 때마다, 영웅 수만큼 <strong>영웅패</strong>를 쌓습니다.</p>
                         <p>다른 이를 돕고자 큰 위험을 무릅쓴다면 더 얻습니다. 동료를 구하러 절벽 아래로 뛰어내리거나, 불타는 다리를 건너 길고양이를 구하러 가거나, 협상에서 보물을 걸고 피난민 거처를 구하는 등으로 영웅패를 얻을 수 있습니다. 영웅패를 줄만한 행동인지는 진행자가 최종 판단합니다.</p>
-                        <p><strong>시도</strong> test에서 덤으로 성공했을 때 success with reward 도 영웅패를 받습니다(시도 참조).
+                        <p><strong>시도</strong>에서 덤으로 성공했을 때 success with reward 도 영웅패를 받습니다(시도 참조).
                     </article>
                     <article>
                         <h3>영웅패 쓰기</h3>
                         <p>영웅패가 남았다면, 아래 방법으로 쓸 수 있습니다:</p>
                         <ul>
-                            <li>영웅패 하나로, <span class="tip tip-resource>" tool-tip="surge">격동 surge</span> 2개를 얻습니다. 격동은 능력이 주는 피해나 <span class="tip tip-rule>" tool-tip="potency">세기 potency</span>를 높일 수 있습니다(직군의 격동 참조.)</li>
-                            <li>극복 판정 saving throw에 실패했을 때 영웅패 하나를 쓰면, 성공으로 바꿀 수 있습니다.</li>
+                            <li>영웅패 하나로, <span class="tip resource surge"></span> 2개를 얻습니다. 격동은 능력이 주는 피해나 <span class="tip rule potency"></span>를 높일 수 있습니다(직군의 격동 참조.)</li>
+                            <li><span class="tip roll saving"></span>에 실패했을 때 영웅패 하나를 쓰면, 성공으로 바꿀 수 있습니다.</li>
                             <li>시도 test할 때, 영웅패 하나로 재굴림할 수 있습니다. 이때는 반드시 새 굴림 결과를 따릅니다.</li>
-                            <li>내 차례나 피해를 받았을 때 영웅패 2개를 써서(행동 소모 없음), 피해를 받기 전에 회복량 recovery value 만큼 체력 stamina을 회복할 수 있습니다.</li>
+                            <li>내 차례나 피해를 받았을 때 영웅패 2개를 써서(행동 소모 없음), 피해를 받기 전에 <span class="tip stat recovery"></span> 만큼 <span class="tip resource stamina"></span>을 회복할 수 있습니다.</li>
                         </ul>
                         <p>영웅패 혜택은 차례나 시도마다 하나만 쓸 수 있습니다. 진행자가 따로 정하지 않는다면, 남은 영웅패는 세션이 끝날 때 모두 사라집니다.</p>
                     </article>
@@ -290,9 +302,5 @@
 
         </main>
     </div>
-    <!-- 1. 페이지 목록 매니페스트를 먼저 로드 -->
-    <script src="../../assets/js/manifest.js"></script>
-    <!-- 2. 페이저/드로어 동작 스크립트 로드 -->
-    <script src="../../assets/js/pager.js"></script>
 </body>
 </html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page" id="devil">
+        <header>
+            <h1>악마 Devil</h1>
+            <p>악마는 지옥의 일곱 도시의 토착 인간형 종족입니다. 피부는 선홍색부터 짙은 보라색까지 빨간색이나 파란색 색조를 띱니다. 뿔, 꼬리, 갈라진 발굽이나 혀, 날카로운 송곳니, 날개 같은 지옥 표식 몇가지를 안고 태어납니다.</p>
+        </header>
+        <article>
+            <header>
+                <h2>고유 특성</h2>
+            </header>
+            <article class="feature" id="silver-tongue">
+                <header class="ability-head">
+                    <span class="name trait" term-en="Silver Tongue">달변 Silver Tongue</span>
+                    <span class="badge price signature">주력</span>
+                </header>
+                <p class="flavor-text">타고난 마법이 어감을 교묘하게 바꿔, 상대 의중을 쉽게 파악하고 내 뜻대로 설득할 수 있게 합니다.</p>
+                <div class="ability-body">
+                    <p class="effect"><span class="tip skill" term-en="interpersonal">사교계</span> 기술군에서 기술 하나를 배웁니다.</p>
+                    <p class="effect"><span class="tag action negotiation"></span>: NPC의 <span class="tip rule" term-en="motivation">관심사</span>과 <span class="tip rule" term-en="pitfall">역린</span>을 밝혀내는 시도에 <span class="tip rule edge">유리함</span>을 받습니다.</p>
+                </div>
+            </article>
+        </article>
+        <article>
+            <header>
+                <h2>구입 특성</h2>
+                <p><strong>3</strong>점으로 아래 특성을 구매하세요.</p>
+            </header>
+            <div class="cols">
+                <article class="feature" id="barbed-tail">
+                    <header class="ability-head">
+                        <span class="name">가시 달린 꼬리 Barbed Tail</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">모든 행동에 뾰족한 꼬리를 찔러 넣을 수 있습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">라운드 마다 한 번 <strong>근접 타격</strong>시, 가장 높은 능력치 점수를 추가 피해로 더합니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="beast-legs">
+                    <header class="ability-head">
+                        <span class="name">강한 다리 Beast Legs</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">튼튼한 다리 덕분에 빠릅니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip stat speed"></span>이 <strong>6</strong> 입니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="glowing-eyes">
+                    <header class="ability-head">
+                        <span class="name">안광 Glowing Eyes</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">흥분하거나 화가 나면, 눈빛이 번뜩이며 이글댑니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">개체로 인해 피해를 받으면, <span class="tag action triggered"></span>으로 그 개체에게  <span class="tag damage psychic" data-val="1d10 + 레벨"></span>를 줍니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="hellsight">
+                    <header class="ability-head">
+                        <span class="name">지옥안 Hellsight</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">악마의 눈은 어둠과 시야를 가리는 효과를 뚫고 봅니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">개체를 타격할 때 <span class="tip rule concealment"></span>로는 <span class="tip rule bane"></span>을 받지 않습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="impressive-horns">
+                    <header class="ability-head">
+                        <span class="name">멋진 뿔 Impressive Horns</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">애지중지 하는 뿔은 다른 악마보다 커다랗고, 자부심의 상징입니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip roll saving"></span> 시, 5이상이면 성공입니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="prehensile-tail">
+                    <header class="ability-head">
+                        <span class="name">유용한 꼬리 Prehensile Tail</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">유연한 꼬리로 사방의 적을 상대할 수 있습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip condition" term-en="flanked">협공</span> 당하지 않습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="wings-devil">
+                    <header class="ability-head">
+                        <span class="name">날개 Wings</span>
+                        <span class="badge price">3</span>
+                    </header>
+                    <p class="flavor-text">몸을 하늘로 띄울 만큼 강력한 날개를 가졌습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">날개로 비행할 때, <span class="tip stat might"></span> 점수 라운드 만큼 공중에 머물 수 있습니다(최소 1라운드). 3레벨 이하일 때 날개로 비행하면, <span class="tag weakness" data-val="5"></span>를 받습니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</div>
+</body>

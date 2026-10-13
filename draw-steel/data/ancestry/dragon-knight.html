@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page" id="dragon-knight">
+        <header>
+            <h1>용기사 Dragon Knight</h1>
+            <p></p>
+        </header>
+        <article>
+            <header>
+                <h2>고유 특성</h2>
+            </header>
+            <article class="feature" id="wyrmplate">
+                <header class="ability-head">
+                    <span class="name">용비늘 Wyrmplate</span>
+                    <span class="badge price signature">주력</span>
+                </header>
+                <p class="flavor-text">단단한 비늘이 일부 피해를 막습니다.</p>
+                <div class="ability-body">
+                    <p class="effect">다음 피해 유형을 하나 선택해, 레벨만큼 <span class="tip rule immunity"></span>을 받습니다: <span class="tag type acid"></span>, <span class="tag type cold"></span>, <span class="tag type corruption"></span>, <span class="tag type fire"></span>, <span class="tag type lightning"></span>, <span class="tag type poison"></span>.</p>
+                    <p class="effect"><span class="tag action respite"></span>을 마칠 때마다 피해 유형을 바꿀 수 있습니다.</p>
+                </div>
+            </article>
+        </article>
+        <article>
+            <header>
+                <h2>구입 특성</h2>
+                <p><strong>3</strong>점으로 아래 특성을 구매하세요.</p>
+            </header>
+            <div class="cols">
+                <article class="feature" id="draconian-guard">
+                    <header class="ability-head">
+                        <span class="name">용족 막기 Draconian Guard</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect">자신 또는 인접한 개체가 타격으로 피해를 받을 때, <span class="tag action triggered"></span>으로 타격을 막아낼 수 있습니다. 해당 타격으로 받는 피해를 레벨만큼 줄입니다.</p>
+                    </div>
+                </article>
+                <article class="ability" id="draconian-pride">
+                    <header class="ability-head">
+                        <span class="name">용족의 긍지 Draconian Pride</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">강한 포효로 적의 영혼을 뒤흔듭니다.</p>
+                    <div class="ability-meta">
+                        <div class="action-line">
+                            <span class="action-cost main"></span>
+                            <ul class="kw-list">
+                                <li class="kw area"></li>
+                                <li class="kw magic"></li>
+                            </ul>
+                        </div>
+                        <span class="distance">폭발 1</span>
+                        <span class="target">지역 내 모든 적</span>
+                    </div>
+                    <div class="ability-body">
+                        <div class="roll">
+                            <p class="power-roll stat">근력, 매력 중 하나</p>
+                            <ul class="tiers">
+                                <li class="outcome"><b>≤11</b>
+                                    <span class="dmg damage" data-val="2"></span>
+                                </li>
+                                <li class="outcome"><b>12–16</b>
+                                    <span class="dmg damage" data-val="5">
+                                        <span class="tip effect push" data-val="1"></span>
+                                    </span>
+                                </li>
+                                <li class="outcome"><b>17+</b>
+                                    <span class="dmg damage" data-val="7">
+                                        <span class="tip effect push" data-val="2"></span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+                <article class="ability" id="draconian-breath">
+                    <header class="ability-head">
+                        <span class="name">용족 숨결 Draconian Breath</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">강한 에너지 숨결을 뱉어 적을 덮습니다.</p>
+                    <div class="ability-meta">
+                        <div class="action-line">
+                            <span class="action-cost main"></span>
+                            <ul class="kw-list">
+                                <li class="kw area"></li>
+                                <li class="kw magic"></li>
+                            </ul>
+                        </div>
+                        <span class="distance">1칸 이내 상자 3</span>
+                        <span class="target">지역 내 모든 적</span>
+                    </div>
+                    <div class="ability-body">
+                        <div class="roll">
+                            <p class="power-roll stat">근력, 매력 중 하나</p>
+                            <ul class="tiers">
+                                <li class="outcome"><b>≤11</b>
+                                    <span class="dmg damage" data-val="2">
+                                    </span>
+                                </li>
+                                <li class="outcome"><b>12–16</b>
+                                    <span class="dmg damage" data-val="4">
+                                    </span>
+                                </li>
+                                <li class="outcome"><b>17+</b>
+                                    <span class="dmg damage" data-val="6">
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p class="effect">이 능력의 피해 유형을 정합니다: <span class="tag type acid"></span>, <span class="tag type cold"></span>, <span class="tag type corruption"></span>, <span class="tag type fire"></span>, <span class="tag type lightning"></span>, <span class="tag type poison"></span>.</p>
+                    </div>
+                </article>
+                <article class="feature" id="prismatic-scales">
+                    <header class="ability-head">
+                        <span class="name">다채색 비늘 Prismatic Scales</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect"><a class="trait badge" term-en="Wyrmplate" href="#wyrmplate">용비늘</a> 특성이 주는 피해 저항을 하나 고릅니다. 해당 저항력은 항상 보유한 채로, 용비늘의 저항을 따로 고릅니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="remember-your-oath">
+                    <header class="ability-head">
+                        <span class="name">맹세를 기억하라 Remember Your Oath</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag action maneuver"></span>으로, 아래 맹새를 읊습니다. 내 다음 차례 시작까지, 내 모든 <span class="tip roll saving"></span>에 4 이상이면 성공합니다.</p>
+                    </div>
+                    <p class="flavor-text">태양이 멈추어도, 천년의 밤이 찾아와도, 나는 영원히 서서, 굴복하지 않을 것이다. 나는 고통 받으며 정의를 바라는 이들 앞에 선 칼이자 방패요. 나는 물러서지도 거짓을 입에 담지도 않을 것이다. 마지막 악당이 쓰러질 때까지 나는 모든 폭군과 맞서 싸울 것이니.</p>
+                </article>
+                <article class="feature" id="wings">
+                    <header class="ability-head">
+                        <span class="name">날개 Wings</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">몸을 하늘로 띄울 만큼 강력한 날개를 가졌습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">날개로 비행할 때, <span class="tip stat might"></span> 점수 라운드 만큼 공중에 머물 수 있습니다(최소 1라운드). 3레벨 이하일 때 날개로 비행하면, <span class="tag weakness" data-val="5"></span>를 받습니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</div>
+</body>

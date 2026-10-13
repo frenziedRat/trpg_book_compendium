@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page" id="memonek">
+        <header>
+            <h1>메모넥 Momonek</h1>
+            <p></p>
+        </header>
+        <article>
+            <header>
+                <h2>고유 특성</h2>
+            </header>
+            <div class="cols">
+                <article class="feature" id="fall-lightly">
+                    <header class="ability-head">
+                        <span class="name">가벼운 착지 Fall Lightly</span>
+                        <span class="badge price signature">주력</span>
+                    </header>
+                    <p class="flavor-text">몸이 실리콘이라 가볍습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">추락할 때, 추락 거리가 2칸 줄어듭니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="lightweight">
+                    <header class="ability-head">
+                        <span class="name">경량 Lightweight</span>
+                        <span class="badge price signature">주력</span>
+                    </header>
+                    <p class="flavor-text">체격에 비해 몸이 가볍습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">다른 개체에 의해 강제 이동당할 때, 체격을 한 단계 작은걸로 간주합니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+        <article>
+            <h2>구입 특성</h2>
+            <p><strong>4</strong>점으로 아래 특성을 구매하세요.</p>
+            <div class="cols">
+                <article class="feature" id="l-am-law">
+                    <header class="ability-head">
+                        <span class="name">내가 곧 법이다 I am Law</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">빈틈없는 본성과 빠른 반사신경으로 지나갈 틈을 주지 않습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">허락하지 않는 한, 적은 내가 차지한 공간을 통과할 수 없습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="keeper-of-order">
+                    <header class="ability-head">
+                        <span class="name">질서의 수호자 Keeper of Order</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">절대 질서의 차원 Axiom과의 동조로 주변 혼돈을 제어합니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">라운드 마다 한 번, 나 또는 인접한 개체가 위력 판정할 때, <span class="tag action free-triggered"></span>으로 판정에 유리함이나 불리함을 하나 제거하거나, 유리함을 이중 유리함으로, 또는 불리함을 이중 불리함으로 바꿀 수 있습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="lightning-nimbleness">
+                    <header class="ability-head">
+                        <span class="name">아주 날쌘 몸놀림 Lightning Nimbleness</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">몸을 엄청 빠른 속도까지 밀어붙입니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip stat speed"></span>이 <strong>7</strong> 입니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="nonstop-memonek">
+                    <header class="ability-head">
+                        <span class="name">일관성 Nonstop</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">Axiom과의 동조로 속력을 유지합니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag condition slowed"></span>되지 않습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="systematic-mind">
+                    <header class="ability-head">
+                        <span class="name">쳬계적 사고 Systematic Mind</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect">잘 정돈된 설계도, 지도 등 쳬계적인 문서를 해석하는 시도에 유리함을 받습니다.</p>
+                        <p class="effect">추가로, 모르는 언어를 접하더라도, 관련 언어를 알고 있는 걸로 간주합니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="unphased">
+                    <header class="ability-head">
+                        <span class="name">의연함 Unphased</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">체계적인 사고로 방심하지 않습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip condition" term-en="Surprised">피습</span>당하지 않습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="useful-emotion">
+                    <header class="ability-head">
+                        <span class="name">Useful Emotion</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">메모넥의 고질적인 병 Velloparatha가 걸림돌이지만, 자신의 고통을 적에게 전할 방법을 줍니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">전투를 시작할 때, <span class="tip resource surge"></span>를 하나 받습니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</div>
+</body>

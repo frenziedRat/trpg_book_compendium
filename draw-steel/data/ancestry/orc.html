@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page" id="orc">
+        <header>
+            <h1>오크 Orc</h1>
+            <p></p>
+        </header>
+        <article>
+            <header>
+                <h2>고유 특성</h2>
+            </header>
+            <div>
+                <article class="feature" id="relentless">
+                    <header class="ability-head">
+                        <span class="name">무자비 Relentless</span>
+                        <span class="badge price signature">주력</span>
+                    </header>
+                    <div class="ability-body">
+                        <p class="effect">다른 개체가 준 피해로 <span class="tag condition dying"></span> 상태가 되면, 아무 개체에게 <span class="tip action free-strike"></span>할 수 있습니다. 이 타격으로 체력을 0으로 만들었다면, <span class="tip resource recovery"></span>을 하나 쓸 수 있습니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+        <article>
+            <h2>구입 특성</h2>
+            <p><strong>3</strong>점으로 아래 특성을 구매하세요.</p>
+            <div class="cols">
+                <article class="feature" id="bloodfire-rush">
+                    <header class="ability-head">
+                        <span class="name">끓는 피 분출 Bloodfire Rush</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">핏줄을 타고 흐르는 마법으로 전장의 열기 속에서 빠르게 뜁니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">전투 라운드마다 첫 피해를 받으면, 그 라운드 끝까지 <span class="tip stat speed"></span>에 +2 보너스를 받습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="glowing-recovery">
+                    <header class="ability-head">
+                        <span class="name">불타는 회복력 Glowing Recovery</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">뜨거운 피로 남들보다 빠르게 힘을 회복합니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag action maneuver" term-en="Catch Breath">숨고르기</span> 동작을 쓸 때, <span class="tip resource recovery" tool-tip="recovery"></span>을 원하는 만큼 쓸 수 있습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="grounded-orc">
+                    <header class="ability-head">
+                        <span class="name">안정감 Grounded</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">핏줄에 흐르는 마법 덕분에 쉽게 밀려나지 않습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip stat stability"></span>에 +1 보너스를 받습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="nonstop-orc">
+                    <header class="ability-head">
+                        <span class="name">일관성 Nonstop</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">뜨거운 피가 계속해서 아드레날린을 공급합니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag condition slowed"></span>되지 않습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="passionate-artisan">
+                    <header class="ability-head">
+                        <span class="name">열혈 장인 Passionate Artisan</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">창작 열의가 솟아오르면, 뜨거운 피가 더 오래 열심히 일하게 해줍니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip rule" term-en="career">경력</span>, <span class="tip rule" term-en="culture">문화권</span>, <span class="tip rule" term-en="class">직군</span> 등 초기 기술을 배울 때, <span class="tip skill" term-en="Crafting">제작 계통</span> 기술군에서 2개를 고릅니다. 실제 배우지 않은 기술이어도 상관없습니다. 고른 기술로 <span class="tip rule" term-en="Crafting Project">제작 과제</span>의 <span class="tip roll project"></span>을 할 때 +2 보너스를 받습니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</div>
+</body>

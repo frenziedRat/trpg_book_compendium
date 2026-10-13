@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page" id="polder">
+        <header>
+            <h1>폴더 Polder</h1>
+            <p></p>
+        </header>
+        <article>
+            <header>
+                <h2>고유 특성</h2>
+            </header>
+            <div class="cols">
+                <article class="ability" id="shadowmeld">
+                    <header class="ability-head">
+                        <span class="name">그림자 융합 Shadowmeld</span>
+                        <span class="badge price signature">주력</span>
+                    </header>
+                    <p class="flavor-text">진짜 그림자가 됩니다.</p>
+                    <div class="ability-meta">
+                        <div class="action-line">
+                            <span class="action-cost maneuver"></span>
+                            <ul class="kw-list">
+                                <li class="kw magic"></li>
+                            </ul>
+                        </div>
+                        <span class="distance">자신</span>
+                        <span class="target">자신</span>
+                    </div>
+                    <div class="ability-body">
+                        <p class="effect">손 댄 벽이나 바닥의 그림자 속으로 밀착하여, <span class="tip rule cover"></span>나 <span class="tip rule concealment"></span>를 확보했거나 지켜보지 않던 개체에게 숨습니다. <span class="tip condition" term-en="Shadow Form">그림자 형체</span>일 떄도 주변을 인지할 수 있고, 받는 타격과 찾으려는 시도에 <span class="tip rule bane"></span>을 줍니다. 스스로 이동은 물론 강제 이동을 당하지 않으며, 그림자 형체를 풀거나 조종권을 가진 개체에게 지시를 내리는 것 이외의 모든 <span class="tag action main"></span>과 <span class="tag action maneuver"></span>를 할 수 없습니다. 2칸 이상을 지정하는 능력이나 효과가 밀착한 표면에 영향을 끼칠 경우에는 함께 적용받습니다. 그림자 형체는 <span class="tag action maneuver"></span>로 풀 수 있습니다.</p>
+                        <p class="effect">밀착한 표면이 부셔지면, 이 능력도 끝나고 1d6 피해를 받습니다. 이 피해는 어떤 수단으로도 줄일 수 없습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="small">
+                    <header class="ability-head">
+                        <span class="name">작은 몸! Small</span>
+                        <span class="badge price signature">주력</span>
+                    </header>
+                    <p class="flavor-text">아담한 몸은 문제에서 벗어나기 좋은 만큼, 문제가 되기도 쉽습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip stat size"></span>이 1S 입니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+        <article>
+            <h2>구입 특성</h2>
+            <p><strong>4</strong>점으로 아래 특성을 구매하세요.</p>
+            <div class="cols">
+                <article class="feature" id="corruption-immunity">
+                    <header class="ability-head">
+                        <span class="name">부패 방지 Corruption Immunity</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">타고난 그림자 마법으로 기괴한 효과를 잘 견딥니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag immunity corruption" data-val="2 + 레벨"></span>를 갖춥니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="fearless">
+                    <header class="ability-head">
+                        <span class="name">담대함 Fearless</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">두려움 따윈 모릅니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag condition frightened"></span>을 겪지 않습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="graceful-retreat-polder">
+                    <header class="ability-head">
+                        <span class="name">유려한 후퇴 Graceful Retreat</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">작은 체구 덕분에 난전 속에서 쉽게 빠져나갑니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag action move" term-en="Disengage">물러서기</span> 이동 행동 시 <span class="tip rule shift"></span> 거리에 +1 보너스를 받습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="nimblestep">
+                    <header class="ability-head">
+                        <span class="name">날랜 발 Nimblestep</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">빨라야 할 때, 가벼운 발걸음이 큰 힘이 됩니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip rule difficulty-terrain"></span>를 무시하고, <span class="tip stat speed"></span>을 줄이지 않고도 잠행할 수 있습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="polder-geist">
+                    <header class="ability-head">
+                        <span class="name">폴더가이스트 Polder Geist</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">남들의 눈을 피해 자유롭게 움직입니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">전투에서 내 차례를 시작할 때마다, 효과선에 적이 하나도 없거나 효과선에 있는 적 하나에게라도 숨었거나 <span class="tip rule concealment"></span>를 확보했다면, 이번 차례가 끝날 때까지 <span class="tip stat speed"></span>에 +3 보너스를 받습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="reactive-tumble">
+                    <header class="ability-head">
+                        <span class="name">바로 재주넘기 Reative Tumble</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">가벼운 발걸음으로, 빠르게 제자리로 돌아옵니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">강제 이동을 당할 떄, 이동을 마친 후 <span class="tag action triggered"></span>으로 1칸 <span class="tip rule shift"></span>할 수 있습니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</div>
+</body>

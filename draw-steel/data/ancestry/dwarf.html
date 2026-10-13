@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Ancestry</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page" id="dwarf">
+        <header>
+            <h1>드워프 Dwarf</h1>
+            <p></p>
+        </header>
+        <article>
+            <header>
+                <h2>고유 특성</h2>
+            </header>
+            <article class="feature" id="runic-carving">
+                <header class="ability-head">
+                    <span class="name">룬 문신 Runic Carving</span>
+                    <span class="badge price signature">주력</span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">연속 10분 동안 자기 피부에 마법으로 발동되는 룬을 새깁니다. 어느 룬을 새길자 아래 목록에서 하나를 고르세요.</p>
+                    <ul>
+                        <li><span class="trait badge" term-en="Detection">탐지</span>: 특정 개체 유형(고블린, 인간 등)이나 물체 유형(보석, 물약 등)을 하나 택합니다. 지정한 대상이 20칸 이내 있다면, 효과선에 없더라도 룬이 옅게 빛납니다. <span class="tag action maneuver"></span>로 찾을 개체나 물체 유형을 바꿀 수 있습니다.</li>
+                        <li><span class="trait badge" term-en="Light">발광</span>: 피부가 빛나며 10칸까지 비춥니다. <span class="tag action maneuver"></span>으로 켜거나 끌 수 있습니다.</li>
+                        <li><span class="trait badge" term-en="Voice">목소리</span>: <span class="tag action maneuver"></span>으로, 1마일 안에 있고, 전에 만난적 있으며, 소통을 허락한 개체와 텔레파시로 소통할 수 있습니다. 대상의 이름을 알아야 하고, 내 언어로 말하고 내 언어를 이해할 수 있어야 합니다. 대화처럼 서로 말을 주고받을 수 있습니다. 룬을 바꾼다면 다른 개체와 소통할 수 있습니다.</li>
+                    </ul>
+                    <p class="effect">룬은 한 번에 하나만 유지할 수 있고, 연속 10분을 써서 룬을 바꾸거나 제거할 수 있습니다.</p>
+                </div>
+            </article>
+        </article>
+        <article>
+            <header>
+                <h2>구입 특성</h2>
+                <p><strong>3</strong>점으로 아래 특성을 구매하세요.</p>
+            </header>
+            <div class="cols">
+                <article class="feature" id="great-fortitude-dwarf">
+                    <header class="ability-head">
+                        <span class="name">불굴 Great Fortitude</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">힘을 꺾을 수 없을만큼 튼튼합니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tag condition weakened"></span> 당하지 않습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="grounded-dwarf">
+                    <header class="ability-head">
+                        <span class="name">안정감 Grounded</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">바위처럼 단단한 몸과 대지와의 동조 덕분에 쉽게 밀려나지 않습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip stat stability"></span>에 +1 보너스를 받습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="spark-off-your-skin">
+                    <header class="ability-head">
+                        <span class="name">단단한 피부 Spark off your Skin</span>
+                        <span class="badge price">2</span>
+                    </header>
+                    <p class="flavor-text">바위처럼 단단한 피부가 든든한 보호막이 되어줍니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip resource stamina"></span>에 +6 보너스를 받습니다. 이 보너스는 4, 7, 10레벨에 6씩 늘어납니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="stand-tough-dwarf">
+                    <header class="ability-head">
+                        <span class="name">굳건 Stand Tough</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">상대 공격을 버틸만큼 단련됐습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect"><span class="tip stat potency"></span>를 막을 때 <span class="tip stat might"></span> 점수가 1 높은 걸로 간주합니다.</p>
+                        <p class="effect">환경 효과나 개체의 특성이나 능력으로 유발된 <span class="tip test might"></span>에 <span class="tip rule edge"></span>을 받습니다.</p>
+                    </div>
+                </article>
+                <article class="feature" id="stone-singer">
+                    <header class="ability-head">
+                        <span class="name">돌의 노래 Stone Singer</span>
+                        <span class="badge price">1</span>
+                    </header>
+                    <p class="flavor-text">대지와 마법으로 이어져 있습니다.</p>
+                    <div class="ability-body">
+                        <p class="effect">연속 1시간 동안 노래를 불러, 3칸 이내의 가공하지 않은 비마법 돌을 재구성할 수 있습니다. 파괴할 수는 없지만, 3칸 이내 아무데나 이동시켜 구덩이를 파거나 벽을 쌓아 올릴 수 있습니다.</p>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</div>
+</body>
