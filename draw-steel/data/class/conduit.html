@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Steel - Conduit</title>
+    <!-- 공용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
+    <link rel="stylesheet" href="../../../assets/core/css/pager.css">
+    <link rel="stylesheet" href="../../../assets/core/css/tooltip.css">
+    <!-- 룰 전용 스타일 -->
+    <link rel="stylesheet" href="../../../assets/system/draw-steel/theme.css">
+
+    <!-- 룰 전용 스크립트 -->
+    <script src="../../../assets/system/draw-steel/manifest.js"></script>
+    <!-- 공용 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="../../../assets/core/js/tooltip.js"></script>
+    <script src="../../../assets/core/js/pager.js"></script>
+    <script src="../../../assets/core/js/lang-toggle.js"></script>
+    <script src="../../../assets/core/js/gate-grid.js"></script>
+</head>
+<body>
+<div class="book">
+    <section class="page">
+        <header>
+            <h1 id="basic">사도 Conduit</h1>
+            <p>"The gods judge our actions, and our inaction." - Dazar</p>
+            <p class="flavor-text">The power of the gods flows through you! As a vessel for divine power, you don't just keep your allies in the fight. You make those allies more effective, even as you rain divine energy down upon your foes. Though the deity or saint you serve might have other faithful and clergy, you are special among worshippers, receiving your abilities from the highest source.</p>
+        </header>
+        <h2>기본</h2>
+        <div class="cols">
+            <article>
+                <p><span class="entry-name">시작 능력치</span>: <span class="tip stat intuition" data-val="2"></span>로 시작하고, 다음 배열 하나를 골라 나머지 능력치에 분배합니다.</p>
+                <ul>
+                    <li>2, 2, -1, -1</li>
+                    <li>2, 1, 1, -1</li>
+                    <li>2, 1, 0, 0</li>
+                    <li>1, 1, 1, 0</li>
+                </ul>
+                <p><span class="entry-name">세기</span> <span class="tip stat intuition"></span> (+0/-1/-2)</p>
+                <p><span class="entry-name">1레벨 체력</span> 18</p>
+                <p><span class="entry-name">2레벨 이후 레벨마다 체력</span> 6</p>
+                <p><span class="entry-name">회복력</span> 8</p>
+                <p><span class="entry-name">기술</span><span class="tip skill interpersonal" term-en="Interpersonal">사교</span>나 <span class="tip skill lore" term-en="Lore">지식</span> 기술군에서 2개를 배웁니다.</p>
+            </article>
+            <article class="table-wrap">
+                <table class="advancement-table">
+                    <caption>사도 성장표</caption>
+                    <thead>
+                    <tr>
+                        <th class="center col-level">레벨</th>
+                        <th>특성</th>
+                        <th class="center col-ability">능력</th>
+                        <th class="center col-subclass">영역 능력</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><span class="lvl-badge">1</span></td>
+                        <td class="desc"><a href="#shadow-college" class="feat-tag" term-en="Shadow College">그림자 양성소</a>, <a href="#insight" class="feat-tag" term-en="Insight">신심</a>, <span class="feat-tag">양성소 특성</span>, <span class="feat-tag">양성소 발동 능력</span>, <span class="feat-tag">망설임은 독</span>, <span class="feat-tag">무장</span>, <span class="feat-tag">암행자 능력</span></td>
+                        <td>주력 둘, 3, 5</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="lvl-badge">2</span></td>
+                        <td class="desc">양성소 특성, 특기, 양성소 능력</td>
+                        <td>주력 둘, 3, 5</td>
+                        <td>5</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <h2>1레벨 특성</h2>
+        <div>
+            <article class="feature" id="deity-and-domains">
+                <header class="ability-head">
+                    <span class="name" term-en="Deity and Domains">신과 영역 Deity and Domains</span>
+                    <span class="badge level">1</span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">신이나 성인 하나를 고릅니다. 진행자가 허락한다면 직접 신을 만들고 4가지 영역을 부여해도 됩니다.</p>
+                    <p class="effect">신을 고른 후에 관장 영역에서 두개를 고릅니다. 고른 영역이 곧 전문화 subclass이고, 레벨이 오르면서 받는 특성 대다수가 이에 따라 결정됩니다.</p>
+                </div>
+            </article>
+            <article class="ability" id="piety">
+                <div class="ability-head">
+                    <span class="name" term-en="Piety">신심 Piety</span>
+                    <span class="badge level">1</span>
+                </div>
+                <p class="flavor-text">신이 신심이라 부르는 영웅 자원을 합니다. 신심으로 아군을 치료하고 강화하며, 적에게 신성력을 분출합니다.</p>
+                <div class="ability-body">
+                    <div class="cols">
+                        <article class="desc-box">
+                            <h4>전투 시</h4>
+                            <p class="effect">전투 조우처럼 전투 라운드로 시간을 새는 급박한 상황(진행자가 결정)에 들어갈 때, <span class="tip resource victory"></span>만큼 신심를 쌓습니다. 전투에서 내 차례를 시작할 때마다 신심 1d3개를 쌓습니다.</p>
+                            <p class="effect">더불어 기도를 드려 더 많은 신심을 빌 수 있습니다. 하지만, 신은 성가시게 구는 걸 싫어해 화를 살 수 있습니다. 차례 시작 시 신심을 굴리기 전에 기도할 수 있습니다(행동 없음). 기도한 후 굴린 값에 따라 아래 추가 효과를 받습니다.</p>
+                            <ul>
+                                <li>1를 굴렸다면, 신심을 1개 더 얻지만 화를 삽니다! <span class="tag damage psychic" data-val="1d6 + 레벨"></span>를 받습니다. 이 피해는 어떤 수단으로도 줄일 수 없습니다.</li>
+                                <li>2를 굴렸다면, 신심을 1개 더 얻습니다.</li>
+                                <li>3를 굴렸다면, 신심을 2개 더 얻고, 영역 효과 하나를 골라 발동시킵니다.</li>
+                            </ul>
+                            <p class="effect">조우가 끝나면 남은 신심은 모두 사라집니다.</p>
+                        </article>
+                        <article class="desc-box">
+                            <h4>비전투 시</h4>
+                            <p class="effect">비전투에서는 신심을 쌓을 수 없지만, 소모 없이 영웅 능력과 효과를 쓸 수 있습니다. 비전투 상황에서 신심이 드는 능력이나 효과를 썼다면, 헤당 능력은 업적을 1점 이상 쌓거나 휴식을 마칠 때까지 비전투 상황에서 쓸 수 없습니다.</p>
+                            <p class="effect">Healing Grace처럼 신심 소모량이 제한되지 않는 능력을 비전투 상황에서 쓴다면, 쌓아둔 업적 만큼 소모한 걸로 간주합니다.</p>
+                        </article>
+                    </div>
+                </div>
+            </article>
+            <article class="ability" id="domain-piety-and-effects">
+                <div class="ability-head">
+                    <span class="name">영역 신심과 효과 Domain Piety and Effects</span>
+                    <span class="badge level">1</span>
+                </div>
+                <div class="ability-body">
+                    <p class="effect">영역마다 전투 중에 신심을 획득할 수 있는 특정 사건을 두가지씩 제공합니다. 한가지 사건으로 영역 효과가 둘다 발동할 수도 있습니다. 예를 들어, 태양 영역은 인접한 개체가 화염이나 신성 피해를 받았을 때 신심을 쌓고, 전쟁 영역은 인접한 개체가 10 + 레벨 만큼 피해를 받았을 때 신심을 쌓습니다. 만약에 인접한 개체가 그만큼 화염 피해를 받았다면 양쪽 영역에서 신심을 다 얻을 수 있습니다.</p>
+                    <p class="effect">덧붙여, 신심 기도로 영역 효과가 발동될 때는, 영역 하나를 골라 그 기도 효과를 바로 적용할 수 있습니다.</p>
+                    <div class="cols">
+                        <article class="ability" id="life-domain">
+                            <div class="ability-head">
+                                <span class="name">생명 영역 Life Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 이내 한 개체가 체력을 회복했을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 자신 또는 10칸 이내 아군 하나를 선택합니다. 대상은 <span class="tip resource recovery"></span>을 하나 소모하여 극복 판정이나 자기 차례에 끝내는 효과를 즉시 해소하거나, <span class="tip condition prone">넘어졌다면</span> 일어날 수 있습니다.</p>
+                                <p>아니면, 자신 또는 10칸 이내 아군 하나에게 <span class="tip stat intuition"></span> 점수의 2배 만큼 임시 체력을 줘도 됩니다.</p>
+                            </div>
+                        </article>
+                        <article class="ability" id="fate-domain">
+                            <div class="ability-head">
+                                <span class="name">운명 영역 Fate Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 이내 아군이 위력 판정에서 3단계 성과를 거두거나, 10칸 이내 적이 위력 판정에서 1단게 성과를 거뒀을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 운명의 힘을 끌어내 가능한 미래를 만듭니다. 10칸 안에 개체 하나를 선택합니다. 그 개체는 이번 조우에서 다음 위력 판정에 자동으로 1단계나 3단계 성과(내 선택)을 거둡니다.</p>
+                            </div>
+                        </article>
+                        <article class="ability" id="death-domain">
+                            <div class="ability-head">
+                                <span class="name">죽음 영역 Death Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 안에서 졸개가 아닌 개체의 체력이 0까지 줄거나, 10칸 안에서 단독 개체가 <span class="tag condition winded"></span>될 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 10칸 안에 적 둘에게 치명적 저주를 내려 <span class="tag damage corruption" data-val="직관 점수의 2배"></span>를 줍니다.</p>
+                            </div>
+                        </article>
+                        <article class="ability" id="knowledge-domain">
+                            <div class="ability-head">
+                                <span class="name">지식 영역 Knowledge Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 진행자가 살의를 소모할 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 10칸 이내 아군 다섯 또는 자신 + 넷을 지정합니다. 대상은 <span class="tip resource surge"></span>를 하나 받습니다.</p>
+                            </div>
+                        </article>
+                        <article class="ability" id="creation-domain">
+                            <div class="ability-head">
+                                <span class="name">창조 영역 Creation Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 이내개체가 광역 능력을 썼을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 포스를 모아, 10칸 이내에 돌 벽을 만듭니다. 벽의 크기는 5 + <span class="tip stat intuition"></span>입니다. 벽은 조우가 끝날 때 사라집니다.</p>
+                            </div>
+                        </article>
+
+                        <!-- 사랑부터 -->
+
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+</body>
+</html>

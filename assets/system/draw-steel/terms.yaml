@@ -63,6 +63,9 @@ condition:
   dying:
     en: Dying
     ko: 빈사
+  winded:
+    en: Winded
+    ko: 탈진
 
 # kw
 kw:
@@ -122,7 +125,7 @@ rule:
     ko: 이중 유리함
   shift:
     en: Shift
-    ko: 잰걸음
+    ko: 잔걸음
   strike:
     en: Strike
     ko: 타격
@@ -255,4 +258,4 @@ effect:
     ko: 옮기기
 shift:
   en: Shift
-  ko: 잰걸음
+  ko: 잔걸음

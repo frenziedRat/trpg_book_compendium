@@ -47,7 +47,8 @@ window.SITE_MANIFEST = [
     {
         title: "직군",
         children: [
-            { title: "암행자 Shadow", path: "draw-steel/data/class/shadow.html", draft: true},
+            { title: "사도 Conduit", path: "draw-steel/data/class/conduit.html", draft: true},
+            { title: "암행자 Shadow", path: "draw-steel/data/class/shadow.html"},
             // { title: "다음 직군", path: "draw-steel/data/class-xxx.html" },
         ]
     },
