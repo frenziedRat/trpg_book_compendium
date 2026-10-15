@@ -18,10 +18,14 @@ window.SITE_HOME = { title: "홈", path: "draw-steel/draw-steel.html" };   // �
 
 window.SITE_MANIFEST = [
     // ---- 시작 규칙 (왼쪽) ----
-    {   title: "기초", path: "draw-steel/rule/starter-rule/01-basic.html" },
-    {   title: "능력", path: "draw-steel/rule/starter-rule/05-abilities.html" },
-    {   title: "상태이상", path: "draw-steel/rule/starter-rule/05-condition.html" },
-    {   title: "시도 test", path: "draw-steel/rule/starter-rule/09-test.html" },
+    {   title: "기초", path: "draw-steel/rule/starter-rule/basic.html" },
+    {   title: "능력", path: "draw-steel/rule/starter-rule/abilities.html" },
+    {   title: "상태이상", path: "draw-steel/rule/starter-rule/condition.html" },
+    {   title: "시도 test", path: "draw-steel/rule/starter-rule/test.html" },
+    {   title: "전투", path: "draw-steel/rule/starter-rule/combat.html", draft: true },
+    {   title: "협상", path: "draw-steel/rule/starter-rule/negotiation.html", draft: true },
+    {   title: "명성", path: "draw-steel/rule/starter-rule/renown.html", draft: true },
+    {   title: "재산", path: "draw-steel/rule/starter-rule/wealth.html", draft: true },
 
     // ---- 데이터 (오른쪽) ----
     {   title: "종족", path: "draw-steel/data/ancestry.html",
