@@ -117,6 +117,9 @@ rule:
   difficulty-terrain:
     en: Difficulty Terrain
     ko: 험지
+  damaging-terrain:
+    en: Damaging Terrain
+    ko: 피해 지형
   edge:
     en: Edge
     ko: 유리함
@@ -144,6 +147,26 @@ rule:
   strong:
     en: Strong
     ko: 강
+  walk:
+    en: Walk
+    ko: 걷기
+  burrow:
+    en: Burrow
+    ko: 굴파기
+  climb:
+    en: Climb
+    ko: 등반
+  swim:
+    en: Swim
+    ko: 수영
+  crawl:
+    en: Crawl
+    ko: 포복
+  fly:
+    en: Fly
+    ko: 비행
+
+
 
 stat:
   might:
@@ -253,9 +276,12 @@ effect:
   push:
     en: Push
     ko: 밀치기
+  pull:
+    en: Pull
+    ko: 당기기
   slide:
     en: Slide
     ko: 옮기기
-shift:
-  en: Shift
-  ko: 잔걸음
+  shift:
+    en: Shift
+    ko: 잔걸음
