@@ -7,15 +7,15 @@
     --ability-price-color: #0e7490;
 
     /* damage Type 색상 */
-    --color-acid:        #4d7c0f;
-    --color-cold:        #0284c7;
-    --color-corruption:  #701a75;
-    --color-fire:        #c2410c;
-    --color-holy:        #b45309;
-    --color-lightning:   #0f766e;
-    --color-poison:      #15803d;
-    --color-psychic:     #9333ea;
-    --color-sonic:       #4b5563;
+    --color-acid:        #3F6212;
+    --color-cold:        #1E3A8A;
+    --color-corruption:  #2E1065;
+    --color-fire:        #7F1D1D;
+    --color-holy:        #78350F;
+    --color-lightning:   #854D0E;
+    --color-poison:      #14532D;
+    --color-psychic:     #831843;
+    --color-sonic:       #713F12;
     --color-untype:      #57534e;
 
     --color-bleeding:    #b3121f;
