@@ -2,6 +2,15 @@
  * Draw Steel Web Rulebook - Global Tooltip & Tag Engine
  */
 
+// SVG 아이콘 경로 설정
+const TOOLTIP_CONFIG = {
+    svgBasePath: "../../../assets/core/svg/", // ★ SVG 파일 폴더 경로 (끝에 '/' 포함)
+    svgExt: ".svg",                           // 파일 확장자
+    showSvgInTooltip: true,                   // 툴팁(#global-tooltip) 앞에 SVG 표시 여부
+    showSvgInTag: true,                        // 본문 태그/팁(.tag, .tip) 앞에 SVG 표시 여부
+    showSvgInTip: false                       // 본문 팁(.tip) 앞에 SVG 표시 여부
+};
+
 class TooltipEngine {
     constructor() {
         this.termsData = null;
@@ -9,6 +18,14 @@ class TooltipEngine {
         this.isTouch = false;
 
         this.init().catch(err => console.error("[Tooltip] Init failed:", err));
+    }
+
+    // SVG 파일 존재 여부를 체크하여 마스크 HTML을 반환하는 함수
+    getSvgIconHtml(svgKey) {
+        if (!svgKey) return "";
+        const svgPath = `${TOOLTIP_CONFIG.svgBasePath}${svgKey}${TOOLTIP_CONFIG.svgExt}`;
+        // 파일이 없을 경우 공백을 남기지 않도록 onerror 시 요소를 숨기는 inline 스크립트 장치 추가
+        return `<span class="svg-mask-icon" style="--svg-url: url('${svgPath}')" onerror="this.style.display='none'; this.style.margin=0;"></span>`;
     }
 
     createTooltipElement() {
@@ -19,6 +36,7 @@ class TooltipEngine {
         this.el.setAttribute("role", "tooltip");
         this.el.innerHTML = `
             <div class="tt-header">
+                <span class="tt-icon svg-mask-icon" style="display: none;"></span>
                 <span class="tt-badge"></span>
                 <span class="tt-title"></span>
             </div>
@@ -296,22 +314,49 @@ class TooltipEngine {
                     delete el.dataset.baseKo;
                     delete el.dataset.baseEn;
                 }
-                // 그 외 일반 수치 표기 (effect push 등)
-                else if (val) {
-                    el.classList.add("has-val");
-                    el.textContent = `${displayText}\u00A0${val}`;
-
-                    el.dataset.langTarget = "true";
-                    el.dataset.baseKo = `${displayText} ${val}`;
-                    el.dataset.baseEn = `${enDisplayText} ${val}`;
-                }
-                // 일반 텍스트 tip / kw 등
+                // 그 외 일반 수치 표기 (effect push 등) 및 일반 텍스트 tip / kw 등
                 else {
-                    el.textContent = displayText;
+                    const finalKo = val ? `${displayText}\u00A0${val}` : displayText;
+                    const baseKo = val ? `${displayText} ${val}` : displayText;
+                    const baseEn = val ? `${enDisplayText} ${val}` : enDisplayText;
 
-                    el.dataset.langTarget = "true";
-                    el.dataset.baseKo = displayText;
-                    el.dataset.baseEn = enDisplayText;
+                    if (val) el.classList.add("has-val");
+
+                    // ★ data.svgKey 가 존재할 때 .tag / .tip 설정에 따라 SVG 표시
+                    const showSvg = Boolean(
+                        data.svgKey && (
+                            (el.classList.contains("tag") && TOOLTIP_CONFIG.showSvgInTag) ||
+                            (el.classList.contains("tip") && TOOLTIP_CONFIG.showSvgInTip)
+                        )
+                    );
+
+                    if (showSvg) {
+                        const iconHtml = this.getSvgIconHtml(data.svgKey);
+                        el.innerHTML = `${iconHtml}<span class="tag-label-text">${finalKo}</span>`;
+
+                        // 한영 토글 시 앞의 아이콘이 지워지지 않도록 텍스트 span에 언어 데이터 부여
+                        const textSpan = el.querySelector(".tag-label-text");
+                        textSpan.dataset.langTarget = "true";
+                        textSpan.dataset.baseKo = baseKo;
+                        textSpan.dataset.baseEn = baseEn;
+                        delete el.dataset.langTarget;
+
+                        // ★ 추가 안전장치: 브라우저가 이미지 로드에 실패(404 등)하면 마스크 <span>을 아예 안 보이게 처리
+                        const iconSpan = el.querySelector(".svg-mask-icon");
+                        if (iconSpan) {
+                            const imgTest = new Image();
+                            imgTest.src = `${TOOLTIP_CONFIG.svgBasePath}${data.svgKey}${TOOLTIP_CONFIG.svgExt}`;
+                            imgTest.onerror = () => {
+                                iconSpan.style.display = "none";
+                                iconSpan.style.margin = "0";
+                            };
+                        }
+                    } else {
+                        el.textContent = finalKo;
+                        el.dataset.langTarget = "true";
+                        el.dataset.baseKo = baseKo;
+                        el.dataset.baseEn = baseEn;
+                    }
                 }
 
                 el.dataset.rendered = "true";
@@ -586,12 +631,22 @@ class TooltipEngine {
             lore: "설정"
         };
 
-        // ★ parentItem(예: move -> "이동 행동")이 있으면 뱃지 문구로 우선 사용
+        // ★parentItem(예: move -> "이동 행동")이 있으면 뱃지 문구로 우선 사용
         const badgeText = (parentItem && parentItem.ko)
             ? parentItem.ko
             : (badgeMap[subType] || badgeMap[category] || (subType ? subType.toUpperCase() : category.toUpperCase()));
 
-        return { category, subType, parentKey, key, ko, en, desc, color, badgeText };
+        // ★ SVG 파일명 결정:
+        // 1) parentKey가 있으면 parentKey 사용 (예: action move advance -> move.svg)
+        // 2) subType이 condition 또는 action이면 key 사용 (예: tip condition bleeding -> bleeding.svg)
+        let svgKey = "";
+        if (parentKey) {
+            svgKey = parentKey;
+        } else if (subType === "condition" || subType === "action") {
+            svgKey = key; // 상태 이상 공통 아이콘 1개(condition.svg)만 쓰려면 (subType === "condition" ? "condition" : key) 로 변경
+        }
+
+        return { category, subType, parentKey, key, svgKey, ko, en, desc, color, badgeText };
     }
 
     show(target) {
@@ -605,7 +660,7 @@ class TooltipEngine {
         this.el.className = "";
         this.el.classList.add(`tt-${data.category}`);
         if (data.subType) this.el.classList.add(`tt-${data.subType}`);
-        if (data.parentKey) this.el.classList.add(data.parentKey); // ★ 상위 행동 클래스 유지 (move, main 등)
+        if (data.parentKey) this.el.classList.add(data.parentKey);
         if (data.key) this.el.classList.add(data.key);
 
         const computedStyle = window.getComputedStyle(target);
@@ -622,9 +677,41 @@ class TooltipEngine {
             this.el.style.removeProperty("--tt-accent");
         }
 
+        const iconEl = this.el.querySelector(".tt-icon");
         const badgeEl = this.el.querySelector(".tt-badge");
         const titleEl = this.el.querySelector(".tt-title");
         const descEl = this.el.querySelector(".tt-desc");
+
+        // ★ svgKey에 따른 툴팁 전면 SVG 아이콘 출력 (파일 존재 여부 확인 후 적용)
+        if (iconEl) {
+            if (TOOLTIP_CONFIG.showSvgInTooltip && data.svgKey) {
+                const svgPath = `${TOOLTIP_CONFIG.svgBasePath}${data.svgKey}${TOOLTIP_CONFIG.svgExt}`;
+
+                // 일단 숨겨두고 이미지 로드 성공 시에만 표시
+                iconEl.style.display = "none";
+                iconEl.style.removeProperty("--svg-url");
+
+                const imgTest = new Image();
+                imgTest.src = svgPath;
+                imgTest.onload = () => {
+                    // 현재 열려있는 툴팁의 대상이 여전히 이 아이콘을 요구할 때만 표시
+                    if (this.activeTarget === target) {
+                        iconEl.style.setProperty("--svg-url", `url('${svgPath}')`);
+                        iconEl.style.display = "inline-block";
+                    }
+                };
+                imgTest.onerror = () => {
+                    // 파일이 없으면 숨김 유지 (공백 제거)
+                    if (this.activeTarget === target) {
+                        iconEl.style.display = "none";
+                        iconEl.style.removeProperty("--svg-url");
+                    }
+                };
+            } else {
+                iconEl.style.display = "none";
+                iconEl.style.removeProperty("--svg-url");
+            }
+        }
 
         badgeEl.textContent = data.badgeText;
 

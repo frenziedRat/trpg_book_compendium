@@ -1576,6 +1576,40 @@ h3:is([id], [tool-tip]), h4:is([id], [tool-tip]), h5:is([id], [tool-tip]) { posi
 .kw:is([id], [tool-tip]) { cursor: help; }
 .ability-head .name:is([id], [tool-tip]) { position: relative; cursor: help; }
 
+/* SVG 마스크 아이콘 공통 스타일 */
+.svg-mask-icon {
+    --svg-url: none; /* ★ IDE 미해결 변수 경고 방지용 기본값 선언 */
+
+    display: inline-block;
+    width: 1.15em;
+    height: 1.15em;
+    margin-right: 0.3em;
+    vertical-align: -0.15em;
+    flex-shrink: 0;
+
+    /* ★ 핵심: 현재 요소의 글자색(currentColor)을 아이콘 색상으로 그대로 사용 */
+    background-color: currentColor;
+
+    -webkit-mask-image: var(--svg-url);
+    mask-image: var(--svg-url);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+/* 툴팁 헤더 내 아이콘 크기 및 색상 지정 */
+#global-tooltip .tt-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: -0.15rem;
+    vertical-align: middle;
+    /* 흰색 계열로 하려면 var(--paper), 행동별 테마색으로 하려면 var(--tt-accent, var(--paper)) */
+    background-color: var(--paper, #ebe7dd);
+}
+
 .svg-icon {
     width: 1.2em;          /* 옆 글자 크기(1em)와 정확히 일치 */
     height: 1.2em;         /* 정사각형 비율 유지 */
