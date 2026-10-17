@@ -489,6 +489,7 @@ class TooltipEngine {
         const isImmunityOrWeakness = isImmunity || isWeakness;
 
         let key = "";
+        let parentKey = "";
 
         // ★ tag, tip 구분 없이 면역/취약 및 피해 타입을 최우선 감지
         if (isImmunityOrWeakness) {
@@ -506,9 +507,22 @@ class TooltipEngine {
             subType = "damage";
             key = "untype";
             target.classList.add("untype");
-        } else if (customClasses.length >= 2) {
+        } else if (customClasses.length >= 3) {
+            // ★ 예: class="tag action move advance" -> subType: "action", parentKey: "move", key: "advance"
             subType = customClasses[0];
-            key = customClasses[1];
+            parentKey = customClasses[1];
+            key = customClasses[2];
+        } else if (customClasses.length === 2) {
+            if (category === "action-cost" && customClasses[0] !== "action") {
+                // 예: class="action-cost move advance"
+                subType = "action";
+                parentKey = customClasses[0];
+                key = customClasses[1];
+            } else {
+                // 예: class="tag action move" -> subType: "action", key: "move"
+                subType = customClasses[0];
+                key = customClasses[1];
+            }
         } else if (customClasses.length === 1) {
             const single = customClasses[0];
             const attrKey = target.getAttribute("term-en") || target.getAttribute("id") || "";
@@ -520,8 +534,13 @@ class TooltipEngine {
             }
         }
 
-        // 4. terms.yaml에서 데이터 조회
-        let item = this.findTerm(subType, key);
+        // 4. terms.yaml에서 상위 항목(parentItem) 및 대상 항목(item) 조회
+        let parentItem = null;
+        if (parentKey) {
+            parentItem = this.findTerm(subType, parentKey) || this.findTerm(null, parentKey);
+        }
+
+        let item = (parentKey && this.findTerm(parentKey, key)) || this.findTerm(subType, key);
         if (!item && key) {
             item = this.findTerm(null, key);
         }
@@ -535,7 +554,9 @@ class TooltipEngine {
             ko = item.ko || ko;
             en = item.en || en;
             desc = desc || item.desc || "";
-            color = item.color || `var(--color-${key})`;
+            color = item.color || (parentItem && parentItem.color) || `var(--color-${parentKey || key})`;
+        } else if (parentItem) {
+            color = parentItem.color || `var(--color-${parentKey})`;
         } else if (key) {
             color = `var(--color-${key})`;
         }
@@ -565,9 +586,12 @@ class TooltipEngine {
             lore: "설정"
         };
 
-        const badgeText = badgeMap[subType] || badgeMap[category] || (subType ? subType.toUpperCase() : category.toUpperCase());
+        // ★ parentItem(예: move -> "이동 행동")이 있으면 뱃지 문구로 우선 사용
+        const badgeText = (parentItem && parentItem.ko)
+            ? parentItem.ko
+            : (badgeMap[subType] || badgeMap[category] || (subType ? subType.toUpperCase() : category.toUpperCase()));
 
-        return { category, subType, key, ko, en, desc, color, badgeText };
+        return { category, subType, parentKey, key, ko, en, desc, color, badgeText };
     }
 
     show(target) {
@@ -581,6 +605,7 @@ class TooltipEngine {
         this.el.className = "";
         this.el.classList.add(`tt-${data.category}`);
         if (data.subType) this.el.classList.add(`tt-${data.subType}`);
+        if (data.parentKey) this.el.classList.add(data.parentKey); // ★ 상위 행동 클래스 유지 (move, main 등)
         if (data.key) this.el.classList.add(data.key);
 
         const computedStyle = window.getComputedStyle(target);
