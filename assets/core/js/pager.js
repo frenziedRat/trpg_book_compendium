@@ -355,11 +355,45 @@
 
         const getCurrentPageIndex = () => {
             if (pages.length <= 1) return 0;
-            const scrollPos = window.scrollY + 100;
+
+            const vh = window.innerHeight;
+            const readingLine = vh * 0.5;      // 시선 기준선: 화면 정중앙 (50%)
+            const usableBottom = vh - 60;      // 하단 페이저 바(약 60px)를 제외한 화면 하단
+
             let active = 0;
+
             pages.forEach((el, i) => {
-                if (el.offsetTop <= scrollPos) active = i;
+                const rect = el.getBoundingClientRect();
+
+                // .page의 min-height 빈 여백을 제외한 '실제 마지막 본문 요소'의 하단 위치
+                const lastChild = el.lastElementChild;
+                const contentBottom = lastChild
+                    ? lastChild.getBoundingClientRect().bottom
+                    : rect.bottom;
+
+                // 1) 일반적인 경우: 페이지 상단이 화면 중앙(readingLine)까지 올라왔을 때
+                const passedReadingLine = rect.top <= readingLine;
+
+                // 2) 내용이 짧은 경우: 조금이라도 스크롤된 상태에서,
+                //    해당 페이지의 실제 본문 끝(contentBottom)이 이미 화면 안에 다 들어왔을 때
+                const isShortContentFullyVisible =
+                    window.scrollY > 20 &&
+                    rect.top < usableBottom &&
+                    contentBottom <= usableBottom;
+
+                if (passedReadingLine || isShortContentFullyVisible) {
+                    active = i;
+                }
             });
+
+            // 3) 스크롤이 문서 맨 끝에 도달했을 때의 안전장치
+            const isAtBottom =
+                window.scrollY > 0 &&
+                vh + Math.ceil(window.scrollY) >= document.documentElement.scrollHeight - 10;
+            if (isAtBottom) {
+                return pages.length - 1;
+            }
+
             return active;
         };
 
