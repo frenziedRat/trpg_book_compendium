@@ -179,7 +179,9 @@
 
 /* 피해 태그 */
 .tag.type,
-.tag.damage {
+.tag.damage,
+.tag.immunity,
+.tag.weakness {
     --hex-tip: 5px;
     --tag-clip: polygon(
             var(--hex-tip) 0, calc(100% - var(--hex-tip)) 0,
