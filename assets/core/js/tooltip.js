@@ -209,12 +209,14 @@ class TooltipEngine {
             const data = this.resolveData(el);
 
             if (data.ko) {
+                const isTag = el.classList.contains("tag"); // ★ 실제 .tag 인지 여부 판별
                 const isImmunity = el.classList.contains("immunity") || data.key === "immunity";
                 const isWeakness = el.classList.contains("weakness") || data.key === "weakness";
                 const isImmunityOrWeakness = isImmunity || isWeakness;
 
                 const isDamage = (el.classList.contains("damage") || el.classList.contains("type") || data.subType === "damage") && !isImmunityOrWeakness;
-                const isDamageTag = isDamage && (el.classList.contains("tag") || el.classList.contains("damage") || el.classList.contains("type"));
+                // ★ 수정: .tip 이 아닌 실제 .tag 일 때만 isDamageTag 로 인정
+                const isDamageTag = isTag && isDamage;
 
                 let displayText = data.ko.replace(/\s*중\s*하나/g, "").trim();
                 let enDisplayText = (data.en || displayText).replace(/\s*or\s*one/gi, "").trim();
@@ -234,7 +236,7 @@ class TooltipEngine {
 
                         displayText = `${elemKo} ${ruleKo}`;
                         enDisplayText = `${elemEn} ${ruleEn}`;
-                    } else if (el.classList.contains("tag") || val) {
+                    } else if (isTag || val) {
                         displayText = `피해 ${ruleKo}`;
                         enDisplayText = (ruleTerm && ruleTerm.en) ? ruleTerm.en : `Damage ${ruleEn}`;
 
@@ -273,59 +275,57 @@ class TooltipEngine {
                 const isLongVal = el.classList.contains("wrap") || val.length >= 10 || val.includes(",");
 
                 // tag로 묶인 damage, immunity, weakness 여부 판별
-                const isExcludedTag = isDamageTag || (el.classList.contains("tag") && isImmunityOrWeakness);
+                const isExcludedTag = isDamageTag || (isTag && isImmunityOrWeakness);
 
-                // ★ 3번: tag damage + val
+                // ★ 3번: .tag + damage + val (분할 육각형 배지)
                 if (isDamageTag && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
 
                     el.innerHTML = `<span class="tag-part-val left-arrow">${val}</span><span class="tag-part-label right-arrow">${displayText}</span>`;
 
-                    // tag damage는 언어 토글 대상에서 제외하여 한글 배지 고정 및 태그 코드 노출 방지
                     delete el.dataset.langTarget;
                     delete el.dataset.baseKo;
                     delete el.dataset.baseEn;
                 }
-                // ★ 4번: immunity, weakness + val
-                else if (isImmunityOrWeakness && val) {
+                // ★ 4번: .tag + (immunity / weakness) + val (분할 육각형 배지)
+                else if (isTag && isImmunityOrWeakness && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
 
                     el.innerHTML = `<span class="tag-part-label left-arrow">${displayText}</span><span class="tag-part-val right-arrow">${val}</span>`;
 
-                    // tag인 경우 한영 혼용 모드에서 영문 추가 방지
-                    if (el.classList.contains("tag")) {
-                        delete el.dataset.langTarget;
-                        delete el.dataset.baseKo;
-                        delete el.dataset.baseEn;
-                    } else {
-                        el.dataset.langTarget = "true";
-                        el.dataset.baseKo = displayText;
-                        el.dataset.baseEn = enDisplayText;
-                    }
-                }
-                // ★ 수치 없는 단일 tag (tag damage, tag immunity, tag weakness)
-                else if (isExcludedTag) {
-                    el.textContent = displayText;
-
-                    // tag는 한영 혼용 시 문장 늘어남을 방지하기 위해 제외
                     delete el.dataset.langTarget;
                     delete el.dataset.baseKo;
                     delete el.dataset.baseEn;
                 }
-                // 그 외 일반 수치 표기 (effect push 등) 및 일반 텍스트 tip / kw 등
+                // ★ 수치 없는 단일 .tag (tag damage, tag immunity, tag weakness)
+                else if (isExcludedTag) {
+                    el.textContent = displayText;
+
+                    delete el.dataset.langTarget;
+                    delete el.dataset.baseKo;
+                    delete el.dataset.baseEn;
+                }
+                // ★ 그 외 일반 수치 표기 및 모든 .tip (tip damage, tip immunity 등 포함)
                 else {
-                    const finalKo = val ? `${displayText}\u00A0${val}` : displayText;
-                    const baseKo = val ? `${displayText} ${val}` : displayText;
-                    const baseEn = val ? `${enDisplayText} ${val}` : enDisplayText;
+                    // tip damage + val 인 경우 "5 화염 피해" 순서로 조립, 그 외는 "밀치기 3" / "화염 저항 5" 순서
+                    const finalKo = val
+                        ? (isDamage ? `${val}\u00A0${displayText}` : `${displayText}\u00A0${val}`)
+                        : displayText;
+                    const baseKo = val
+                        ? (isDamage ? `${val} ${displayText}` : `${displayText} ${val}`)
+                        : displayText;
+                    const baseEn = val
+                        ? (isDamage ? `${val} ${enDisplayText}` : `${enDisplayText} ${val}`)
+                        : enDisplayText;
 
                     if (val) el.classList.add("has-val");
 
-                    // ★ data.svgKey 가 존재할 때 .tag / .tip 설정에 따라 SVG 표시
+                    // data.svgKey 가 존재할 때 .tag / .tip 설정에 따라 SVG 표시
                     const showSvg = Boolean(
                         data.svgKey && (
-                            (el.classList.contains("tag") && TOOLTIP_CONFIG.showSvgInTag) ||
+                            (isTag && TOOLTIP_CONFIG.showSvgInTag) ||
                             (el.classList.contains("tip") && TOOLTIP_CONFIG.showSvgInTip)
                         )
                     );
@@ -334,14 +334,12 @@ class TooltipEngine {
                         const iconHtml = this.getSvgIconHtml(data.svgKey);
                         el.innerHTML = `${iconHtml}<span class="tag-label-text">${finalKo}</span>`;
 
-                        // 한영 토글 시 앞의 아이콘이 지워지지 않도록 텍스트 span에 언어 데이터 부여
                         const textSpan = el.querySelector(".tag-label-text");
                         textSpan.dataset.langTarget = "true";
                         textSpan.dataset.baseKo = baseKo;
                         textSpan.dataset.baseEn = baseEn;
                         delete el.dataset.langTarget;
 
-                        // ★ 추가 안전장치: 브라우저가 이미지 로드에 실패(404 등)하면 마스크 <span>을 아예 안 보이게 처리
                         const iconSpan = el.querySelector(".svg-mask-icon");
                         if (iconSpan) {
                             const imgTest = new Image();
@@ -551,6 +549,7 @@ class TooltipEngine {
         } else if (classList.includes("damage") || classList.includes("type")) {
             subType = "damage";
             key = "untype";
+            target.dataset.defaultUntype = "true"; // ★ 사용자가 명시한 게 아니라 기본값으로 붙은 것임을 표시
             target.classList.add("untype");
         } else if (customClasses.length >= 3) {
             // ★ 예: class="tag action move advance" -> subType: "action", parentKey: "move", key: "advance"
