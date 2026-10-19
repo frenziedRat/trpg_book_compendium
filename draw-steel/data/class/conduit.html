@@ -48,26 +48,26 @@
                 <table class="advancement-table">
                     <caption>사도 성장표</caption>
                     <thead>
-                    <tr>
-                        <th class="center col-level">레벨</th>
-                        <th>특성</th>
-                        <th class="center col-ability">능력</th>
-                        <th class="center col-subclass">영역 능력</th>
-                    </tr>
+                        <tr>
+                            <th class="center col-level">레벨</th>
+                            <th>특성</th>
+                            <th class="center col-ability">능력</th>
+                            <th class="center col-subclass">영역 능력</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><span class="lvl-badge">1</span></td>
-                        <td class="desc"><a href="#shadow-college" class="feat-tag" term-en="Shadow College">그림자 양성소</a>, <a href="#insight" class="feat-tag" term-en="Insight">신심</a>, <span class="feat-tag">양성소 특성</span>, <span class="feat-tag">양성소 발동 능력</span>, <span class="feat-tag">망설임은 독</span>, <span class="feat-tag">무장</span>, <span class="feat-tag">암행자 능력</span></td>
-                        <td>주력 둘, 3, 5</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><span class="lvl-badge">2</span></td>
-                        <td class="desc">양성소 특성, 특기, 양성소 능력</td>
-                        <td>주력 둘, 3, 5</td>
-                        <td>5</td>
-                    </tr>
+                        <tr>
+                            <td><span class="lvl-badge">1</span></td>
+                            <td class="desc"><a href="#shadow-college" class="feat-tag" term-en="Shadow College">그림자 양성소</a>, <a href="#insight" class="feat-tag" term-en="Insight">신심</a>, <span class="feat-tag">양성소 특성</span>, <span class="feat-tag">양성소 발동 능력</span>, <span class="feat-tag">망설임은 독</span>, <span class="feat-tag">무장</span>, <span class="feat-tag">암행자 능력</span></td>
+                            <td>주력 둘, 3, 5</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><span class="lvl-badge">2</span></td>
+                            <td class="desc">양성소 특성, 특기, 양성소 능력</td>
+                            <td>주력 둘, 3, 5</td>
+                            <td>5</td>
+                        </tr>
                     </tbody>
                 </table>
             </article>
@@ -113,6 +113,10 @@
                     </div>
                 </div>
             </article>
+        </div>
+    </section>
+    <section class="page">
+        <div>
             <article class="ability" id="domain-piety-and-effects">
                 <div class="ability-head">
                     <span class="name">영역 신심과 효과 Domain Piety and Effects</span>
@@ -122,6 +126,24 @@
                     <p class="effect">영역마다 전투 중에 신심을 획득할 수 있는 특정 사건을 두가지씩 제공합니다. 한가지 사건으로 영역 효과가 둘다 발동할 수도 있습니다. 예를 들어, 태양 영역은 인접한 개체가 화염이나 신성 피해를 받았을 때 신심을 쌓고, 전쟁 영역은 인접한 개체가 10 + 레벨 만큼 피해를 받았을 때 신심을 쌓습니다. 만약에 인접한 개체가 그만큼 화염 피해를 받았다면 양쪽 영역에서 신심을 다 얻을 수 있습니다.</p>
                     <p class="effect">덧붙여, 신심 기도로 영역 효과가 발동될 때는, 영역 하나를 골라 그 기도 효과를 바로 적용할 수 있습니다.</p>
                     <div class="cols">
+                        <article class="ability" id="protection-domain">
+                            <div class="ability-head">
+                                <span class="name">보호 영역 Protection Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 자신 또는 10칸 이내 아군 하나가 임시 체력을 쌓거나, 들어오는 피해를 <span class="tip action triggered"></span>로 줄이거나, 적의 위력 판정에 <span class="tip rule bane"></span>이나 <span class="tip rule bane2"></span>를 줄 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 10칸 이내 아군 하나에게 <span class="tip stat intuition"></span> 점수의 4배 만큼 임시 체력을 줘도 됩니다.</p>
+                            </div>
+                        </article>
+                        <article class="ability" id="love-domain">
+                            <div class="ability-head">
+                                <span class="name">사랑 영역 Love Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 나 또는 10칸 이내 개체가 <span class="tip action aid-attack" term-en="Aid Attack">공격 지원</span>나 아군을 대상으로한 능력을 썼을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 10칸 이내 모든 아군 하나에게 <span class="tip stat intuition"></span> 점수의 2배 만큼 임시 체력을 줍니다.</p>
+                            </div>
+                        </article>
                         <article class="ability" id="life-domain">
                             <div class="ability-head">
                                 <span class="name">생명 영역 Life Domain</span>
@@ -132,6 +154,15 @@
                                 <p>아니면, 자신 또는 10칸 이내 아군 하나에게 <span class="tip stat intuition"></span> 점수의 2배 만큼 임시 체력을 줘도 됩니다.</p>
                             </div>
                         </article>
+                        <article class="ability" id="trick-domain">
+                            <div class="ability-head">
+                                <span class="name">속임수 영역 Trick Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 자신 또는 10칸 이내 개체 하나가 <span class="tip action maneuver aid-attack" term-en="Aid Attack">공격 지원</span>이나 <span class="tip action maneuver hide" term-en="Hide">숨기</span> 동작을 하면, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 10칸 이내 개체 하나를 5 + 사도 레벨 칸 만큼 <span class="tip effect slide"></span>합니다.</p>
+                            </div>
+                        </article>
                         <article class="ability" id="fate-domain">
                             <div class="ability-head">
                                 <span class="name">운명 영역 Fate Domain</span>
@@ -139,6 +170,24 @@
                             <div class="ability-body">
                                 <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 이내 아군이 위력 판정에서 3단계 성과를 거두거나, 10칸 이내 적이 위력 판정에서 1단게 성과를 거뒀을 때, 신심 2개를 쌓습니다.</p>
                                 <p class="effect"><span class="entry-name">기도</span> 운명의 힘을 끌어내 가능한 미래를 만듭니다. 10칸 안에 개체 하나를 선택합니다. 그 개체는 이번 조우에서 다음 위력 판정에 자동으로 1단계나 3단계 성과(내 선택)을 거둡니다.</p>
+                            </div>
+                        </article>
+                        <article class="ability" id="nature-domain">
+                            <div class="ability-head">
+                                <span class="name">자연 영역 Nature Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 자신 또는 10칸 이내 개체가 <span class="tag type acid"></span>, <span class="tag type cold"></span>, <span class="tag type fire"></span>, <span class="tag type lightning"></span>, <span class="tag type poison"></span>, <span class="tag type sonic"></span> 피해를 받았을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span>10칸 이내에 땅이나 바닥에서 덩굴이 올라와 매질을 합니다. <span class="tip stat intuition"></span> 점수 만큼 개체를 선택합니다. 선택한 개체를 <span class="tip stat intuition"></span> 점수 칸 만큼 <span class="tip effect slide"></span> 합니다. 그러고 나서 덩굴은 사라집니다.</p>
+                            </div>
+                        </article>
+                        <article class="ability" id="war-domain">
+                            <div class="ability-head">
+                                <span class="name">전쟁 영역 War Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 자신 또는 10칸 이내 개체 하나가 한 차례 동안 10 + 레벨 넘게 피해를 받았을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 10칸 이내 아군 셋이나 자신과 아군 둘을 지목합니다. 대상은 <span class="tip resource surge"></span> 2개 받습니다.</p>
                             </div>
                         </article>
                         <article class="ability" id="death-domain">
@@ -164,14 +213,71 @@
                                 <span class="name">창조 영역 Creation Domain</span>
                             </div>
                             <div class="ability-body">
-                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 이내개체가 광역 능력을 썼을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 이내 개체가 광역 능력을 썼을 때, 신심 2개를 쌓습니다.</p>
                                 <p class="effect"><span class="entry-name">기도</span> 포스를 모아, 10칸 이내에 돌 벽을 만듭니다. 벽의 크기는 5 + <span class="tip stat intuition"></span>입니다. 벽은 조우가 끝날 때 사라집니다.</p>
                             </div>
                         </article>
-
-                        <!-- 사랑부터 -->
-
+                        <article class="ability" id="sun-domain">
+                            <div class="ability-head">
+                                <span class="name">태양 영역 Sun Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 이내 적 하나가 <span class="tag type fire"></span>나 <span class="tag type holy"></span> 피해를 받았을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 10칸 이내 적 하나에게 <span class="tag damage fire" data-val="직관 점수의 3배"></span>를 줍니다.</p>
+                            </div>
+                        </article>
+                        <article class="ability" id="storm-domain">
+                            <div class="ability-head">
+                                <span class="name">폭풍 영역 Storm Domain</span>
+                            </div>
+                            <div class="ability-body">
+                                <p class="effect"><span class="entry-name">신심</span> 이번 조우에서 처음으로 10칸 이내 적 하나가 강제 이동 당했을 때, 신심 2개를 쌓습니다.</p>
+                                <p class="effect"><span class="entry-name">기도</span> 10칸 이내 상자 3에 있는 모든 적에게 <span class="tag damage lightning" data-val="직관 점수의 2배"></span>를 줍니다.</p>
+                            </div>
+                        </article>
                     </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <div>
+            <article class="ability" id="domain-feature-1">
+                <div class="ability-head">
+                    <span class="name">1레벨 영역 특성 1st-level Domain Feature</span>
+                    <span class="badge level">1</span>
+                </div>
+                <div class="ability-body">
+                    <p class="effect">영역을 하나 고릅니다. 1레벨 사도 영역 특성에서 해당 영역에 속한 특성을 배웁니다. 추가로, 선택한 영역에 적힌 기술군에서 기술 하나를 배웁니다.</p>
+                    <article class="table-wrap">
+                        <table class="domain-feature-1-table">
+                            <caption>1레벨 사도 영역 특성표</caption>
+                            <thead>
+                                <tr>
+                                    <th class="center">영역</th>
+                                    <th>특성</th>
+                                    <th class="center">기술군</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a class="trait badge" term-en="Protection" href="#protection-domain">보호</a></td>
+                                    <td class="desc">1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td><a class="trait badge" term-en="Love" href="#love-domain">사랑</a></td>
+                                    <td class="desc">1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td><a class="trait badge" term-en="Life" href="#life-domain">생명</a></td>
+                                    <td class="desc">1</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </article>
                 </div>
             </article>
         </div>

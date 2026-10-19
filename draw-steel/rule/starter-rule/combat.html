@@ -159,7 +159,7 @@
             <article>
                 <h3>발동 행동과 자유 발동 행동</h3>
                 <p>영웅마다 특정한 발동 조건을 충족했을 때 쓸 수 있는 발동 행동을 몇가지 가집니다. <span class="tag action triggered"></span>은 자기 차례든 남의 차례든 조건만 맞으면 쓸 수 있으나, 라운드 마다 하나씩만 쓸 수 있습니다. 가령, 광전사 영웅은 자신이나 인접한 다른 개체가 강제 이동당할 때, Lines of Force를 써서 다른 개체를 강제 이동 시킬 수 있습니다.</p>
-                <p><span class="tag action free-triggered"></span>은 발동 행동과 동일하지만, 라운드 발동 행동 횟수 제한에는 포함하지 않습니다. 가령, 암행자 영웅은 다른 영웅이 차례를 마쳤을 떄, "망설임은 독" 능력을 쓸 수 있습니다. 하지만 자유 발동 행동이기 때문에, "혼란을 틈타" 발동 능력도 같은 라운드에 쓸 수 있습니다.</p>
+                <p><span class="tag action free-triggered"></span>은 발동 행동과 동일하지만, 라운드 발동 행동 횟수 제한에는 포함하지 않습니다. 가령, 암행자 영웅은 다른 영웅이 차례를 마쳤을 때, "망설임은 독" 능력을 쓸 수 있습니다. 하지만 자유 발동 행동이기 때문에, "혼란을 틈타" 발동 능력도 같은 라운드에 쓸 수 있습니다.</p>
                 <p>같은 발동 조건 때문에 여러 발동 행동이 동시에 터진다면, 참가자끼리는 서로 상의해서 순서를 정합니다. 그 다음에 진행자도 자기가 조종하는 개체들의 순서를 정합니다.</p>
                 <p>발동 행동 사용을 차단하는 효과는 자유 발동 행동도 막습니다.</p>
             </article>
@@ -393,7 +393,7 @@
                 <p>어떤 행동과 동작은 개체나 물체를 전장에서 특정 거리 만큼 당기거나 밀거나 옮깁니다. 통틀어, 강제 이동이라고 부릅니다.</p>
                 <ul>
                     <li><span class="tag rule push"></span> X: 개체를 멀어지도록 수평 일직선으로 최대 X칸 이동시킵니다. 대상이 이동하는 각 칸은 기준과 점차 멀어져야 합니다.</li>
-                    <li><span class="tag rule pul"></span> X: 개체를 가까워지도록 수평 일직선으로 최대 X칸 이동시킵니다. 대상이 이동하는 각 칸은 기준과 점차 가까워져야 합니다.</li>
+                    <li><span class="tag rule pull"></span> X: 개체를 가까워지도록 수평 일직선으로 최대 X칸 이동시킵니다. 대상이 이동하는 각 칸은 기준과 점차 가까워져야 합니다.</li>
                     <li><span class="tag rule slide"></span> X: 개체를 수평으로 아무 방향으로 이동시킵니다. 밀치나 당기기와 달리, 일직선으로 이동시키지 않아도 됩니다.</li>
                 </ul>
                 <p>대상을 강제 이동시킬 때, 정해진 숫자보다 적게 이동시켜도 됩니다. 가령, 사도가 Call the Thunder Down 능력으로 3단계 성과를 내어 "밀치기 3"을 줄 때, 대상을 0~3칸까지 밀칠 수 있습니다.</p>
@@ -467,6 +467,484 @@
             <article>
                 <h4>사망 효과 시 강제 이동</h4>
                 <p>죽거나 체력이 0이 되었을 때 발동되는 특성이나 능력도 있습니다. 그런 능력은 강제 이동을 먼저 처리한 후에 사망 시 유발되는 효과가 발동됩니다.</p>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <header>
+            <h2 id="move-action">이동 행동 Move Action</h2>
+            <p>이동 행동으로 전장을 돌아다닐 수 있습니다. 물론 굳이 이동 행동을 쓰지 않아도, 이미 딱 맞는 위치에 가 있을 때도 있습니다. 그럼 좋지요! 이동하지 않는 것도, 이동하는 것만큼이나 전술적인 결정입니다.</p>
+        </header>
+        <div class="cols">
+            <article class="feature" id="advance">
+                <header class="ability-head">
+                    <span class="name">전진 Advance</span>
+                    <span class="badge action-cost move"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect"><span class="tip stat speed"></span> 칸 만큼 이동합니다. 원한다면 <span class="tip action maneuver"></span> 및 <span class="tip action main"></span> 사이에 나눠서 이동해도 됩니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="disengage">
+                <header class="ability-head">
+                    <span class="name">비켜나기 Disengage</span>
+                    <span class="badge action-cost move"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">1칸 <span class="tip effect shift"></span>합니다. 직군 특성, 무장 등 여러가지 규칙에 따라 비켜날 때 <span class="tip effect shift"></span> 거리가 늘어나기도 합니다. 원한다면, 이 <span class="tip effect shift"></span>도 동작 및 주요 행동 사이에 나눠서 이동해도 됩니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="ride">
+                <header class="ability-head">
+                    <span class="name">몰기 Ride</span>
+                    <span class="badge action-cost move"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">다른 개체에 올라탔을 때만 <span class="tip action move ride"></span> 이동 행동을 쓸 수 있습니다(탑승전 참조). 이 행동으로 탈 것을 속력만큼 움직여 기수와 함께 이동합니다. 아니면 <span class="tip action move ride"></span> 이동 행동으로 탈것이 <span class="tag action free-triggered"></span>으로 <span class="tip action move disengage"></span> 이동 행동을 쓰게 할 수 있습니다. <span class="tip action move ride"></span> 이동 해동은 라운드마다 한 번만 쓸 수 있습니다. 탈 것 역시 라운드 마다 한 번만 적용받습니다. 이 이동은 기수의 <span class="tip action maneuver"></span> 및 <span class="tip action main"></span> 사이에 나눠서 이동해도 됩니다.</p>
+                </div>
+            </article>
+        </div>
+        <header>
+            <h2 id="main-action">주요 행동 Main Action</h2>
+            <p><span class="tip action maneuver"></span>으로는 주로 직군, 무장, 보물이 주는 능력 등을 사용하며 가장 독특하고 멋있고 강렬한 능력들 입니다.</p>
+            <p>덧붙여, 다른 개체의 체력을 회복, 전장 안으로 돌격, 스스로 방어, 기본 타격하기 등도 할 수 있습니다.</p>
+            <p>주요 행동을 동작이나 이동 행동으로 바꿀 수 있어, 차례에 동작이나 이동 행동을 두 번 할 수 있습니다.</p>
+        </header>
+        <div class="cols">
+            <article class="feature" id="charge">
+                <header class="ability-head">
+                    <span class="name">돌격</span>
+                    <span class="badge action-cost main"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">일직선으로 <span class="tip stat speed"></span>까지 이동한 후에, 이동을 마쳤을 때 대상 하나에게 근접 기본 타격합니다. <span class="tip action main charge" term-en="main">돌격</span> 시 기본 타격을 <span class="kw charge"></span> 키워드가 달린 능력으로 대체할 수 있습니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="defend">
+                <header class="ability-head">
+                    <span class="name">돌격</span>
+                    <span class="badge action-cost main"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">다음 차례가 올 때까지 내게 가하는 <span class="tip roll ability"></span>에 <span class="tip rule bane2"></span>을 줍니다. 더불어, 환경 효과나 개체의 특성이나 능력 때문에 굴리는 시도에 <span class="tip rule edge2"></span>을 받습니다. 단 다른 개체를 도발하는 동안에는 혜택을 받지 못합니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="free-strike">
+                <header class="ability-head">
+                    <span class="name">기본 타격</span>
+                    <span class="badge action-cost main"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">보통은 직군, 무장 등의 특성으로 받은 더 강력한 <span class="tip action main"></span>을 쓰겠지만, 자유 타격은 모든 수단이 마땅치 않을 때 쓰는 최후의 수단입니다. 가령, 원거리 타격 능력을 미처 준비하지 않은 광전사가 비행하는 적을 상대해야 한다면, 급조 무기를 동원해 원거리 무기 기본 타격이라도 해야할 겁니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="heal">
+                <header class="ability-head">
+                    <span class="name">응급처치</span>
+                    <span class="badge action-cost main"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">인접한 개체에게 약을 먹이거나 다독여 계속 싸울 수 있게 돕습니다. 대상 개체는 <span class="tag resource recovery"></span>을 하나 써서 <span class="tag resource stamina"></span>을 회복하거나, <span class="tip roll saving"></span>으로 해소할 수 있는 효과 하나를 지정해 <span class="tag roll saving"></span>할 수 있습니다.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <header>
+            <h2 id="maneuver">동작 Maneuver</h2>
+            <p><span class="tip action maneuver"></span>은 <span class="tip action main"></span> 보다는 집중력과 노력이 덜 듭니다. 다른 개체를 이동시키거나, 물약을 마시는 등의 행위에 듭니다.</p>
+            <p>때로는 할만한 <span class="tip action manuever"></span>이 없을 수 있습니다. 상관없습니다. <span class="tip action main"></span>만 하고 넘어가는 게 가장 좋은 선택이 될 수 있으니까요.</p>
+        </header>
+        <div class="cols">
+            <article class="feature" id="aid-attack">
+                <header class="ability-head">
+                    <span class="name">공격 지원 Aid Attack</span>
+                    <span class="badge action-cost maneuver"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">인접한 적 하나를 지목합니다. 내 다음 차례가 올 때까지, 지목한 아군이 대상에게 가하는 첫번째 <span class="tip roll ability"></span>에 <span class="tip rule edge"></span>을 줍니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="catch-breath">
+                <header class="ability-head">
+                    <span class="name">숨고르기 Catch Breath</span>
+                    <span class="badge action-cost maneuver"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect"><span class="tag resource recovery"></span> 하나를 소모하고, <span class="tip stat recovery"></span> 만큼 <span class="tag resource stamina"></span>을 회복합니다.</p>
+                    <p class="effect"><span class="tag condition dying"></span>에 빠지면 이 동작을 할 수 없지만, 다른 개체의 도움으로 회복력을 쓰기도 합니다.</p>
+                </div>
+            </article>
+            <article class="ability" id="escape-grab">
+                <header class="ability-head">
+                    <span class="name">붙들림 풀기 Escape Grab</span>
+                </header>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost maneuver"></span>
+                    </div>
+                    <span class="distance">자신</span>
+                    <span class="target">자신</span>
+                </div>
+                <div class="ability-body">
+                    <p class="pre-effect">다른 개체, 물체, 효과 등에 붙들린은 개체는 아래 능력으로 빠져나올 수 있습니다.</p>
+                    <div class="roll">
+                        <p class="power-roll stat">근력 또는 민첩</p>
+                        <ul class="tiers">
+                            <li class="outcome"><b>≤11</b>
+                                <span class="dmg">아무 효과 없습니다</span>
+                            </li>
+                            <li class="outcome"><b>12–16</b>
+                                <span class="dmg">붙들었던 적에게 근접 기본 타격을 허용하면 풀려날 수 있습니다.</span>
+                            </li>
+                            <li class="outcome"><b>17+</b>
+                                <span class="dmg">붙들림에서 풀려납니다.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span> 붙든 개체, 물체, 효과의 체격이 나보다 크다면, 이 판정에 <span class="tip rule bane"></span>을 받습니다.</p>
+                </div>
+            </article>
+            <article class="ability" id="grab">
+                <header class="ability-head">
+                    <span class="name">붙들기 Grab</span>
+                </header>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost maneuver"></span>
+                        <ul class="kw-list">
+                            <li class="kw melee"></li>
+                            <li class="kw weapon"></li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <p class="pre-effect">아래 능력으로 상대를 붙들어 근처에 묶어둘 수 있습니다.</p>
+                    <div class="roll">
+                        <p class="power-roll stat">근력</p>
+                        <ul class="tiers">
+                            <li class="outcome"><b>≤11</b>
+                                <span class="dmg">아무 효과 없습니다</span>
+                            </li>
+                            <li class="outcome"><b>12–16</b>
+                                <span class="dmg">상대에게 근접 기본 타격을 허용하면 붙들 수 있습니다.</span>
+                            </li>
+                            <li class="outcome"><b>17+</b>
+                                <span class="dmg">대상을 붙듭니다.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span> 체격이 같거나 나보다 작은 개체에게만 쓸 수 있습니다. 근력 점수가 2이상이면, 체격이 근력 점수 이하 개체에게 쓸 수 있습니다. 별도 설명이 없다면, 한 번에 한 개체만 붙들 수 있습니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="hide">
+                <header class="ability-head">
+                    <span class="name">숨기 Hide</span>
+                    <span class="badge action-cost maneuver"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect"><span class="tip rule cover"></span>나 <span class="tip rule concealment"></span>를 확보했을 때, 숨기 동작으로 지켜보고 있지 않은 개체에게 숨을 수 있습니다. 숨기와 잠행은 시도에서 다룹니다.</p>
+                </div>
+            </article>
+            <article class="ability" id="knockback">
+                <header class="ability-head">
+                    <span class="name">밀쳐내기 Knockback</span>
+                    <span class="badge action-cost maneuver"></span>
+                </header>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost maneuver"></span>
+                        <ul class="kw-list">
+                            <li class="kw melee"></li>
+                            <li class="kw weapon"></li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1</span>
+                    <span class="target">개체 1</span>
+                </div>
+                <div class="ability-body">
+                    <p class="pre-effect">인접한 개체를 먼 쪽으로 밀칠 수 있습니다.</p>
+                    <div class="roll">
+                        <p class="power-roll stat">근력</p>
+                        <ul class="tiers">
+                            <li class="outcome"><b>≤11</b>
+                                <span class="dmg">
+                                    <span class="tip effect push" data-val="1"></span>
+                                </span>
+                            </li>
+                            <li class="outcome"><b>12–16</b>
+                                <span class="dmg">
+                                    <span class="tip effect push" data-val="2"></span>
+                                </span>
+                            </li>
+                            <li class="outcome"><b>17+</b>
+                                <span class="dmg">
+                                    <span class="tip effect push" data-val="3"></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="effect"><span class="entry-name">효과</span> 체격이 같거나 나보다 작은 개체에게만 쓸 수 있습니다. 근력 점수가 2이상이면, 체격이 근력 점수 이하 개체에게 쓸 수 있습니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="make-or-assist-a-test">
+                <header class="ability-head">
+                    <span class="name">시도하기 또는 거들기</span>
+                    <span class="badge action-cost maneuver"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">전투 중에는 대다수 <span class="tip rule test"></span>를 <span class="tip action maneuver"></span>으로 합니다. 상자 찾는 지능 시도, 자물쇠를 따는 민첩 시도, 성문을 들어올리는 근력 시도 모두 <span class="tip action maneuver"></span>으로 합니다. 전투에서 <span class="tip rule test"></span>를 거드는 행위도 <span class="tip action maneuver"></span>입니다.</p>
+                    <p class="effect">복잡하거나 시간이 많이 드는 <span class="tip rule test"></span>는 <span class="tip action main"></span>이 필요할 수 있고, 전투에서 하기에 너무 길다면 아예 못할 수도 있습니다. 미라에 관한 지식을 떠올리는 지식 시도처럼 시간이 거의 들지 않는 <span class="tip rule test"></span>는 전투에서도 <span class="tip aciton free-manuever"></span>이 됩니다. 특정 시도를 동작으로 할 수 있는지 여부는 진행자가 최종 판단합니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="search-for-hidden-creatures">
+                <header class="ability-head">
+                    <span class="name">숨은 개체 찾기</span>
+                    <span class="badge actionc-cost maneuver"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">숨은 개체 찾기 동작으로 숨은 개체의 위치를 파악할 수 있습니다(시도의 숨기와 잠행 참조).</p>
+                </div>
+            </article>
+            <article class="feature" id="stand-up">
+                <header class="ability-head">
+                    <span class="name">일어서기</span>
+                    <span class="badge actionc-cost maneuver"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">일어서기 동작으로 <span class="tip condition prone"></span> 상태를 끝낼 수 있습니다. 인접한 개체가 허락한다면 일어서기 동작을 대신 써줘서 일으킬 수 있습니다.</p>
+                </div>
+            </article>
+            <article class="feature" id="use-consumable">
+                <header class="ability-head">
+                    <span class="name">소모품 쓰기</span>
+                    <span class="badge actionc-cost maneuver"></span>
+                </header>
+                <div class="ability-body">
+                    <p class="effect">설명에 따로 적혀있지 않다면, 물약같은 소모품 보물은 소모품 쓰기 동작으로 쓸 수 있습니다. 자신이 직접 써도 되고, 허락한다면 인접한 개체에게 써줄 수 있습니다. 보물의 소모품을 참고하세요.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <div class="cols">
+            <header>
+                <h2 id="free-strike-desc">기본 타격 Free Strike</h2>
+                <p>대다수는 자기 차례에 <span class="tip action main"></span>으로 <span class="tip rule free-strike"></span> 능력을 쓸 수는 있지만, 효율이 떨어지는 선택입니다. 대게는 다른 규칙에 의해서 기본 타격을 씁니다. 이동 후 근접 기본 타격을 하는 <span class="tip action main" term-en="charge">돌격</span> 주요 행동처럼, 보통은 다른 행동에 묶어서 쓰게 됩니다.</p>
+                <p>전술가의 Overwatch 능력처럼 다른 사람 차례에도 기본 타격을 하게 해주는 규칙과 능력도 있습니다. 마찬가지로, 모두가 틈새 공격 기본 타격을 쓸 수 있습니다.</p>
+            </header>
+            <article>
+                <h3 id="granted-abilties">사용 기회 부여 Granted Ability</h3>
+                <p>어떤 능력은 전술가의 Strike Now나 I'll Open and You'll Close처럼 다른 사람 차례에 주력 능력이나 영웅 능력을 쓰게 해주기도 합니다. 별도 설명이 없다면, 주력 능력이나 영웅 능력 대신 기본 타격을 써도 됩니다.</p>
+            </article>
+            <article>
+                <h3 id="opportunity-attack">틈새 공격 Opportunity Attack</h3>
+                <p>적과 인접할 때 <span class="tip rule shift"></span> 없이 스스로 인접하지 않은 칸으로 나간다면, 상대는 그 틈을 노려 <span class="tag action free-triggered"></span>으로 근접 기본 타격할 수 있습니다. 이를 틈새 공격이라고 부릅니다.</p>
+                <p>그 적을 향한 <span class="tip roll power"></span>에 <span class="tip rule bane2"></span>을 받는다면, 틈새 공격을 할 수 없습니다.</p>
+            </article>
+            <article>
+                <h3 id="standard-free-strike">일반 기본 타격</h3>
+                <p>모든 영웅은 두가지 일반 기본 타격을 쓸 수 있습니다. 어떤 직군은 기본 타격 추가로 제공하고, 무장은 기본 타격을 향상시켜줍니다.</p>
+                <p>근접 무기 기본 타격은 맨손이나 급조 무기를 쓰는 근접 타격입니다. 원거리 무기 기본 타격은 급조 무기를 쓰는 원거리 타격입니다. 급조 무기의 피해 유형은 사용하는 무기에 맞게 진행자가 정합니다. 가령, 불타는 횃불을 기본 타격에 쓴다면, 화염 피해를 줄겁니다.</p>
+            </article>
+            <article class="ability" id="melee-weapon-free-strike">
+                <header class="ability-head">
+                    <span class="name">근접 무기 기본 타격</span>
+                </header>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost main"></span>
+                        <ul class="kw-list">
+                            <li class="kw charge"></li>
+                            <li class="kw melee"></li>
+                            <li class="kw strike"></li>
+                            <li class="kw weapon"></li>
+                        </ul>
+                    </div>
+                    <span class="distance">근접 1</span>
+                    <span class="target">개체나 물체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">근력 또는 민첩</p>
+                        <ul class="tiers">
+                            <li class="outcome"><b>≤11</b>
+                                <span class="dmg damage" data-val="2 + 근력 또는 민첩"></span>
+                            </li>
+                            <li class="outcome"><b>12–16</b>
+                                <span class="dmg damage" data-val="5 + 근력 또는 민첩"></span>
+                            </li>
+                            <li class="outcome"><b>17+</b>
+                                <span class="dmg damage" data-val="7 + 근력 또는 민첩"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+            <article class="ability" id="ranged-weapon-free-strike">
+                <header class="ability-head">
+                    <span class="name">원거리 무기 기본 타격</span>
+                </header>
+                <div class="ability-meta">
+                    <div class="action-line">
+                        <span class="action-cost main"></span>
+                        <ul class="kw-list">
+                            <li class="kw melee"></li>
+                            <li class="kw strike"></li>
+                            <li class="kw weapon"></li>
+                        </ul>
+                    </div>
+                    <span class="distance">원거리 5</span>
+                    <span class="target">개체나 물체 1</span>
+                </div>
+                <div class="ability-body">
+                    <div class="roll">
+                        <p class="power-roll stat">근력 또는 민첩</p>
+                        <ul class="tiers">
+                            <li class="outcome"><b>≤11</b>
+                                <span class="dmg damage" data-val="2 + 근력 또는 민첩"></span>
+                            </li>
+                            <li class="outcome"><b>12–16</b>
+                                <span class="dmg damage" data-val="4 + 근력 또는 민첩"></span>
+                            </li>
+                            <li class="outcome"><b>17+</b>
+                                <span class="dmg damage" data-val="6 + 근력 또는 민첩"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <hr class="divider">
+        <div class="cols">
+            <article>
+                <h2 id="flanking">협공 Flanking</h2>
+                <p>인접한 적 하나를 가운데 두고 다른 아군과 마주본다면, 그 적을 협공하는 겁니다. 협공한 적에게 가하는 근접 타격에 <span class="tip rule edge"></span>을 받습니다.</p>
+                <p>적을 협공하는게 맞는지 알아보려면, 마주보는 아군과 내가 차지한 칸의 중앙끼리 잇는 선을 그립니다. 그 선이 적이 차지한 칸의 양쪽 변이나 모서리를 지난다면 협공이 맞습니다.</p>
+                <p>협공 혜택을 누리려면, 대상과 이어진 효과선이 확보되어야 하고, 양쪽 다 <span class="tip action triggered"></span>을 쓸 수 있어야 합니다.</p>
+            </article>
+            <article>
+                <h2 id="cover">엄폐 Cover</h2>
+                <p>개체나 물체에게 효과선이 확보되어 있으나, 나무, 벽, 엎어진 탁자 같은 단단한 물체가 절반 이상을 가린다면, 엄폐를 받습니다. 엄폐를 받는 개체나 물체에게 피해 주는 능력을 쓸 때, <span class="tip rule bane"></span>을 받습니다.</p>
+            </article>
+            <article>
+                <h2 id="concealment">은폐 Concealment</h2>
+                <p>어둠, 안개, 투명화 마법처럼 개체나 물체를 물리적으로 막아주진 못해도 온전히 볼 수 없게 만드는 효과는 은폐를 줍니다. 대상에게 효과선이 확보되어 있더라도, 제대로 볼 수 없다면 은폐가 적용됩니다. 숨지 않았다면, 은폐 받는 개체나 물체를 타격할 수 있습니다(시도의 숨기와 잠행 참조). 하지만, 은폐 받는 적을 타격할 때 <span class="tip rule bane"></span>을 받습니다.</p>
+            </article>
+            <article>
+                <h3>투명한 개체</h3>
+                <p>투명한 개체는 항상 <span class="tip rule concealment"></span>를 받습니다. 숨지 않았다면, 대상으로 지정하여 능력을 쓸 수 있습니다. 투명한 개체가 숨었다면, 찾는 시도에 <span class="tip rule bane"></span>을 줍니다.</p>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <header>
+            <h2 id="damage">피해 Damage</h2>
+            <p>타격, 광역 공격, 환경 효과, 위험 요소는 영웅과 적에게 피해를 주곤 합니다. 개체가 피해를 받으면, 그만큼 체력이 줄어듭니다.</p>
+        </header>
+        <article>
+            <h3 id="damage-type">피해 유형 Damage Type</h3>
+            <p>무기, 낙하, 함정, 거대한 발톱이 주는 피해는 연관된 유형이 없습니다. 창에 찔리든, 돌 바닥에 떨어지든, 복도에 매달린 도끼에 베이든, 미노타우르스 뿔에 받치든, 피해량이 같기 때문입니다.</p>
+            <p>하지만, 원소나 초자연 피해에 저항력이나 취악셩을 띤 개체가 있습니다. 따라서, 다음 피해는 반드시 유형을 명시합니다: <span class="tag type cold"></span>, <span class="tag type poison"></span>, <span class="tag type lightning"></span>, <span class="tag type corruption"></span>, <span class="tag type acid"></span>, <span class="tag type holy"></span>, <span class="tag type sonic"></span>, <span class="tag type psychic"></span>, <span class="tag type fire"></span>.</p>
+        </article>
+        <div class="cols">
+            <article>
+                <h4 id="damage-immunity">피해 저항 Damage Immunity</h4>
+                <p><span class="tip rule immunity"></span>이 있다면, 특정 공격과 효과로 받는 피해 일부나 전부를 무시합니다.</p>
+                <p>피해 유형에 한정된 <span class="tip rule immunity"></span>은 <span class="tag immunity">[피해 유형] 저항</span>으로 표기합니다. 보통은 <span class="tag immunity" data-val="5"></span>나 <span class="tag immunity lightning" data-val="5"></span>처럼 숫자를 적습니다. <span class="tip rule immunity"></span>을 갖춘 대상이 관련 피해를 받으면, 그 수치만큼 피해량을 줄입니다(최소 0피해). 저항 수치가 "전부"라면, 해당 피해를 완전히 무시합니다.</p>
+                <p>피해를 계산할 때 <span class="tip rule immunity"></span>을 가장 마지막에 적용합니다. 가령, <span class="tip immunity fire" data-val="5"></span>를 갖춘 개체가 <span class="tip damage fire" data-val="8"></span> 받는다면, 실제로 3점 피해를 받습니다. 그런데 아군이 피해를 절반으로 줄이는 발동 행동을 써줬다면, 먼저 피해를 4로 줄인 후에 저항이 적용되어 실제 피해가 0이 됩니다.</p>
+                <p>한 피해에 여러 피해 저항이 겹치면, 가장 높은 값만 적용합니다. 예를 들어, <span class="tip immunity" data-val="5"></span>와 <span class="tipg immunity fire" data-val="10"></span>을 같이 갖췄을 때, <span class="tip damage fire" data-val="12"></span>을 받는다면 10점을 줄입니다.</p>
+            </article>
+            <article>
+                <h4 id="damage-weakness">피해 취약 Damage Weakness</h4>
+                <p><span class="tip rule weakness"></span>은 해당 유형의 피해를 더 받는다는 점만 다르고, <span class="tip rule immunity"></span>과 비슷합니다. 가령, <span class="tag weakness fire" data-val="5"></span>를 가진 개체가 <span class="tag damage fire" data-val="10"></span>을 받는 다면, 대신 <span class="tag damage fire" data-val="15"></span>을 받습니다.</p>
+                <p>특정 유형이나 키워드 없이 그냥 <span class="tag weakness" data-val="X"></span>로 적혀 있다면, 유형과 관계없이 적힌 만큼 피해를 더 받습니다.</p>
+                <p>한 피해에 <span class="tip rule immunity"></span>과 <span class="tip rule weakness"></span>이 함께 적용된다면, <span class="tip rule weakness"></span>을 먼저 적용한 후 저항을 적용합니다.</p>
+                <p>한 피해에 여러 <span class="tip rule weakness"></span>이 적용된다면, 가장 높은 값만 적용합니다.</p>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <header>
+            <h2 id="stamina">체력 Stamina</h2>
+            <p>영웅의 생존력을 <span class="tag resource stamina"></span>으로 표현합니다. <span class="tip resource stamina"></span>은 개체의 활력과, 들어오는 공격, 주문, 폭력성을 피하고 견뎌내는 에너지를 아우른 개념입니다. 피해를 받을 때마다 피를 쏟아내는 건 아니지만, 점차 싸우는 힘이 떨어집니다. 화살을 피한다고 진땀 빼거나, 단검이 팔꿈치를 스쳐 불편한 통증이 남기도 합니다. 결국, 이런식으로 기력이 떨어지면서, 크게 다칠 수 있는 결정타에 노출될 수 있습니다.</p>
+            <p><span class="tip rule immunity"></span>처럼 받는 피해를 줄이는 효과를 모두 적용하고 남은 피해량 만큼 체력이 줄어듭니다. 어떤 효과는 최대 체력을 줄여, 회복되는 체력을 제한하기도 합니다.
+            </p>
+        </header>
+        <div class="cols">
+            <article>
+                <h3 id="recovery">회복력과 회복량 Recovery</h3>
+                <p><span class="tag resource recovery"></span>은 직군으로 정합니다. 회복력은 최대 체력의 1/3(나머지 버림)입니다. <span class="tag action maneuver catch-breath" term-en="Catch Breath">숨고르기</span> 동작을 쓰면, 회복력을 하나 소모하고, <span class="tip stat recovery"></span> 만큼 체력을 회복합니다. 비전투 상황에서는 남은 회복력을 얼마든지 쓸 수 있습니다. 어떤 능력, 물품 등은 회복력을 썼을 때 회복하는 양을 늘려주거나, 회복력 소모 없이 체력을 회복시켜줍니다.</p>
+            </article>
+            <article>
+                <h3 id="winded">탈진 Winded</h3>
+                <p>탈진값은 최대 체력의 절반입니다. 체력이 탈진값 이하로 떨어지면 탈진합니다. 탈진 그 자체로는 아무 효과가 없지만, 탈진 개체에게 영향을 미치는 종족, 직군, 물품, 칭호, 괴물 능력이 있습니다.</p>
+                <p>탈진 여부는 서로 알 수 있는 공개된 정보 입니다.</p>
+            </article>
+            <article>
+                <h3 id="dying">빈사와 죽음 Dying and Death</h3>
+                <p>체력이 0이하가 되면, <span class="tag condition dying"></span> 상태에 빠집니다. 빈사 상태라면 전투에서 <span class="tip action maneuver catch-breath" term-en="Catch Breath">숨고르기</span> 동작을 쓸 수 없습니다. 덧붙여 <span class="tag condition bleeding"></span>에도 걸리며, 이 상태는 빈사 상태가 풀릴 때까지 어떤 방법으로 해소할 수 없습니다. 빈사 상태에서도 행동을 계속할 수 있으며, 전투 중에는 아군에게 도움으로만 회복력을 쓸 수 있지만, 전투가 아닐 때는 그냥 쓸 수 있습니다.</p>
+                <p>체력이 음수로 탈진값까지 도달하면, 죽습니다. 죽고 나면, Scroll of Resurrection 같은 강력한 물품이 있어야 되살아날 수 있습니다.</p>
+            </article>
+            <article>
+                <h3>진행자가 조종하는 개체</h3>
+                <p>대다수 상황에서 진행자가 조종하는 개체는 체력이 0이 될 때 죽거나 파괴됩니다.</p>
+            </article>
+            <article>
+                <h4>회복력 없음</h4>
+                <p>진행자 조종 개체는 회복력과 회복량이 없습니다. 그래서, 특수 물품이나 수치 블록에 적힌 능력을 통해서만 체력을 회복합니다. 다만, 영웅이 부상당한 NPC에게 회복력을 쓰게 하거나 회복량 만큼 체력을 채워주는 능력을 쓰기도 할 겁니다. 그 경우, 진행자 조종 개체는 최대 체력의 1/3만큼 체력을 회복합니다.</p>
+            </article>
+            <article>
+                <h3 id="knocking-creature-out">기절시키기 Knocking Creatures Out</h3>
+                <p>개체를 죽일만한 능력으로 피해를 줄 때, 원한다면 죽이지 않고 기절시켜도 됩니다. 이 방식으로 의식을 잃은 개체라도 피해를 더 받으면, 죽습니다.</p>
+                <p>진행자 조종 개체라면 아무도 꺠우지 않았을 때 1시간 동안 의식을 잃습니다. 1시간 뒤에 체력을 1점 회복하고, 의식도 되찾습니다.</p>
+                <p>영웅도 아무도 꺠우지 않으면 1시간 동안 의식을 잃습니다. 1시간 후에, 회복력을 쓸 수 있고, 의식을 찾을 수 있습니다. 하지만, 남은 회복력이 없다면, 휴식을 마칠 때까지 깨어나지 못합니다.</p>
+            </article>
+            <article>
+                <h4 id="unconscious">의식불명 Unconscious</h4>
+                <p>의식이 없다면 <span class="tip action main"></span>, <span class="tip action maneuver"></span>, <span class="tip action triggered"></span>, <span class="tip action free-triggered"></span>, <span class="tip action free-maneuver"></span> 전부 못하고, <span class="tip stat speed"></span> 0이며, 주변을 인지할 수 없고, 넘어져 있습니다. 의식불명인 개체에게 가하는 <span class="tip roll ability"></span>에는 <span class="tip rule edge2"></span>을 받습니다. 의식이 깨어나면, <span class="tag action free-maneuver"></span>으로 일어설 수 있습니다.</p>
+            </article>
+            <article>
+                <h3 id="temporary-stamina">임시 체력 Temporary Stamina</h3>
+                <p>개체가 능력, 보물, 기타 효과로 <span class="tip resource temp-stamina"></span>을 얻기도 합니다. 임시 체력은 <span class="tip stat recovery"></span>이나 <span class="tip stat winded"></span> 계산에 포함되지 않습니다. 탈진이나 빈사 상태이거나 죽은 개체에게 임시 체력을 주더라도 아무 효과가 없습니다.</p>
+                <p>피해를 받으면 임시 체력이 먼저 깎이고, 남은 피해가 체력에 적용됩니다. 가령, 임시 체력이 10점일 때 16점 피해를 받으면, 임시 체력을 전부 잃고 체력은 6점만 줄어듭니다.</p>
+                <p>임시 체력에는 상한선이 없습니다. 체력 회복은 임시 체력을 채워주지 못합니다. 임시 체력을 가진 채로 임시 체력을 또 얻게 된다면, 더하지 않고 둘 가운데 높은 값이 됩니다. 가령, 임시 체력이 5점 있을 때 추가로 10점을 얻게 된다면, 15점이 아니라 10점이 되는 겁니다.</p>
+                <p>별도 설명이 없다면, 조우가 끝날 때 임시 체력도 사라집니다.</p>
+            </article>
+            <article>
+                <h3 id="object-stamina">물체 체력 Object Stamina</h3>
+                <p>비마법 물체는 구성하는 재질로 체력을 정합니다. 물체는 체력이 0까지 떨어졌을 때 파괴됩니다. 보통은 <span class="tag immunity poison" data-val="전부"></span>과 <span class="tag immunity psychic" data-val="전부"></span>이지만, 식물처럼 살아 있는 물체라면 진행자 재량으로 저항을 없앨 수 있습니다. 흔한 재질로 만들었고, 체격이 1이거나 1칸의 체력은:</p>
+                <ul>
+                    <li><span class="tag trait" term-en="Glass">유리제</span> 1</li>
+                    <li><span class="tag trait" term-en="Wood">목제</span> 3</li>
+                    <li><span class="tag trait" term-en="Stone">석제</span> 6</li>
+                    <li><span class="tag trait" term-en="Metal">금속제</span> 9</li>
+                </ul>
+                <p>진행자는 품질에 따라 체력을 높이거나 낮춰도 됩니다. 초자연적 물체는 마법 반지를 버려낸 화산에 다시 던져 넣는 식의 특별한 임무를 수행해야 파괴할 수 있습니다.</p>
+            </article>
+        </div>
+    </section>
+    <section class="page">
+        <header>
+            <h2>특수 전투</h2>
+        </header>
+        <div class="cols">
+            <article>
+                <h3 id="underwater-combat">수중전 Underwater Combat</h3>
+                <p>개체가 물 속에 완전히 잠기면, <span class="tag immunity fire" data-val="5"></span>와 <span class="tag weakness lightning" data-val="5"></span>를 받습니다. 원래 속력으로 판정 없이 헤엄칠 수 없다면, <span class="tip roll power"></span>에 <span class="tip rule bane"></span>을 받습니다.</p>
+            </article>
+            <article>
+                <h3 id="suffocating">질식 Suffocating</h3>
+                <p>전투 등 긴박한 상황에서는 <span class="tip stat might"></span> 점수 전투 라운드 만큼 숨을 참을 수 있습니다(최소 1라운드). 그 후에는 전투 라운드가 끝날 때마다 <span class="tag damage" data-val="1d6"></span>를 받습니다.</p>
+                <p>비전투 상황에서는 근력 점수 분만큼 숨을 참을 수 있습니다. 그 뒤로는 긴박한 상황으로 간주하여, 똑같이 피해를 받습니다.</p>
+            </article>
+            <article>
+                <h3 id="mounted-combat">탑승전 Mounted Combat</h3>
+                <p>체격이 더 크고, 탈 것 역할이며, 태우겠다고 허락한 개체만 탈 것으로 이용할 수 있습니다. 탈 것은 자유롭게 올라탈 수 있습니다(다른 개체 올라타기 참조). 어느 공간을 차지할지 선택합니다. 탑승하면, <span class="tip action move ride" term-en="Ride">몰기</span> 이동 행동을 할 수 있으나, 라운드 마다 한 번씩만 적용됩니다. 탈 것과 기수의 차례는 각자 따로 받습니다.</p>
+                <p>탈 것에 올라탄 개체가 강제 이동당하면, 탈 것에서 튕겨나가 시도로 착지 방식을 정합니다(올라타기 참조). 탈 것이 강제 이동당하면, 기수를 데리고 이동합니다. 순간 이동은 각자 따로 따집니다.</p>
+                <p>탈 것이 죽으면, 탈 것 위에서 낙하하여 가장 가까운 빈 공간을 선택하여 넘어진채 착지합니다.</p>
             </article>
         </div>
     </section>

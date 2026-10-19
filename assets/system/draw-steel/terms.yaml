@@ -135,6 +135,9 @@ rule:
   immunity:
     en: Damage Immunity
     ko: 저항
+  immunity-all:
+    en: Damage Immunity All
+    ko: 면역
   weakness:
     en: Damage Weakness
     ko: 취약
@@ -165,8 +168,9 @@ rule:
   fly:
     en: Fly
     ko: 비행
-
-
+  free-strike:
+    en: Free Strike
+    ko: 기본 타격
 
 stat:
   might:
@@ -223,6 +227,9 @@ resource:
   hero-token:
     en: Hero Token
     ko: 영웅패
+  temp-stamina:
+    en: Temporary Stamina
+    ko: 임시 체력
 
 roll:
   ability:
@@ -271,6 +278,15 @@ action:
   negotiation:
     en: Negotiation
     ko: 협상
+  advance:
+    en: Advance
+    ko: 전진
+  disengage:
+    en: Disengage
+    ko: 비켜나기
+  ride:
+    en: Ride
+    ko: 몰기
 
 effect:
   push:
