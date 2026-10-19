@@ -1161,13 +1161,10 @@ table.advancement-table .feat-tag {
     );
 }
 
-
-
-
 /* ========================================================
    위력 전용 커스텀 태그 (<potency>)
 ======================================================== */
-.potency {
+.potency:not(.tip):not(.tag) {
     display: inline-flex;
     align-items: center;
     gap: 0.3em;
@@ -1188,12 +1185,11 @@ table.advancement-table .feat-tag {
 }
 
 /* 판정 티어표(.tiers) 내부 상속 및 베이스라인 정렬 */
-.tiers .potency {
+.tiers .potency:not(.tip):not(.tag) {
     font-size: 0.88em;
     margin: 0 0.25em;
     vertical-align: baseline;
 }
-
 /* 1. 능력치 명칭 */
 .potency .stat {
     font-weight: 800;

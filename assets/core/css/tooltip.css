@@ -192,16 +192,94 @@
     padding: var(--tag-pad);
 }
 
+/* 판정 태그 */
+.tag.roll {
+    --roll-tip: 0.55em;   /* 왼쪽 안으로 파이는 ">" 깊이 (.tag.action의 .6em과 호환) */
+    --roll-border: 2px;   /* 테두리 두께 */
+    --roll-color: var(--tag-bg, var(--tip-color, var(--neutral-800)));
+
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.15em;
+    /* 왼쪽 파인 깊이(--roll-tip)만큼 좌측 여백 확보 */
+    padding: 0.05em 0.55em 0.05em calc(var(--roll-tip) + 0.45em);
+    background: transparent !important;
+    color: var(--roll-color) !important;
+    font-family: var(--font-ui), sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 1.35;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+
+/* 외곽선 레이어 (::before) - terms.yaml / tooltip.js 색상 */
+.tag.roll::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--roll-color);
+    clip-path: polygon(
+            0 0,
+            100% 0,
+            100% 100%,
+            0 100%,
+            var(--roll-tip) 50%
+    );
+}
+
+/* 내부 흰색 배경 레이어 (::after) - 테두리 두께만큼 안쪽에 생성 */
+.tag.roll::after {
+    content: "";
+    position: absolute;
+    inset: var(--roll-border);
+    z-index: -1;
+    background: #ffffff;
+    clip-path: polygon(
+            0 0,
+            100% 0,
+            100% 100%,
+            0 100%,
+            var(--roll-tip) 50%
+    );
+}
+
+/* 능력치 태그 */
+.tag.stat {
+    --tag-clip: none;
+    padding: 0.05em 0.5em;
+    margin: 0 0.15em;
+}
+
+.tag.stat::before {
+    clip-path: none;
+    border-radius: 3px; /* 모서리만 살짝 둥글게 처리 */
+}
+
 .tag.resource {
+    --res-slope: 3px; /* ★ 좌우 경사 폭 (작을수록 수직에 가까움: 2px~4px 권장) */
+
+    /* ※ 만약 '위쪽이 좁아지는 사다리꼴'을 원하시면 아래 주석을 해제해 쓰세요: */
+    --tag-clip: polygon(
+        var(--res-slope) 0,
+        calc(100% - var(--res-slope)) 0,
+        100% 100%,
+        0 100%
+    );
+
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
     position: relative;
     isolation: isolate;
-    margin: 0 0.2em;
-    padding: 0.1em 0.7em;
-    min-width: 3em; /* 빈 칸이어도 JS로 채워질 때까지 가로 폭 유지 */
-    background: var(--tag-bg, var(--neutral-600)) !important;
+    margin: 0 0.15em;
+    padding: 0.05em 0.55em;
+    background: transparent !important;
     color: #fff;
     font-family: var(--font-ui), sans-serif;
     font-size: 1em;
@@ -210,15 +288,15 @@
     line-height: 1.25;
     vertical-align: baseline;
     white-space: nowrap;
-
-    /* ★ 핵심: 뾰족한 클립패스 대신 부드러운 원통(알약) 모양 라운드 처리 */
-    border-radius: 999px;
-    border: none;
 }
 
-/* 기존 ::before 레이어가 충돌하지 않도록 제거 또는 초기화 */
 .tag.resource::before {
-    display: none !important;
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--tag-bg, var(--neutral-600));
+    clip-path: var(--tag-clip);
 }
 
 /* --------------------------------------------------------
