@@ -30,7 +30,8 @@ const TOOLTIP_CONFIG = {
         effect: "효과",
         area: "범위",
         item: "아이템",
-        lore: "설정"
+        lore: "설정",
+        creature: "개체",
     },
 
     // 순수 시스템 예약어
@@ -597,9 +598,19 @@ class TooltipEngine {
                 parentKey = remaining[0];
                 key = remaining[1];
             } else if (remaining.length === 1) {
-                key = remaining[0];
+                const single = remaining[0];
+                // subTypes 에 등록되지 않은 단독 클래스(예: "tip creature")일 때:
+                if (!subType && !this.findTerm(null, single)) {
+                    subType = single;
+                    const rawAttr = target.getAttribute("term-en") || target.getAttribute("id") || "";
+                    // ★ 공백이 있는 영문명("Shambling Mound" 등)을 안전한 키("shambling-mound")로 변환
+                    key = rawAttr.trim().toLowerCase().replace(/\s+/g, "-");
+                } else {
+                    key = single;
+                }
             } else {
-                key = target.getAttribute("term-en") || target.getAttribute("id") || "";
+                const rawAttr = target.getAttribute("term-en") || target.getAttribute("id") || "";
+                key = rawAttr.trim().toLowerCase().replace(/\s+/g, "-");
             }
         }
 
@@ -668,8 +679,12 @@ class TooltipEngine {
         this.el.className = "";
         this.el.classList.add(`tt-${data.outputMethod}`);
         if (data.subType) this.el.classList.add(`tt-${data.subType}`);
-        if (data.parentKey) this.el.classList.add(data.parentKey);
-        if (data.key) this.el.classList.add(data.key);
+        if (data.parentKey) {
+            this.el.classList.add(data.parentKey.trim().toLowerCase().replace(/\s+/g, "-"));
+        }
+        if (data.key) {
+            this.el.classList.add(data.key.trim().toLowerCase().replace(/\s+/g, "-"));
+        }
 
         const computedStyle = window.getComputedStyle(target);
         const tipColor = computedStyle.getPropertyValue("--tip-color").trim();
