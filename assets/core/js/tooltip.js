@@ -54,8 +54,7 @@ class TooltipEngine {
     getSvgIconHtml(svgKey) {
         if (!svgKey) return "";
         const svgPath = `${TOOLTIP_CONFIG.svgBasePath}${svgKey}${TOOLTIP_CONFIG.svgExt}`;
-        // 파일이 없을 경우 공백을 남기지 않도록 onerror 시 요소를 숨기는 inline 스크립트 장치 추가
-        return `<span class="svg-mask-icon" style="--svg-url: url('${svgPath}')" onerror="this.style.display='none'; this.style.margin=0;"></span>`;
+        return `<span class="svg-mask-icon" style="--svg-url: url('${svgPath}')"></span>`;
     }
 
     createTooltipElement() {
@@ -94,12 +93,10 @@ class TooltipEngine {
     findTerm(category, key) {
         if (!this.termsData || !key) return null;
 
-        // 1. 지정된 카테고리 내부에서 탐색
         if (category && this.termsData[category] && this.termsData[category][key]) {
             return this.termsData[category][key];
         }
 
-        // 2. 전체 카테고리 순회 탐색
         for (const cat in this.termsData) {
             if (this.termsData[cat] && this.termsData[cat][key]) {
                 return this.termsData[cat][key];
@@ -108,7 +105,6 @@ class TooltipEngine {
         return null;
     }
 
-    // ★ YAML에서 정의된 피해 속성 목록 동적 추출
     getDamageTypes() {
         if (this.termsData && this.termsData.damage) {
             return Object.keys(this.termsData.damage);
@@ -136,8 +132,8 @@ class TooltipEngine {
 
             const yamlText = await res.text();
 
-            if (typeof window.jsyaml !== "undefined") {
-                this.termsData = window.jsyaml.load(yamlText);
+            if (typeof window["jsyaml"] !== "undefined") {
+                this.termsData = window["jsyaml"].load(yamlText);
                 console.log(`[Tooltip] '${ruleName}.yaml' 로드 성공`);
 
                 this.renderDmgTags();
@@ -159,7 +155,6 @@ class TooltipEngine {
         this.bindEvents();
     }
 
-    // ★ .dmg 컨테이너의 속성/수치를 감지하여 내부에 .tag 요소를 자동 생성
     renderDmgTags() {
         const dmgContainers = document.querySelectorAll(".dmg");
         const damageTypes = this.getDamageTypes();
@@ -167,7 +162,6 @@ class TooltipEngine {
         dmgContainers.forEach(el => {
             if (el.dataset.dmgRendered === "true") return;
 
-            // 본문 텍스트 내 "중 하나" 자동 제거
             el.childNodes.forEach(node => {
                 if (node.nodeType === Node.TEXT_NODE && node.nodeValue.includes("중 하나")) {
                     node.nodeValue = node.nodeValue.replace(/\s*중\s*하나/g, "");
@@ -194,7 +188,6 @@ class TooltipEngine {
                     tagEl.classList.add("type");
                 }
 
-                // 속성이 지정되지 않았을 때의 기본값
                 if (!matchedType) {
                     matchedType = "untype";
                     tagEl.dataset.defaultUntype = "true";
@@ -214,7 +207,6 @@ class TooltipEngine {
         });
     }
 
-    // ★ 빈 span 태그를 YAML 데이터 기반으로 자동 채우는 함수
     renderEmptyTags() {
         if (!this.termsData) return;
 
@@ -239,19 +231,17 @@ class TooltipEngine {
             const data = this.resolveData(el);
 
             if (data.ko) {
-                const isTag = el.classList.contains("tag"); // ★ 실제 .tag 인지 여부 판별
+                const isTag = el.classList.contains("tag");
                 const isImmunity = el.classList.contains("immunity") || data.key === "immunity";
                 const isWeakness = el.classList.contains("weakness") || data.key === "weakness";
                 const isImmunityOrWeakness = isImmunity || isWeakness;
 
                 const isDamage = (el.classList.contains("damage") || el.classList.contains("type") || data.subType === "damage") && !isImmunityOrWeakness;
-                // ★ 수정: .tip 이 아닌 실제 .tag 일 때만 isDamageTag 로 인정
                 const isDamageTag = isTag && isDamage;
 
                 let displayText = data.ko.replace(/\s*중\s*하나/g, "").trim();
                 let enDisplayText = (data.en || displayText).replace(/\s*or\s*one/gi, "").trim();
 
-                // 면역 및 취약 텍스트/색상 조립
                 if (isImmunityOrWeakness) {
                     const specificType = damageTypes.find(t => t !== "untype" && el.classList.contains(t));
                     const ruleKey = isImmunity ? "immunity" : "weakness";
@@ -295,7 +285,6 @@ class TooltipEngine {
                     }
                 }
 
-                // 색상 변수 주입
                 if (data.color) {
                     el.style.setProperty("--tag-bg", data.color);
                     el.style.setProperty("--tip-color", data.color);
@@ -303,11 +292,8 @@ class TooltipEngine {
                 }
 
                 const isLongVal = el.classList.contains("wrap") || val.length >= 10 || val.includes(",");
-
-                // tag로 묶인 damage, immunity, weakness 여부 판별
                 const isExcludedTag = isDamageTag || (isTag && isImmunityOrWeakness);
 
-                // ★ 3번: .tag + damage + val (분할 육각형 배지)
                 if (isDamageTag && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
@@ -318,7 +304,6 @@ class TooltipEngine {
                     delete el.dataset.baseKo;
                     delete el.dataset.baseEn;
                 }
-                // ★ 4번: .tag + (immunity / weakness) + val (분할 육각형 배지)
                 else if (isTag && isImmunityOrWeakness && val) {
                     el.classList.add("has-split-val");
                     if (isLongVal) el.classList.add("is-long");
@@ -329,7 +314,6 @@ class TooltipEngine {
                     delete el.dataset.baseKo;
                     delete el.dataset.baseEn;
                 }
-                // ★ 수치 없는 단일 .tag (tag damage, tag immunity, tag weakness)
                 else if (isExcludedTag) {
                     el.textContent = displayText;
 
@@ -337,9 +321,7 @@ class TooltipEngine {
                     delete el.dataset.baseKo;
                     delete el.dataset.baseEn;
                 }
-                // ★ 그 외 일반 수치 표기 및 모든 .tip (tip damage, tip immunity 등 포함)
                 else {
-                    // tip damage + val 인 경우 "5 화염 피해" 순서로 조립, 그 외는 "밀치기 3" / "화염 저항 5" 순서
                     const finalKo = val
                         ? (isDamage ? `${val}\u00A0${displayText}` : `${displayText}\u00A0${val}`)
                         : displayText;
@@ -352,7 +334,6 @@ class TooltipEngine {
 
                     if (val) el.classList.add("has-val");
 
-                    // data.svgKey 가 존재할 때 .tag / .tip 설정에 따라 SVG 표시
                     const showSvg = Boolean(
                         data.svgKey && (
                             (isTag && TOOLTIP_CONFIG.showSvgInTag) ||
@@ -392,7 +373,6 @@ class TooltipEngine {
         });
     }
 
-    // ★ <potency> 태그 자동 조립 (terms.yaml의 stat / rule 데이터 연동)
     renderPotencyTags() {
         if (!this.termsData) return;
 
@@ -468,7 +448,6 @@ class TooltipEngine {
             el.dataset.baseKo = `${koNames.join(", ")} < ${gradeInfo.ko}`;
             el.dataset.baseEn = `${enNames.join(", ")} < ${gradeInfo.en}`;
 
-            // potency 뒤쪽 상태이상 태그와 문구를 흰색 박스로 래핑
             const col = el.closest(".potency-col, .potency-wrap");
             if (col && !col.querySelector(".potency-box")) {
                 const box = document.createElement("div");
@@ -486,7 +465,6 @@ class TooltipEngine {
     }
 
     bindEvents() {
-        // outputMethods 에 정의된 클래스들을 기반으로 선택자 자동 구성
         const methodSelectors = TOOLTIP_CONFIG.outputMethods.map(m => `.${m}`).join(", ");
         const selector = `${methodSelectors}, .trait, h1[term-en], h2[term-en], h3[term-en], h4[term-en], .feat-tag, [term-en], [tool-tip], [tag-text]`;
 
@@ -533,27 +511,24 @@ class TooltipEngine {
 
     resolveData(target) {
         const classList = Array.from(target.classList);
-        let outputMethod = "generic";
-        let subType = "";
+        let outputMethod = "tag"; // 불필요한 이니셜라이저 경고 방지 기본값
 
-        // 1. 출력 형태 (outputMethod) 식별
         for (const method of TOOLTIP_CONFIG.outputMethods) {
             if (classList.includes(method)) {
                 outputMethod = method;
                 break;
             }
         }
+        let subType = "";
         if (outputMethod === "action-cost") subType = "action";
         if (outputMethod === "kw") subType = "kw";
 
-        // 2. 예약어(outputMethods + systemReserved) 자동 병합 후 커스텀 클래스 추출
         const reservedSet = new Set([
             ...TOOLTIP_CONFIG.outputMethods,
             ...TOOLTIP_CONFIG.systemReserved
         ]);
         const customClasses = classList.filter(c => !reservedSet.has(c) && !c.startsWith("tt-"));
 
-        // 3. 서브타입(subType) 및 키워드(parentKey, key) 추출
         const subTypeKeys = Object.keys(TOOLTIP_CONFIG.subTypes);
         const damageTypes = this.getDamageTypes();
         const foundType = customClasses.find(c => damageTypes.includes(c));
@@ -562,10 +537,9 @@ class TooltipEngine {
         const isWeakness = classList.includes("weakness") || target.getAttribute("term-en") === "weakness";
         const isImmunityOrWeakness = isImmunity || isWeakness;
 
-        let key = "";
+        let key;
         let parentKey = "";
 
-        // ★ 면역/취약 및 피해 타입 최우선 감지
         if (isImmunityOrWeakness) {
             if (foundType && foundType !== "untype") {
                 subType = "damage";
@@ -583,27 +557,31 @@ class TooltipEngine {
             target.dataset.defaultUntype = "true";
             target.classList.add("untype");
         } else {
-            // ★ customClasses 중 subTypes 에 등록된 클래스가 있는지 확인
             const explicitSubType = customClasses.find(c => subTypeKeys.includes(c));
             if (explicitSubType) {
                 subType = explicitSubType;
             }
 
-            // subType 으로 쓰인 클래스를 제외한 나머지 순수 키워드 목록 추출
-            // (예: "tag action move advance" -> subType: "action", remaining: ["move", "advance"])
-            // (예: "tag trait" -> subType: "trait", remaining: [])
             const remaining = customClasses.filter(c => c !== subType);
 
             if (remaining.length >= 2) {
-                parentKey = remaining[0];
-                key = remaining[1];
+                if (!subType) {
+                    subType = remaining[0];
+                    if (remaining.length >= 3) {
+                        parentKey = remaining[1];
+                        key = remaining[2];
+                    } else {
+                        key = remaining[1];
+                    }
+                } else {
+                    parentKey = remaining[0];
+                    key = remaining[1];
+                }
             } else if (remaining.length === 1) {
                 const single = remaining[0];
-                // subTypes 에 등록되지 않은 단독 클래스(예: "tip creature")일 때:
                 if (!subType && !this.findTerm(null, single)) {
                     subType = single;
                     const rawAttr = target.getAttribute("term-en") || target.getAttribute("id") || "";
-                    // ★ 공백이 있는 영문명("Shambling Mound" 등)을 안전한 키("shambling-mound")로 변환
                     key = rawAttr.trim().toLowerCase().replace(/\s+/g, "-");
                 } else {
                     key = single;
@@ -614,7 +592,6 @@ class TooltipEngine {
             }
         }
 
-        // 4. terms.yaml에서 상위 항목(parentItem) 및 대상 항목(item) 조회
         let parentItem = null;
         if (parentKey) {
             parentItem = this.findTerm(subType, parentKey) || this.findTerm(null, parentKey);
@@ -645,19 +622,17 @@ class TooltipEngine {
             color = `var(--color-${subType}, var(--neutral-600))`;
         }
 
-        // 속성 없는 면역/취약 또는 untype일 때 기본 untype 색상 적용
         if (key === "untype" || (isImmunityOrWeakness && !foundType)) {
             const untypeTerm = this.findTerm("damage", "untype");
             color = (untypeTerm && untypeTerm.color) ? untypeTerm.color : "var(--color-untype, #57534e)";
         }
 
-        // 5. 뱃지 문구 결정 (TOOLTIP_CONFIG.subTypes 연동)
         const badgeMap = TOOLTIP_CONFIG.subTypes;
+        const fallbackBadge = subType || key || outputMethod;
         const badgeText = (parentItem && parentItem.ko)
             ? parentItem.ko
-            : (badgeMap[subType] || badgeMap[outputMethod] || (subType ? subType.toUpperCase() : outputMethod.toUpperCase()));
+            : (badgeMap[subType] || badgeMap[key] || badgeMap[outputMethod] || fallbackBadge.toUpperCase());
 
-        // 6. SVG 파일명 결정
         let svgKey = "";
         if (parentKey) {
             svgKey = parentKey;
@@ -705,26 +680,22 @@ class TooltipEngine {
         const titleEl = this.el.querySelector(".tt-title");
         const descEl = this.el.querySelector(".tt-desc");
 
-        // ★ svgKey에 따른 툴팁 전면 SVG 아이콘 출력 (파일 존재 여부 확인 후 적용)
         if (iconEl) {
             if (TOOLTIP_CONFIG.showSvgInTooltip && data.svgKey) {
                 const svgPath = `${TOOLTIP_CONFIG.svgBasePath}${data.svgKey}${TOOLTIP_CONFIG.svgExt}`;
 
-                // 일단 숨겨두고 이미지 로드 성공 시에만 표시
                 iconEl.style.display = "none";
                 iconEl.style.removeProperty("--svg-url");
 
                 const imgTest = new Image();
                 imgTest.src = svgPath;
                 imgTest.onload = () => {
-                    // 현재 열려있는 툴팁의 대상이 여전히 이 아이콘을 요구할 때만 표시
                     if (this.activeTarget === target) {
                         iconEl.style.setProperty("--svg-url", `url('${svgPath}')`);
                         iconEl.style.display = "inline-block";
                     }
                 };
                 imgTest.onerror = () => {
-                    // 파일이 없으면 숨김 유지 (공백 제거)
                     if (this.activeTarget === target) {
                         iconEl.style.display = "none";
                         iconEl.style.removeProperty("--svg-url");
