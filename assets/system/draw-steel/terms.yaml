@@ -230,6 +230,9 @@ resource:
   temp-stamina:
     en: Temporary Stamina
     ko: 임시 체력
+  malice:
+    en: Malice
+    ko: 살기
 
 roll:
   ability:
@@ -252,6 +255,18 @@ test:
   might:
     en: Might Test
     ko: 근력 시도
+  agility:
+    en: Agility Test
+    ko: 민첩 시도
+  reason:
+    en: Reason Test
+    ko: 지능 시도
+  intuition:
+    en: Intuition Test
+    ko: 직관 시도
+  presence:
+    en: Presence Test
+    ko: 매력 시도
 
 action:
   triggered:

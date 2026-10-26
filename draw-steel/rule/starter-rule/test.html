@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draw Steel - Ancestry</title>
+    <title>Draw Steel - Test</title>
     <!-- 공용 스타일 -->
     <link rel="stylesheet" href="../../../assets/core/css/common_book.css">
     <link rel="stylesheet" href="../../../assets/core/css/pager.css">
@@ -48,7 +48,7 @@
                     <h2>시도 진행 방법</h2>
                     <p>시도는 아래 순서로 진행합니다:</p>
                     <p>진행자가 영웅이 하는 활동에 시도가 필요하다 판단하면, 적합한 능력치(아래 능력치와 시도 참조)로 위력 판정을 시킵니다. 위력 판정의 난이도는 진행자가 공개하거나 비밀리에 정합니다(아래 시도 난이도 참조).</p>
-                    <p>해당 참가자가 위력 판정 합니다. 참가자가 보기에 시도에 걸맞는 <span class="tip tip-rule" tool-tip="skill">기술 skill</span>이 있다면, 그 기술과 정당성을 진행자에게 설명합니다. 진행자가 기술 적용에 동의하면, 굴림에 +2 보너스를 받습니다.</p>
+                    <p>해당 참가자가 위력 판정 합니다. 참가자가 보기에 시도에 걸맞는 <span class="tip skill">기술</span>이 있다면, 그 기술과 정당성을 진행자에게 설명합니다. 진행자가 기술 적용에 동의하면, 굴림에 +2 보너스를 받습니다.</p>
                     <p>참가자가 판정값을 얘기하면, 진행자가 성패 결과를 해석해줍니다.</p>
                 </article>
                 <article>
@@ -316,6 +316,473 @@
                     <h4>선택 규칙: 비밀 대응 시도</h4>
                     <p>어떤 진행자는 참가자 대신 본인이 직접 대응 시도를 굴리는 쪽을 좋아합니다. 이러면, 감춰진 물체, 개체, 동기, 정보가 존재한다는 사실조차 참가자에게 알려주지 않고도 판정할 수 있습니다. 대신 굴리는 쪽이 좋다면, 영웅의 능력치와 기술을 쉽게 찾아볼 수 있도록 따로 기록해주세요.</p>
                 </blockquote>
+            </div>
+        </section>
+        <section class="page">
+            <header>
+                <h2 id="skill">기술 Skill</h2>
+                <p>공격 및 방어, 종족과 직군 특성, 장비 사용을 제외하고, 캐릭터가 익힌 전문분야를 기술로 표현합니다. 시도할 때 연관 기술을 배웠다면 성공 가능성이 높아집니다.</p>
+            </header>
+            <div class="cols">
+                <article>
+                    <h3>기술 적용하기</h3>
+                    <p>기술을 적용하면, 그 시도에 +2 보너스를 받습니다. 예를 들어 <span class="tip skill hide" term-en="Hide">숨기</span> 기술을 배웠다면, 자신을 숨기는 시도에 +2 보너스를 받는 겁니다. 나무통 뒤에 숨는 민첩 시도나 군중 속에 녹아드는 매력 시도가 여기에 해당될 수 있습니다.</p>
+                    <p>기술로 받는 +2 보너스는 유리함과 다릅니다. 시도할 때 기술로 +2, 유리함 +2를 함께 받을 수 있습니다.</p>
+                    <p>단, 시도마다 기술은 하나만 적용됩니다.</p>
+                </article>
+                <article>
+                    <h4>기술 소명하기</h4>
+                    <p>영웅이 어떤 기술을 가졌는지, 기술이 어떤 일에 쓰일 수 있는지 일일이 다 파악할 필요는 없습니다. 그 대신 진행자가 시도 쓸 능력치만 정해주면, 참가자가 적용할만한 기술을 진행자에게 이야기하면 됩니다. 진행자가 판단하기에 적합한지 애매하다면, 참가자에게 해당 기술의 적합성을 소명할 기회를 줍니다. 이유를 듣고 나서 진행자가 +2 보너스를 줄지 결정합니다. 동의하지 않는다면, 그게 곧 최종 결정입니다.</p>
+                    <p>합리적인 선에서 창의력을 발휘한다면, 기술을 알차게 쓸 수 있습니다. 가령, 연회에서 매력 시도로 귀족의 눈길을 끌 때는 <span class="tip skill brag" term-en="Brag">자랑</span> 기술을 쓰는게 보통입니다. 하지만 그 기술이 없다면요? <span class="tip skill magic" term-en="Magic">마법</span> 기술을 사용해, 원소의 본질을 설명하는 짧은 이야기로 눈길을 끌어볼 수도 있을겁니다.</p>
+                    <p>시도에 딱 맞는 기술을 매번 갖추진 못할겁니다. 그래도 괜찮습니다! 능력치 점수만 충분하다면면, 기술이 없더라도 성공 확률이 낮지 않습니다.</p>
+                </article>
+                <article>
+                    <h4>능력치와 기술 조합</h4>
+                    <p>거의 특정 능력치랑만 짝을 이루는 기술도 있지만, 타당하다면 어떤 능력치를 쓰는 시도라도 적용할 수 있습니다. 적합한 능력치는 진행자가 최종 결정하며, 같은 일이라도 상황에 따라 다른 능력치를 요구할 수 있습니다.</p>
+                    <p>예를 들어, 순전히 말로 위협하는 건 매력 시도가 될 겁니다. 하지만 통나무를 맨손으로 반으로 쪼갠다고 묘사한다면, 진행자가 근력을 요구할만 합니다. <span class="tip skill intimidate" term-en="Intimidate">위협</span> 기술은 양쪽 시도에 다 들어갈 수 있고요. 마찬가지로, 건물 벽면을 오르는 건 근력 시도가 보통이지만, 지붕으로 가기 위해서 지붕을 징검다리 삼아 연속으로 뛴다면, 민첩 시도가 될 수 있습니다. 역시나 <span class="tip skill climb" term-en="Climb">등반</span> 기술은 양쪽 시도에 다 적용되고요.</p>
+                </article>
+                <article>
+                    <h4>세분화된 기술</h4>
+                    <p>기술은 분야별로 세세하게 나눠놓았습니다. 가령, 등반, 도약, 헤엄, 무거운 물건 들기 등을 운동 기술 하나로 묶는 대신, 기술로 나눠두었습니다. 역시나 자물쇠 따기, 소매치기, 함정 해제 등도 도둑질 기술로 묶는 대신, 자물쇠 따기, 소매치기, 사보타주 기술로 나눴습니다.</p>
+                    <p>기술을 세분화했기 때문에, 기술 없이 능력치만으로 시도할 때도 잦습니다. 포괄적인 기술이 거의 없기 때문에, 모든 기술을 고루 갖춘 캐릭터를 만들 수 없습니다. 다행스럽게, 기술 없이도 성공 가능성이 나오는 구조입니다. 덕분에 필요하다면 기술 없이도 나설 수 있고, 그게 영웅다운 모습이겠죠!</p>
+                    <p>모든 기술을 다 챙겨야 한다는 부담감이 없으니, 영웅에 가장 잘 어울리고 재밌어 보이는 기술 위주로 편하게 고르면 됩니다. 가령, 운동선수 경력을 <span class="tip skill jump" term-en="Jump">도약</span>과 <span class="tip skill tumble" term-en="Tumble">재주넘기</span>로 표현하고, 종교와 대장장이 일도 공부한 원소술사같은 캐릭터도 구상해볼만 합니다. 이런 세세한 배경 이야기도 영화 같은 연출에 큰 몫을 차지합니다.</p>
+                    <p>이 기술 규칙으로 어울리기만 한다면 어느 시도에나 유연하게 기술을 적용할 수 있습니다. 창의성을 끌어내지요. "가파른 Cliffs of Azgahnan에 올랐던 이야기로 공작의 관심을 끌고 싶어요. 매력 시도에 <span class="tip skill climb" term-en="Climb">등반</span> 기술을 써서 +2 보너스를 받아도 될까요?" 이처럼 창의력은 재미를 줍니다. 장면을 그릴 수 있고, 훌륭한 전술적 판단이기도 하죠! 하지만, 기술이 표현하는 활동 범위가 너무 포괄적이라면, 같은 기술을 계속 반복해서 우려먹게 될 겁니다. 이는 재미도 없고, 멋진 이야기도 되지 않지요.</p>
+                </article>
+                <blockquote class="sidebar">
+                    <h4>특정 기술 시도에 유리함</h4>
+                    <p>어떤 특성과 능력으로 특정 기술을 쓰는 시도에 <span class="tip rule edge"></span>을 줍니다. 이 때는 배우지 않았더라도 해당 기술을 쓰는 시도에 <span class="tip rule edge"></span>을 받습니다. 예를 들어, 사도의 Blessing of Fortunate는 안개를 만들어 <span class="tip skill hide" term-en="Hide">숨기</span> 기술을 쓰는 시도에 <span class="tip rule edge"></span>을 줍니다. 안개 속에 숨으려는 개체는 숨기 기술이 있든 없든, 숨는 시도에 <span class="tip rule edge"></span>을 받습니다.</p>
+                </blockquote>
+                <blockquote class="sidebar">
+                    <h4>기술의 가치는 모두 동등한가요?</h4>
+                    <p>기술의 유용성은 캠페인에 좌우됩니다. 가령, 바다에서 수중 유적을 탐험하는 캠페인이라면 헤엄 기술을 주구장창 쓰겠지만, 사막에서만 활동하는 캠페인이라면 거의 쓰지 않을 겁니다. voiceless talker가 주적이라면 <span class="tip skill psionic" term-en="Psionic">초능력</span> 기술이 유용할거고, 사악한 마법사 집단과 싸우는 게 주제라면 <span class="tip skill magic" term-en="Magic">마법</span> 기술이 유용하겠죠. 골라둔 기술이 유용할지 고민된다면 진행자와 상의해보세요. 막상 골라둔 기술이 별로라면, 언제든 다른 기술로 바꿀 수 있습니다(2장: 영웅 만들기의 캐릭터 선택지 변경 참조).</p>
+                </blockquote>
+            </div>
+        </section>
+        <section class="page">
+            <header>
+                <h3 id="skill-group">기술군 Skill Group</h3>
+                <p>기술은 다섯가지 범주로 나뉩니다: 제작, 탐험, 사교, 공작, 지식 계열.</p>
+            </header>
+            <article>
+                <div class="cols">
+                    <article>
+                        <h4 id="crafting">제작 계열 Crafting</h4>
+                        <p>물건 제작, 감정, 급조할 때 씁니다. 특히 휴식과 여가시간에 유용합니다.</p>
+                        <p>제작 기술 시도에서 얻을만한 덤으로는 제작 중에 남은 희귀 재료, 웃돈 주고 살 구매자, 더 오래 가는 급조 장비 등이 있습니다.</p>
+                        <p>제작 기술 시도로 치를 만한 대가로는 희귀 재료 낭비, 과대평가나 평가절하당하는 가치, 급조 장비가 내는 인명 피해(적어도 엉뚱한 사람)등이 있습니다.</p>
+                    </article>
+                    <article>
+                        <table class="basic" id="crafting-skill-table">
+                            <caption>제작 기술 표</caption>
+                            <thead>
+                                <tr>
+                                    <th class="center">기술</th>
+                                    <th class="center">용도</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span class="tip skill architecture" term-en="Architecture">건축술</span></td>
+                                <td>건물과 차량 건조</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill mechanics" term-en="Mechanics">기계공학</span></td>
+                                <td>건물과 차량 건조</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill blacksmithing" term-en="Blacksmithing">대장일</span></td>
+                                <td>건물과 차량 건조</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill carpentry" term-en="Carpentry">목공</span></td>
+                                <td>목제 물품 제작</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill jewelry" term-en="Jewelry">세공</span></td>
+                                <td>가짜 신문증, 문서 등 작성</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill alchemy" term-en="Alchemy">연금술</span></td>
+                                <td>폭탄과 물약 제조</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill forgery" term-en="Forgery">위조</span></td>
+                                <td>가짜 신문증, 문서 등 작성</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill cooking" term-en="Cooking">요리</span></td>
+                                <td>맛있는 음식 요리</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill tailoring" term-en="Tailoring">재봉</span></td>
+                                <td>건물과 차량 건조</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill fletching" term-en="Fletching">활 제작</span></td>
+                                <td>맛있는 음식 요리</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                </div>
+            </article>
+            <hr class="divider">
+            <article>
+                <div class="cols">
+                    <article>
+                        <h4 id="exploration">탐험 계열 Exploration</h4>
+                        <p>주변 환경을 몸으로 탐험하고 물리적인 장애물을 극복할 때 씁니다.</p>
+                        <p>얻을만한 덤으로는 같은 일을 하는 다른 개체를 시도 없이 성공시키기, 이어지는 후속 시도에 자동 성공, 예상보다 빠른 도착시간, 위험요소 파악이나 우회 등이 있습니다.</p>
+                        <p>치를 만한 대가로는 장비 손상이나 자기 또는 아군 부상, 길 잃음, 위험요소나 피하려던 곳으로 들어가기 등이 있습니다.</p>
+                    </article>
+                    <article>
+                        <table class="basic" id="exploration-skill-table">
+                            <caption>탐험 기술 표</caption>
+                            <thead>
+                            <tr>
+                                <th class="center">기술</th>
+                                <th class="center">용도</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span class="tip skill navigate" term-en="Navigate">길찾기</span></td>
+                                <td>수직 표면 오르기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill jump" term-en="Jump">도약</span></td>
+                                <td>일정 거리를 높이 멀리 뛰기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill lift" term-en="Life">들기</span></td>
+                                <td>무거운 물건을 들고, 옮기고, 던지기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill ride" term-en="Ride">몰기</span></td>
+                                <td>수직 표면 오르기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill climb" term-en="Climb">오르기</span></td>
+                                <td>수직 표면 오르기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill drive" term-en="Drive">운전</span></td>
+                                <td>차량 조향</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill heal" term-en="Heal">응급처치</span></td>
+                                <td>비마법 응급처치</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill endurance" term-en="Endurance">지구력</span></td>
+                                <td>격렬한 활동을 긴 시간 계속하기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill gymnastics" term-en="Gymnastics">체조</span></td>
+                                <td>불안정하거나 좁은 표면 위를 이동하기, 구르기.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill swim" term-en="Swim">수영</span></td>
+                                <td>깊은 액체를 통과하기</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                </div>
+            </article>
+            <hr class="divider">
+            <article>
+                <div class="cols">
+                    <article>
+                        <h4 id="interpersonal">사교 기술 계열 Interpersonal</h4>
+                        <p>다른 개체와 사회적 소통할 때, 특히 <span class="tip action negotiation"></span>에 쓰입니다. 동물 다루기를 제외하고, 감정이 있고 말을 이해할 수 있는 개체를 움직이려고 할 때만 사교 기술을 쓸 수 있습니다.</p>
+                        <p>얻을만한 덤으로는 소통하는 사람이나 개체에게 추가로 얻는 혜택, 물품, 단서가 있습니다.</p>
+                        <p>대가를 치뤄야 한다면, 분노, 슬픔, 당혹감, 불쾌감 등 상대 마음을 상하게 만듭니다. 그로 인해 상대에게 무시당하거나 상대가 박차고 나가기도 하고, 나쁜 소문을 퍼뜨리기, 공격, 배신, 협박 등 해를 끼치려고 할 겁니다.</p>
+                    </article>
+                    <article>
+                        <table class="basic" id="interpersonal-skill-table">
+                            <caption>사교 기술 표</caption>
+                            <thead>
+                            <tr>
+                                <th class="center">기술</th>
+                                <th class="center">용도</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span class="tip skill lie" term-en="Lie">거짓말</span></td>
+                                <td>거짓을 진짜라고 속이기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill empathize" term-en="Empathize">공감</span></td>
+                                <td>사적으로 대상을 이해하기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill perform" term-en="Perform">공연</span></td>
+                                <td>춤, 웅변, 연기 등 몸을 쓰는 공연</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill gamble" term-en="Gamble">도박</span></td>
+                                <td>다른 사람과 내기하기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill handle-animal" term-en="Handle Animal">동물 다루기</span></td>
+                                <td>지성체가 아닌 야생 동물과 소통</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill persuade" term-en="Persuade">설득</span></td>
+                                <td>매력과 화술로 상대의 동의를 이끌어내기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill interrogate" term-en="Interrogate">심문</span></td>
+                                <td>입을 꾹 다문 개체에게 정보 캐내기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill music" term-en="Music">음악</span></td>
+                                <td>노래하거나 악기 연주</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill intimidate" term-en="Intimidate">위협</span></td>
+                                <td>겁주기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill lead" term-en="Lead">이끌기</span></td>
+                                <td>행동하도록 격려하기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill read-person" term-en="Read Person">인물 파악</span></td>
+                                <td>상대의 감정과 몸짓 언어 읽기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill brag" term-en="Brag">자랑</span></td>
+                                <td>자기 활약상을 늘어놓아, 깊은 인상을 남기기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill flirt" term-en="Flirt">추파</span></td>
+                                <td>이성적인 관심을 이끌어내기</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                </div>
+            </article>
+            <hr class="divider">
+            <article>
+                <div class="cols">
+                    <article>
+                        <h4 id="intrigue">공작 계열 Intrigue</h4>
+                        <p>조사, 도둑질, 첩보 활동에 쓰입니다.</p>
+                        <p>얻을만한 덤으로는 같은 일을 하는 다른 개체를 시도 없이 성공시키기, 이어지는 후속 시도에 자동 성공, 목표 외에 추가 정보, 은밀한 다른 활동 추가 등이 있습니다.</p>
+                        <p>치를 만한 대가로는 현장에서 발각되거나, 함정 발동이나 매복에 걸리는 등 위험에 빠질만한 정보를 놓치기 등이 있습니다.</p>
+                    </article>
+                    <article>
+                        <table class="basic" id="intrigue-skill-table">
+                            <caption>공작 기술 표</caption>
+                            <thead>
+                            <tr>
+                                <th class="center">기술</th>
+                                <th class="center">용도</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span class="tip skill alertness" term-en="Alertness">경계</span></td>
+                                <td>주변 정황을 직관적으로 감지하기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill conceal-object" term-en="Conceal Object">물체 숨기기</span></td>
+                                <td>주변 환경이나 사람에게 물체 숨기기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill disguise" term-en="Disguise">변장</span></td>
+                                <td>다른 사람처럼 보이게 외형을 바꾸기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill pick-pocket" term-en="Pick Pocket">소매치기</span></td>
+                                <td>다른 사람이 차거나 휴대한 물건을 들키지 않고 훔치기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill search" term-en="Search">수색</span></td>
+                                <td>주변을 적극적으로 뒤져 중요한 사항과 물건 찾기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill hide" term-en="Hide">숨기</span></td>
+                                <td>시선에서 피하기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill eavesdrop" term-en="Eavesdrop">엿듣기</span></td>
+                                <td>문 너머로 속삭이는 대화처럼, 듣기 어려운 소리를 집중해서 듣기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill pick-lock" term-en="Pick Lock">자물쇠 따기</span></td>
+                                <td>열쇠 없이 자물쇠를 열기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill stealth" term-en="Stealth">잠행</span></td>
+                                <td>조용히 움직이기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill track" term-en="Track">추적</span></td>
+                                <td>다른 개체가 남긴 흔적을 뒤쫓기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill escape-artist" term-en="Escape Artist">탈출</span></td>
+                                <td>밧줄이나 수갑 같은 구속물에서 빠져나오기</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill sabotage" term-en="Sabotage">해제</span></td>
+                                <td>함정 같은 기계 장치를 해제</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                </div>
+            </article>
+            <hr class="divider">
+            <article>
+                <div class="cols">
+                    <article>
+                        <h4 id="lore">지식 계열 Lore</h4>
+                        <p>특정 정보를 조사하고 떠올릴 때 쓰입니다. 특히 휴식과 여가시간에 유용합니다.</p>
+                        <p>덤을 얻으면, 유용한 정보를 더 받는 게 보통입니다.</p>
+                        <p>대가를 치러야 한다면, 보통은 유용해 보이지만 실제로는 시간 낭비나 손해를 유발하는 정보를 얻습니다(그런 상황을 연기하는 것도 재밌으니 해보세요!). 아니면, 진행자가 각 영웅의 지식 기술을 비밀로 굴린 후에, 위력 판정 결과를 그대로 알려주지 않고 서사적 결과만 알려주는 방식도 좋습니다(비밀 반응성 시도 참조).</p>
+                    </article>
+                    <article>
+                        <table class="basic" id="lore-skill-table">
+                            <caption>지식 기술 표</caption>
+                            <thead>
+                            <tr>
+                                <th class="center">기술</th>
+                                <th class="center">용도</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span class="tip skill timescape">Timescape</span></td>
+                                <td>Timescape 내 수많은 세계에 관한 지식</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill monster" term-en="Monster">괴물</span></td>
+                                <td>괴물의 생태, 강점, 약점</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill magic" term-en="Magic">마법</span></td>
+                                <td>마법적 장소, 주문, 의식, 물품, 현상에 관한 지식</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill culture" term-en="Culture">문화</span></td>
+                                <td>한 문화권의 풍습, 설화, 금기 지식</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill society" term-en="Society">사회</span></td>
+                                <td>귀족 가문의 예법, 지도자, 권력 구도에 관한 지식</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill rumors" term-en="Rumors">소문</span></td>
+                                <td>소문, 전설, 불확실한 진실</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill criminal-underworld" term-en="Criminal Underworld">암흑가</span></td>
+                                <td>범죄 조직, 그 행적, 관계, 수장에 관한 지식</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill history" term-en="History">역사</span></td>
+                                <td>중요한 과거 사건</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill nature" term-en="Nature">자연</span></td>
+                                <td>야생 동식물과 기후</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill strategy" term-en="Strategy">전략</span></td>
+                                <td>전술과 보급에 관한 지식</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill religion" term-en="Religion">종교</span></td>
+                                <td>신화, 종교적 의례, 의식</td>
+                            </tr>
+                            <tr>
+                                <td><span class="tip skill psionics" term-en="Psionics">초능력</span></td>
+                                <td>초능력 장소, 주문, 의식, 물품, 현상에 관한 지식</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </article>
+                </div>
+                <blockquote class="sidebar">
+                    <h4>진행자: 기술 만들기</h4>
+                    <p>진행자는 캠페인과 모험에서 자주 쓰일 기술을 직접 짤 수 있습니다. 가령, 에일을 만드는 양조나 그림을 그리는 회화 기술은 기본 규칙이 실려있지 않습니다. 괴물과 싸우며 세상을 구하는 게임에서 쓸 가능성이 거의 없는 기술이기 때문이죠. 하지만, 진행자가 독이 든 에일 통과 위작 그림이 쏟아져 나오는 캠페인을 구상했다면, 두 기술을 추가하여 게임 무대를 꾸며줄 수 있습니다. 새 기술은 기술군 만 정해주면 됩니다(위 예시라면, 제작 계통이 어울리겠죠?). 기존 제작 기술을 새로 추가한 기술로 바꿔도 된다고 안내하면 됩니다.</p>
+                </blockquote>
+            </article>
+        </section>
+        <section class="page">
+            <div>
+                <article>
+                    <h2 id="assist-a-test">시도 거들기 Assist a Test</h2>
+                    <p>도우려는 시도에 적용할만한 다른 기술을 갖췄고 돕는 행위를 진행자가 납득할만하게 묘사한다면, 그 시도를 도와줄 수 있습니다. 달리 말해, 돕는 행위가 이치에 적합해야 하고, 전문성도 갖춰야 한다는 뜻입니다. 조용히 움직이는 개체를 큰 소리로 응원한다고 해서 더 잘 숨게 되지 않겠지요.</p>
+                    <p>다른 개체를 거들 때는 직접 고른 기술과 진행자가 활동에 맞게 정해준 능력치를 가지고 시도합니다. 시도 성과에 따라, 도움을 받는 시도에 더할 보너스를 결정합니다:</p>
+                    <ul class="tiers">
+                        <li class="outcome"><b>≤11</b>
+                            <span class="dmg">방해되거나 상황을 나쁘게 만든 탓에 대상은 시도에 <span class="tip rule bane"></span>을 받습니다.</span>
+                        </li>
+                        <li class="outcome"><b>12–16</b>
+                            <span class="dmg">도움 덕분에 대상은 시도에 <span class="tip rule edge"></span>을 받습니다.</span>
+                        </li>
+                        <li class="outcome"><b>17+</b>
+                            <span class="dmg">도움 덕분에 대상은 시도에 <span class="tip rule edge2"></span>을 받습니다.</span>
+                        </li>
+                    </ul>
+                    <p>예를 들어, 동료가 간수 주머니에서 열쇠를 훔치려고 할 때, 추파 기술로 간수의 주의를 끌 수 있습니다. 진행자가 수락한다면, 간수 기술을 써서 매력 시도를 합니다. 성과에 따라 간수 주머니를 터는 민첩 시도에 보너스를 줄 수도 있지만, 실패하여 주머니 터는 일까지 걸릴 수 있습니다.</p>
+                </article>
+                <article>
+                    <h2 id="hide-and-sneak">숨기와 잠행 Hide and Sneak</h2>
+                    <p>숨기와 잠행은 영웅에게도 적에게도 요긴한 수단입니다. 다른 개체의 주의를 끌지 않고 대화 엿듣기, 물건 훔치기, 매복, 전투 조우 피할 때 쓰입니다.</p>
+                </article>
+                <article>
+                    <h3 id="hide">숨기 Hide</h3>
+                    <p>숨으려는 개체에게 <span class="tip rule cover"></span>나 <span class="tip rule concealment"></span>를 확보하여 숨는 행위를 감춰야 합니다. 숨기기 전부터 이미 상대가 정확한 위치를 파악하고 있다면, 노출되었다고 표현합니다. 감각을 이용해 정확한 위치를 짚어낼 수 있고, 소리치며 손가락(또는 발톱이나 촉수)으로 가리킬 수 있는 상태를 뜻합니다. 눈을 피해 나무통 뒤에 웅크려 숨을 때도, 그 순간을 상대가 눈치채지 못해야 숨을 수 있습니다. 굶주린 용에게 쫓길 때, 용이 모퉁이를 돌기 전에 석순이 빽빽한 동굴로 뛰어드는 것처럼, 상대가 보지 못하는 곳으로 먼저 이동해야 합니다. 그러고 나서야 숨을 수 있습니다.</p>
+                    <p>전투에서 지켜보지 않는 개체에게 <span class="tip rule cover"></span>나 <span class="tip rule concealment"></span>를 확보하고서 <span class="tip action maneuver hide" term-en="hide">숨기</span> 동작을 쓴다면, 진행자가 달리 판단하지 않는 이상 자동으로 숨습니다. 비전투 상황에서는 진행자가 숨기 시도를 시켜 얼마나 잘 숨었는지 판가름할 수 있습니다.</p>
+                    <p><span class="kw area"></span> 키워드가 없는 능력으로는 자신에게 숨은 개체를 대상으로 지정할 수 없습니다. 이 혜택은 숨김 상태가 풀릴 때까지만 유지됩니다.</p>
+                    <p>다른 개체에게 숨었다면, 해당 개체에게 가하는 <span class="tip roll ability"></span>에 <span class="tip rule edge"></span>을 받습니다. 이 혜택은 숨김 상태가 풀린 차례 끝까지 유지됩니다. 즉, 숨은 상태에서 <span class="tip rule cover"></span>나 <span class="tip rule concealment"></span>를 벗어나더라도 차례가 끝나기 전에 적에게 능력을 쓴다면, <span class="tip rule edge"></span>을 받을 수 있다는 뜻입니다.</p>
+                    <p><span class="tip rule cover"></span>나 <span class="tip rule concealment"></span>를 확보하지 못하면, 더이상 해당 개체에게 숨은 게 아닙니다. 숨어 있을 때 능력 쓰거나, 적과 상호작용, 잠행 없이 이동하는 등 소리를 내거나 스스로를 드러낸다면, 그 활동을 마친 직후에 숨김 상태가 풀립니다. 예를 들어, 숨어서 타격한다면, 타격을 먼저 처리하고 그 다음에 숨김 상태가 풀립니다.</p>
+                </article>
+                <article>
+                    <h4>숨은 개체 찾기</h4>
+                    <p>10칸 이내 효과선이 닿아 있다면 숨은 개체를 찾아볼 수 있습니다. <span class="tag action maneuver"></span>을 써 <span class="tip skill search" term-en="Search">수색</span> 기술로 <span class="tag test intuition"></span>를 하고, 10칸 이내에 숨어있는 각 개체는 <span class="tip skill hide" term-en="Hide">숨기</span> 기술로 민첩 대결 시도를 합니다. 진행자 재량으로, 다른 능력치와 기술를 활용해도 됩니다. 가령, 주변 양 떼가 날뛰지 않게 숨으려면 <span class="tip skill animal-handling" term-en="Animal Handling">동물 다루기</span>로 <span class="tag test presence"></span>가 필요할 수 있도 있고, 어둠 속에 숨소리로 적을 찾을 때는, <span class="tip skill eavesdrop" term-en="Eavesdrop">엿듣기</span>로 <span class="tag test reason"></span>가 어울립니다.</p>
+                    <p>찾는 사람의 시도 결과값보다 낮은 개체는 모두 발각됩니다. 나머지는 여전히 숨은 상태고요. 숨은 개체 찾는데 쓴 동작을 했을 때, 내게서 10칸 안에 있는 아군들에게 숨은 개체들 위치를 가르키면, 그 아군들에게도 발각됩니다.</p>
+                    <p>내 아군에게는 숨었지만 내게는 숨지 못했다면, 시도 없이 동작 하나를 써서, 아군에게 그 개체의 위치를 가르킬 수 있습니다.</p>
+                </article>
+                <blockquote class="sidebar">
+                    <h4>노출됨의 뜻 Observed</h4>
+                    <p>대체로 효과선 안에 있는 개체는 내게 노출된 상태입니다. 전투 조우처럼 명백한 위협이라면 더 그렇습니다. 하지만 효과선에 닿더라도 상대를 미쳐 보지 못해 몸을 숨길 틈을 줄 수도 있습니다. 이 때문에 상황에 맞게 노출을 다룰 수 있게 해석의 여지를 두었습니다. 가령 인파가 붐비는 시장을 지키는 경비병은 효과선 안에 있는 모두를 일일이 다 감시할 수 없기 때문에 텅빈 거리 보다 더 쉽게 숨을 수 있을 겁니다. 누가 지켜보고, 누구를 지켜볼 수 있는 지는 진행자가 최종 결정합니다.</p>
+                </blockquote>
+                <article>
+                    <h3 id="sneaking">잠행 Sneaking</h3>
+                    <p>비전투 상황에서 다른 개체에게서 숨었을 때, 들키지 않고 트인 곳을 통과하려면 잠행해야 합니다. 잠행 중에는 <span class="tip stat speed"></span>이 절반으로 줄어듭니다. 잠행하려면 진행자가 정한 난이도에 <span class="tip skill sneak" term-en="Sneak">잠행</span> 기술로 <span class="tag test agility"></span>를 해야 합니다. 성공하면, 들키지 않고 이동합니다. 군중 속에 녹아들 때 <span class="tag test presene"></span>하는 것처럼, 진행자 재량에 따라 다른 능력치를 쓸 수 있습니다.</p>
+                </article>
+            </div>
+        </section>
+        <section class="page">
+            <header>
+                <h2 id="group-test">단체 시도 Group Test</h2>
+                <p>영웅 둘 이상이 단순한 일 하나를 같은 시도로 함께 헤쳐나갈 때, 진행자는 집단 시도로 처리할 수 있습니다. 예를 들어, 영웅들이 서로 끌어주고 조언하며 탑 외벽을 함께 오른다면, 근력 단체 시도가 필요할 겁니다. 잠든 오우거를 몰래 지나친다면, 민첩 단체 시도가 필요하겠죠.</p>
+            </header>
+            <div>
+                <article>
+                    <h3>단체 시도 난이도</h3>
+                    <p>진행자는 단체 시도 난이도도 개인 시도와 같은 방식으로 정합니다. 단체 시도 난이도도 쉬움, 보통, 어려움으로 나뉩니다.</p>
+                </article>
+                <article>
+                    <h3>단체 시도하기</h3>
+                    <p>단체 시도에 참여하는 영웅은 각자 시도를 굴리고, 진행자는 모두가 성과를 계산할 때까지 기다립니다. 단체 시도에 참여하면 같은 시도를 치르는 다른 동료를 거들 수 없습니다.</p>
+                </article>
+                <article>
+                    <h3>단체 시도 성과</h3>
+                    <p>진행자는 단체 시도의 성과를 해석할 때, 보상과 대가보다 성공 여부를 먼저 따집니다. 과반수 이상 성공하면 단체 시도가 성공한 겁니다. 그렇지 않으면 실패합니다.</p>
+                    <p>절반 이상이 덤으로 성공했다면, 이번 시도에 발생한 모든 대가를 무시하고 일행 전체에게 공동 보상을 줍니다. 이 공동 보상의 가치는 개인 보상 2개과 맞먹어야 합니다. 실제로, 소모품, 유용한 정보, <span class="tip resource hero-token"></span> 2개일 수 있습니다. 물론, 상황에 딱 맞는 보상이어도 좋습니다. 가령, 적진에 몰래 들어가는 시도에서 공동 보상을 얻었다면, 진행자는 빠져나오는 길에 공성무기를 망가뜨리거나 말 몇마리 훔쳐가는 걸 허용할만 합니다.</p>
+                    <p>집단 시도에 실패했고, 과반수 이상이 대가를 치뤄야 한다면, 아무도 덤을 얻지 못하고 공동 대가를 내야 합니다. 공동 대가는 반드시 모두에게 적용되어야 합니다. 간단하게는 각자 다음 <span class="tip roll power"></span>에 <span class="tip rule bane"></span>을 받거나, 다음 전투 조우에 영웅 당 <span class="tip resource malice"></span> 2점을 더하는 등입니다. 물론, 상황에 딱 맞는 대가도 좋습니다. 가령 적진에 몰래 들어가는 시도에서 실패하고 대가도 치러야 한다면, 즉시 경보가 울리며 적들이 쏟아져 나올 겁니다.</p>
+                    <p>개별 시도에서 대가든 덤이든 과반수가 안된다면, 부가 효과 없이 단순 성공/실패만 따집니다.</p>
+                </article>
             </div>
         </section>
     </div>
