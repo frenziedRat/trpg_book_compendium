@@ -14,7 +14,7 @@
 //     경로(또는 묶음 안 첫 문서의 경로)에 "/starter-rule/" 이 있으면 왼쪽, 아니면 오른쪽이고,
 //     직접 정하려면 항목에 column: "left" 또는 column: "right" 를 추가하세요.
 
-window.SITE_HOME = { title: "홈", path: "draw-steel/draw-steel.html" };   // 이름·대상 변경
+window.SITE_HOME = { title: "홈", path: "draw-steel/" };   // 이름·대상 변경
 
 window.SITE_MANIFEST = [
     // ---- 시작 규칙 (왼쪽) ----

@@ -7,7 +7,7 @@ window.RPG_SYSTEMS = [
     {
         name: "Draw Steel",
         image: "assets/img/draw-steel.jpg",
-        link: "draw-steel/draw-steel.html"
+        link: "draw-steel/"
     },
     /*
     {
