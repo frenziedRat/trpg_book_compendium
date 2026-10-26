@@ -895,6 +895,7 @@ article.ability {
     break-inside: avoid;
 }
 
+table.basic,
 table.advancement-table {
     width: 100%;
     border-collapse: collapse;
@@ -906,6 +907,7 @@ table.advancement-table {
 }
 
 /* 표 제목 */
+table.basic caption,
 table.advancement-table caption {
     padding: 0 0 .35rem;
     font-family: var(--font-ui), sans-serif;
@@ -916,6 +918,7 @@ table.advancement-table caption {
 }
 
 /* 테이블 헤더 */
+table.basic thead,
 table.advancement-table thead {
     background: var(--neutral-800);
     color: var(--paper);
@@ -923,6 +926,7 @@ table.advancement-table thead {
     letter-spacing: 0.04em;
 }
 
+table.basic th,
 table.advancement-table th {
     padding: 0.55rem 0.75rem;
     font-size: 0.9167rem;
@@ -940,35 +944,43 @@ table.advancement-table th.col-level    { width: 2rem; }
 table.advancement-table th.col-ability  { width: 2rem; }
 table.advancement-table th.col-subclass { width: 3.5em; }   /* 약 3자 폭: "양성소 / 능력" 으로 끊김 */
 
+table.basic th.center,
+table.basic td.center,
 table.advancement-table th.center,
 table.advancement-table td.center {
     text-align: center;
 }
 
 /* 행 구분 및 교차 색상 (Zebra) */
+table.basic tbody tr,
 table.advancement-table tbody tr {
     border-bottom: 1px solid var(--neutral-300);
     transition: background 0.15s ease;
 }
 
+table.basic tbody tr:last-child,
 table.advancement-table tbody tr:last-child {
     border-bottom: none;
 }
 
+table.basic tbody tr:nth-child(even),
 table.advancement-table tbody tr:nth-child(even) {
     background: var(--paper-2);
 }
 
+table.basic tbody tr:hover,
 table.advancement-table tbody tr:hover {
     background: rgba(217, 130, 43, 0.12); /* ember 틴트 강조 */
 }
 
+table.basic td,
 table.advancement-table td {
     padding: 0.45rem 0.75rem;
     vertical-align: middle;
     text-align: center;
 }
 
+table.basic td.desc,
 table.advancement-table td.desc {
     text-align: start;
 }

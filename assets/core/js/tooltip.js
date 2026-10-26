@@ -557,9 +557,19 @@ class TooltipEngine {
             target.dataset.defaultUntype = "true";
             target.classList.add("untype");
         } else {
-            const explicitSubType = customClasses.find(c => subTypeKeys.includes(c));
-            if (explicitSubType) {
-                subType = explicitSubType;
+            // [수정 전]
+            // const explicitSubType = customClasses.find(c => subTypeKeys.includes(c));
+            // if (explicitSubType) {
+            //     subType = explicitSubType;
+            // }
+
+            // [수정 후]
+            // subType이 아직 없을 때만 찾되, 클래스가 1개뿐이면(예: .tip.area) subType이 아니라 key로 쓰도록 보존
+            if (!subType && customClasses.length > 1) {
+                const explicitSubType = customClasses.find(c => subTypeKeys.includes(c));
+                if (explicitSubType) {
+                    subType = explicitSubType;
+                }
             }
 
             const remaining = customClasses.filter(c => c !== subType);
